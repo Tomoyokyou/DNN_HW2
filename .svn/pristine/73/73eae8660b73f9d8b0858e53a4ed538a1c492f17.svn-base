@@ -1,0 +1,32 @@
+{
+
+%fig5 : is separated, back in experiment.tex
+\iffalse
+\begin{figure*}[!Htbp]
+
+\graphicspath{{fig/}}
+    \centering
+        \subfigure{ \includegraphics[scale=0.25]{exp_ori.jpg}}
+        \subfigure{ \includegraphics[scale=0.25]{exp_masked.jpg}}
+    \caption{The hallucination result of experiment. The columns in each side are (a) Bicubic (b) Jung's Method \cite{convex}, (c) our proposed method, and (d) ground truth respectively\label{fig:exp}}
+\end{figure*}
+\fi
+As mentioned in Section \ref{sec:intro}, position-patch based method is one of the most popular face hallucination methods in recent years. The basic idea is that the probe position patch can be linearly represented by the gallery LR image patches at the same position, and the corresponding HR image can be reconstructed by HR gallery images using the same coefficient. In this paper, we choose one of its adaptations \cite{convex} which adds the L1-norm regularizer to impose sparsity on the weights. We combine this method with our mask learned above to perform face hallucination. The process is stated below.
+
+%First, we apply the learned mask of the LR input to mask out the occluded region for both LR input and LR training set. We also interpolate this LR mask to high resolution, and then mask out the corresponding region in HR training set. Afterwards, we divide the masked LR input, $X_{L}$, into overlapping position-patches denoted by $X_{L}^{p} (i,j)_{p=1}^{N}$, where (i,j) is the position index and N is the number of patches. Each of the masked LR training image, is also divided into patches in the same way, denoted by $Y_{L}^{mp} (i,j)_{p=1}^{N}$, where $m=1, 2,\ldots,M$ and $M$ is the number of training images. The reconstruct weight in the position (i,j) could be determined by the following minimization problem:
+First, we apply the learned mask of the LR input to mask out the occluded region for both LR input $X_{L}$ and LR training set $Y$. We also interpolate this LR mask to high resolution, and then mask out the corresponding region in HR training set. Afterwards, we divide the masked LR input, $X_{L}$, into overlapping position-patches denoted by $X_{L} (i,j)$, where $(i,j)$ is the position index. Each of the masked LR training image, is also divided into patches in the same way, denoted by $Y_{L}^{m} (i,j)$, where $m=1, 2,\ldots,M$ and $M$ is the number of training images. The reconstruct weight in the position $(i,j)$ could be determined by the following minimization problem:
+\begin{equation}
+w(i,j) = \arg\min_{w(i,j)}\| X(i,j)-\sum_{m=1}^{M}w_{m}(i,j)\cdot Y^{m}(i,j)\| + \lambda\|w(i,j)\|_{1}
+\end{equation}
+
+The masked HR output in position (i,j),$X_{H}(i,j)$ can be obtained by
+\begin{equation}
+X_{H}(i,j)=\sum_{m=1}^{M} Y_{H}^{m}(i,j)\cdot w_{m}(i,j)
+\end{equation}
+
+After combining the HR patches and averaging the overlapping area, we obtain the hallucinated HR output with the mask, $X_{H}$ . At last, we perform bicubic interpolation on the LR input to get a HR image on the masked region, and use it to replace the occluded region in $X_{H}$. The flow chart of our method is summarized in Fig. \ref{fig:algFlow}.
+
+}
+
+
+%\mathop{\arg\min}_\limits{w_{m}(i,j)}

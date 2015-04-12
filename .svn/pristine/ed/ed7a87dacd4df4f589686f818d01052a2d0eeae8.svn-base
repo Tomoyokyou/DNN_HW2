@@ -1,0 +1,23 @@
+
+{
+
+
+Since the LR input images may be partially occluded, we need to find the occluded region in advance before performing further processing. In this work, we utilize the robust sparse coding method proposed in \cite{RSC} to neglect the occluded pixels, and focuses only on the clean part of the image to calculate the reconstruction error. In this way, the non-occluded part can be separated and left unaffected by the occluded region. The minimization problem in RSC is stated below
+
+\begin{equation} \label{eq:RSCProblem}
+\min_{x}\|\mathbf{W}(\mathbf{y}-\mathbf{Dx})\|_{2}^{2}+\lambda\|\mathbf{x}\|_{1} 
+\end{equation}
+
+where $\mathbf{e} = \mathbf{y}-\mathbf{D}\mathbf{x}$ and
+
+\begin{equation} \label{eq:W}
+\mathbf{W} = diag(w(e_{1}), w(e_{2}), \ldots, w(e_{d}))^{1/2}.
+\end{equation}
+
+\begin{equation}
+w(e_{k}) = \frac{exp(-\mu e_{k}^{2}+\mu\delta)}{1+exp(-\mu e_{k}^{2}+\mu\delta)}
+\end{equation}
+where $w(e_{k})$ is the error weight function that drops sharply when the error exceeds the threshold. As suggested in \cite{RSC}, the product $\mu\delta$ is chosen to be a large constant, and $\delta$ is selected by the $k$th largest term in the vector $[e_{1}^{2},e_{2}^{2}\ldots e_{d}^{2}]$, where k is the nearest integer to $\tau d$ with $\tau \in [0.6, 0.8]$ and $d$ is the number of total pixels in the query image. 
+
+Since {\bf W} is a function of {\bf x}, we can solve \eqref{eq:RSCProblem} by iteratively solving {\bf x} and updating $\mathbf{W}$ according to \eqref{eq:W}. When {\bf W} is fixed, \eqref{eq:RSCProblem} can be simplified to a standard L1-minimization problem. In our experiment, we choose to use the Homotopy method for its efficiency as suggested in \cite{L1review}.
+} 

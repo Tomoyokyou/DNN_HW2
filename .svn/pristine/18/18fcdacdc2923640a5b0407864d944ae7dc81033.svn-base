@@ -1,0 +1,68 @@
+\relax 
+\citation{simpleMultiView}
+\citation{sparseMultiView}
+\citation{eigen}
+\citation{LR}
+\citation{superRes}
+\citation{positionMa}
+\citation{convex}
+\citation{localConstrained}
+\@writefile{toc}{\contentsline {section}{\numberline {1} Introduction}{1}}
+\newlabel{sec:intro}{{1}{1}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Illustration of occlusion invariant face hallucination.}}{1}}
+\newlabel{fig:algFlow}{{1}{1}}
+\citation{RSC}
+\citation{RSC}
+\citation{L1review}
+\@writefile{toc}{\contentsline {section}{\numberline {2} Proposed Method}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1} Robust Sparse Coding}{2}}
+\newlabel{subsec:RSC}{{2.1}{2}}
+\newlabel{eq:RSCProblem}{{1}{2}}
+\newlabel{eq:W}{{2}{2}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2} Adaptive Robust Coding and Mask Learning}{2}}
+\newlabel{subsec:aRSC}{{2.2}{2}}
+\newlabel{fig:idealCurve}{{2.2}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces The ideal relationship between reconstruct error with $\tau $. (a) Input image (b) too many pixels are dropeed (c) ideal $\tau $ (d) the remaining image still contains occlusion}}{2}}
+\newlabel{fig:fitting}{{2.2}{2}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces The exponential fitted curve on the experimental data.}}{2}}
+\citation{convex}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces The appropriately selected slpe and the corresponding facial masks. Although these two images have different occluded proportion of pixels, this pre-defined slope can identify the occluded region precisely.}}{3}}
+\newlabel{fig:cutSlope}{{4}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3} Position-patch Based Face Hallucination}{3}}
+\newlabel{subsec:hallucination}{{2.3}{3}}
+\citation{convex}
+\citation{convex}
+\citation{convex}
+\citation{convex}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces }}{4}}
+\newlabel{table:recog}{{1}{4}}
+\@writefile{toc}{\contentsline {section}{\numberline {3} Experimental Result}{4}}
+\newlabel{sec:exp}{{3}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1} AR Database}{4}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2} Hallucination Result}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces }}{4}}
+\newlabel{table:partA}{{2}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces This is the hallucination result of part A in our experiment. The three rows shows images with different levels of occlusion. The columns are LR input, HR \cite  {convex}, our proposed method, and ground truth respectively. }}{4}}
+\newlabel{fig:exp_ori}{{5}{4}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces This is the hallucination result of part B in our experiment. After hallucination, we impose our mask on the HR image for every method and the ground truth as well. The clean region of the HR method \cite  {convex} is distorted due to occlusion, while our method isn't.}}{4}}
+\newlabel{fig:exp_masked}{{6}{4}}
+\citation{RSC}
+\bibstyle{myIEEEbib}
+\bibdata{face}
+\bibcite{simpleMultiView}{1}
+\bibcite{sparseMultiView}{2}
+\bibcite{eigen}{3}
+\bibcite{LR}{4}
+\bibcite{superRes}{5}
+\bibcite{positionMa}{6}
+\bibcite{convex}{7}
+\bibcite{localConstrained}{8}
+\bibcite{RSC}{9}
+\bibcite{L1review}{10}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces }}{5}}
+\newlabel{table:partB}{{3}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3} Recognition Result}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {4} Conclusion}{5}}
+\newlabel{sec:conclusion}{{4}{5}}
+\newlabel{sec:conclusion}{{4}{5}}
+\@writefile{toc}{\contentsline {section}{\numberline {5} References}{5}}

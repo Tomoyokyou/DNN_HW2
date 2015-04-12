@@ -1,0 +1,80 @@
+\label{ssec:OPT}
+{
+To solve the proposed problem of~\eqref{eqn4}, we apply the technique of Inexact ALM Method~\cite{lin2010augmented} and reformulate~\eqref{eqn4} as follow:
+{\small
+\begin{align}\label{eqn5}
+\min_{{\bf A,A}_{\Omega},{\bf E}_{\Omega}}F({\bf A},{\bf A}_{\Omega},{\bf E}_{\Omega},{\bf L},\mu)=&\min_{{\bf A,A}_{\Omega},{\bf E}_{\Omega}}\lVert {\bf A} \rVert _*+\lambda \lVert {\bf E}_{\Omega}\rVert_1\\
+& +{\bf<L, Z-A-A}_{\Omega}-{\bf E}_{\Omega}>\notag\\
+                                                         & +\frac{\mu}{2}\lVert {\bf Z-A-A}_{\Omega}-{\bf E}_{\Omega}\rVert_F^2\notag 
+\end{align}
+}
+\noindent in which $\bf L \in \mathbb R^{\rm{2m \times n}}$ is the Lagrange multiplier, while the equality constraint is regularized by parameter $\mu$. To solve~\eqref{eqn5}, we apply alternative optimization techniques for deriving the optimal $\bf A$, ${\bf A}_{\Omega}$ and ${\bf E}_{\Omega}$. The pseudo code of our proposed algorithm is shown in Algorithm 1. We now discuss how we update the above variables in each iteration during the optimization process.\\
+
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\Input{\item[\algorithmicinput]}
+
+\begin{algorithm}[t]
+{\footnotesize
+  \caption{Derivation of Low-Rank Cross-View Images}
+  {\bf Input:} Cross-view data $\bf Z$, step size $\rho$, and parameter $\mu$\\
+  {\bf Initialization:} ${\bf A}_0={\bf Z}, {\bf A}_{\Omega 0}={\bf 0}, {\bf E}_{\Omega 0}={\bf 0}$
+  \begin{algorithmic}
+    \While {Not Converge}
+      \State ${\bf A}_{k+1}=arg\min_{{\bf A}} F({\bf A},{\bf A}_{\Omega k},{\bf E}_{\Omega k},{\bf L}_{k},\mu_k)$%D_{\frac{1}{\mu_k}}({\bf{Z-E}}_{\Omega k}-{\bf E}_{\bar{\Omega}k}+\frac{{\bf L}_k}{\mu_k})$
+      \State ${\bf E}_{\Omega k+1}=arg\min_{{\bf E}_{\Omega}} F({\bf A}_{k+1},{\bf A}_{\Omega k},{\bf E}_{\Omega},{\bf L}_{k},\mu_k)$%S_{\frac{\lambda}{\mu_k}}({\bf{Z-A}}_{k+1}-{\bf E}_{\bar{\Omega} k}+\frac{{\bf L}_k}{\mu_k})$
+      \State ${\bf A}_{\Omega k+1}={\bf Z-A}_{k+1}-{\bf E}_{\Omega k+1}+\frac{{\bf L}_k}{\mu_k}$
+      \State ${\bf L}_{k+1}={\bf L}_k+\mu_k<{\bf Z-A}_{k+1}-{\bf A}_{\Omega k+1}-{\bf E}_{\Omega k+1}>$
+      \State $\mu_{k+1}=\rho \mu_k$
+    \EndWhile
+  \end{algorithmic}
+  {\bf Output:} Recovered cross-view data $\bf A$
+}
+\end{algorithm}
+
+\noindent {\bf Updating A}\\
+
+\noindent To update $\bf A$, we fix ${\bf A}_{\Omega}$, ${\bf E}_{\Omega}$ and ${\bf L}$ in~\eqref{eqn5} for determining the optimal value of $\bf A$. In other words, at the $k$th iteration, we update ${\bf A}_{k+1}$ by solving the following problem:
+{\small
+\begin{align}
+{\bf A}_{k+1} & =arg\min_{\bf A}\lVert {\bf A} \rVert _* +{\bf<L_{\it k}, Z-A-A}_{\Omega k}-{\bf E}_{\Omega k}>\notag\\
+        &\qquad\qquad+\frac{\mu_k}{2}\lVert {\bf Z-A-A}_{\Omega k}-{\bf E}_{\Omega k}\rVert_F^2\notag\\
+       %&=arg\min_{\bf A}\frac{1}{\mu_k}\lVert {\bf A} \rVert _* +{\bf<\frac{L_k}{\it{\mu_k}}, Z-A-E}{_{\Omega k}}-{\bf E}_{\bar{\Omega}k}>\notag\\
+        %&\qquad\qquad +\frac{1}{2}\lVert {\bf Z-A-E}_{\Omega k}-{\bf E}_{\bar{\Omega}k}\rVert_F^2\notag\\
+       %&=arg\min_{\bf A}\frac{1}{\mu_k}\lVert {\bf A} \rVert _* +\frac{1}{2}\lVert {\bf Z-A-E}_{\Omega k}-{\bf E}_{\bar{\Omega}k}+{\bf {\frac{L_{\it k}}{\it{\mu_k}}}}\rVert_F^2\notag\\
+       &=arg\min_{\bf A}\frac{1}{\mu_k}\lVert {\bf A} \rVert _* +\frac{1}{2}\lVert {\bf {\bf A-C}_A} \rVert_F^2,
+\end{align}}
+
+\noindent where ${\bf C}_A={\bf Z-A}_{\Omega k}-{\bf E}_{\Omega k}+{\bf {\frac{L_{\it k}}{\it{\mu_k}}}}$. As suggested by~\cite{cai2010singular}, the solution of the above problem can be solved as ${\bf A}_{\it k+1}={\bf U}T_{\it \epsilon}[{\bf S}]{\bf V}^T$, where $[{\bf U},{\bf S},{\bf V}]=SVD({\bf C}_A)$ and $\epsilon = {\mu_{k}}^{-1}$. Note that $T_\epsilon [{\bf S}]$ is defined by element-wise $\epsilon$ thresholding of $\bf S$ (see~\cite{cai2010singular} for more details).\\
+
+\noindent {\bf Updating } ${\bf E}_{\Omega}$\\
+
+\noindent To calculate the optimal $\bf E_{\it{\Omega}}$ in~\eqref{eqn4}, we fix $\bf A$, $\bf{A}_{\Omega}$ and ${\bf L}$ and reformulate~\eqref{eqn5} as follows:
+{\small
+\begin{align}
+{\bf E}_{\Omega} & =arg\min_{{\bf E}_{\Omega}}\lambda\lVert {\bf E}_{\Omega} \rVert _1+{\bf<L_{\it k}, Z-A_{\it{k+1}}-A}_{\Omega k}-{\bf E}_{\Omega}>\notag\\
+                 &\qquad\qquad+\frac{\mu_k}{2}\lVert {\bf Z-A_{\it{k+1}}-A}_{\Omega k}-{\bf E}_{\Omega}\rVert_F^2\notag\\
+                 %&=arg\min_{{\bf E}_{\Omega}}\frac{\lambda}{\mu_k}\lVert {{\bf E}_{\Omega}} \rVert _1 +{\bf<\frac{L}{\it{\mu_k}}, Z-A_{\it{k+1}}-E}{_{\Omega}}-{\bf E}_{\bar{\Omega}k}>\notag\\
+                 %&\qquad\qquad +\frac{1}{2}\lVert {\bf Z-A_{\it{k+1}}-E}_{\Omega}-{\bf E}_{\bar{\Omega}k}\rVert_F^2\notag\\
+                 %&=arg\min_{{\bf E}_{\Omega}}\frac{\lambda}{\mu_k}\lVert {{\bf E}_{\Omega}} \rVert _1 +\frac{1}{2}\lVert {\bf Z-A_{\it{k+1}}-E}_{\Omega}-{\bf E}_{\bar{\Omega}k}+{\bf {\frac{L_{\it k}}{\it{\mu_k}}}}\rVert_F^2\notag\\
+                 &=arg\min_{{\bf E}_{\Omega}}\frac{\lambda}{\mu_{k}}\lVert {{\bf E}_{\Omega}} \rVert _1 +\frac{1}{2}\lVert {{\bf E}_{\Omega}-{\bf C}_{E_{\Omega}}} \rVert_F^2,
+                 %&=S_{\frac{\lambda}{\mu_k}}({\bf C}_{E_{\Omega}})\notag\\ \notag \\
+\end{align}
+where ${\bf C}_{E_{\Omega}}={\bf Z-A}_{k+1}-{\bf A}_{\Omega k}+{\bf {\frac{L_{\it k}}{\it{\mu_k}}}}.$
+}
+The above optimization problem can be solved by $l_1$-minimization techniques (e.g.,~\cite{hale2008fixed}), and thus the solution can be derived as ${\bf E}_{\Omega k+1}=T_{\epsilon}[{\bf C}_{{\bf E}_{\Omega}}]$ with $\epsilon=\lambda{\mu_k}^{-1}$.\\
+
+\noindent{\bf Updating }${\bf A}_{\Omega}$\\
+
+\noindent Finally, we fix $\bf A$, ${\bf E}_{\Omega}$ and ${\bf L}$ in~\eqref{eqn5} for updating ${\bf A}_{\Omega}$ by:
+{\small
+\begin{align}
+{\bf A}_{\Omega} & =arg\min_{{\bf A}_{\Omega}}{\bf<L_{\it k}, Z-A_{\it{k+1}}}-{\bf A}_{\Omega}-{\bf E}_{\Omega k+1}>\notag\\
+                       &\qquad+\frac{\mu_k}{2}\lVert {\bf Z-A_{\it{k+1}}}-{\bf A}_{\Omega}-{\bf E}_{\Omega k+1}\rVert_F^2\notag\\
+                 &=arg\min_{{\bf E}_{\bar{\Omega}}}\frac{1}{2}\lVert {\bf Z-A_{\it{k+1}}}-{\bf A}_{\Omega}-{\bf E}_{\Omega k+1}+{\bf {\frac{L_{\it k}}{\it{\mu_k}}}}\rVert_F^2\notag\\
+                 &={\bf Z-A_{\it{k+1}}- E}_{\Omega k+1}+{\bf {\frac{L_{\it k}}{\it{\mu_k}}}}
+\end{align}
+}
+
+Once $\bf A$, ${\bf E}_{\Omega}$, and ${\bf A}_{\Omega}$ are obtained, the matrix (i.e., the Lagrange multiplier) $\bf L$ can be simply updated by the last equation in Algorithm 1. The convergence of these matrices indicates the termination of our optimization process.
+
+

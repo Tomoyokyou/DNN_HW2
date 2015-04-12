@@ -1,0 +1,117 @@
+
+%% This BibTeX bibliography file was created using BibDesk.
+%% http://bibdesk.sourceforge.net/
+
+
+%% Created for Apple at 2015-01-11 12:23:15 +0800 
+
+
+%% Saved with string encoding Unicode (UTF-8) 
+
+@STRING{ICIP = "Proc. IEEE ICIP"}
+@STRING{ICME = "Proc. IEEE ICME"}
+@STRING{CVPR = "Proc. IEEE CVPR"}
+@STRING{ICASSP = "Proc. IEEE ICASSP"}
+
+
+@inproceedings{Yang_CVPR2011,
+  title = {Robust sparse coding for face recognition},
+  author = {Yang, Meng and Zhang, Lei and Yang, Jian and Zhang, David},
+  booktitle = CVPR,
+  year = {2011}
+}
+
+@inproceedings{L1review,
+  title = {Fast $\ell_1$-minimization algorithms and an application in robust face recognition: A review},
+  author = {Yang, A. Y. and Sastry, S. S. and Ganesh, A. and Ma, Y.},
+  booktitle = ICIP,
+  year = {2010}
+}
+
+@inproceedings{RSC,
+  title = {Learning auxiliary dictionaries for undersampled face recognition},
+  author = {Wei, Chia-Po and Wang, Yu-Chiang Frank},
+  booktitle = ICME,
+  year = {2013}
+}
+
+@inproceedings{coupledLayer,
+  title={Coupled-layer neighbor embedding for surveillance face hallucination.},
+  author={Jiang, Junjun and Hu, Ruimin and Chen, Liang and Han, Zhen and Lu, Tao and Chen, Jun},
+  booktitle= ICIP,
+  pages={2802--2806},
+  year={2013}
+}
+
+@inproceedings{localConstrained,
+  title={Position-patch based face hallucination via locality-constrained representation},
+  author={Jiang, Junjun and Hu, Ruimin and Han, Zhen and Lu, Tao and Huang, Kebin},
+  booktitle=ICME,
+  pages={212--217},
+  year={2012}
+}
+
+@inproceedings{superRes,
+  title={Super-resolution through neighbor embedding},
+  author={Chang, Hong and Yeung, Dit-Yan and Xiong, Yimin},
+  booktitle=CVPR,
+  year={2004}
+}
+
+@article{LR,
+  title={An example-based face hallucination method for single-frame, low-resolution facial images},
+  author={Park, Jeong-Seon and Lee, Seong-Whan},
+  journal={IEEE Transactions on Image Processing },
+  volume={17},
+  number={10},
+  pages={1806--1816},
+  year={2008}
+}
+
+@inproceedings{sparseMultiView,
+  title={Multi-view face hallucination based on sparse representation},
+  author={Hui, Zhuo and Lam, Kin-Man},
+  booktitle=ICASSP,
+  pages={2202--2206},
+  year={2013}
+}
+
+@article{simpleMultiView,
+  title={A simple approach to multiview face hallucination},
+  author={Ma, Xiang and Huang, Hua and Wang, Shaopeng and Qi, Chun},
+  journal={Signal Processing Letters},
+  volume={17},
+  number={6},
+  pages={579--582},
+  year={2010}
+}
+
+@article{convex,
+  title={Position-patch based face hallucination using convex optimization},
+  author={Jung, Cheolkon and Jiao, Licheng and Liu, Bing and Gong, Maoguo},
+  journal={Signal Processing Letters},
+  volume={18},
+  number={6},
+  pages={367--370},
+  year={2011}
+}
+
+@article{eigen,
+  title={Hallucinating face by eigentransformation},
+  author={Wang, Xiaogang and Tang, Xiaoou},
+  journal={IEEE Transactions on Systems, Man, and Cybernetics, Part C: Applications and Reviews},
+  volume={35},
+  number={3},
+  pages={425--434},
+  year={2005}
+}
+
+@article{positionMa,
+  title={Hallucinating face by position-patch},
+  author={Ma, Xiang and Zhang, Junping and Qi, Chun},
+  journal={Pattern Recognition},
+  volume={43},
+  number={6},
+  pages={2224--2236},
+  year={2010}
+}

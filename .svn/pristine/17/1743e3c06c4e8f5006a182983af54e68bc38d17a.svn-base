@@ -1,0 +1,80 @@
+% table2
+\begin{table}
+\centering
+\caption{}\label{tab:partA}\vspace{.1cm}
+\begin{tabular}{|l|l|l|l|}
+\hline
+PartA & Bicubic & Jung's  & Our              \\ \hline
+PSNR  & 23.8445 & 24.7172 & \textbf{24.9705} \\ \hline
+SSIM  & 0.8050  & 0.7781  & \textbf{0.8288}  \\ \hline
+\end{tabular}
+\end{table}
+
+% table 3
+\begin{table}
+\centering
+\caption{}\label{tab:partB}\vspace{.1cm}
+\begin{tabular}{|l|l|l|l|}
+\hline
+PartB & Bicubic & Jung's  & Our              \\ \hline
+PSNR  & 25.6739 & 27.0004 & \textbf{27.2819} \\ \hline
+SSIM  & 0.8559  & 0.8683  & \textbf{0.8830}  \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{AR Database}
+To demonstrate the superiority of our hallucination method under conditions of occlusion, we perform the experiment on AR database. It contains 126 individuals with more than 4000 frontal face images. There are two sessions in it, both containing images with different variations like expression, illumination and facial occlusions. In our experiment, we consider a subset of AR by randomly choosing 100 individuals with 50 men and 50 women. Two sessions are used for training and testing purpose separately while images with occlusions are removed in the training set. We also remove images with variation of illumination since we focus only on occlusions in this work. In short, there are 4 clean images and 2 occluded images for each individual in testing set. All images are converted to grayscale and cropped to 165x120 pixels. Afterwards, images are down-sampled to 96x96 and 24x24 to be HR and LR images respectively. In the following, we divide the experiment into two parts; we would first demonstrate the better quality of our hallucinated images and then show that these HR images with better quality can help face recognition in reality.
+
+\subsection{Hallucination Result}
+Since there are barely any methods handling occlusion in the face hallucination problem, we only compare our result with a few representative hallucination methods. In our experiment, we select Jung's method, which is a widely used position-patch method and the bicubic interpolation as base lines for comparison. The reason for choosing Jung's method is that since we, in our work, use Jung's method to hallucinate the clean region of the face images, this comparison is able to show the effectiveness of the learned mask proposed in our work.
+
+
+%fig5
+\begin{figure}
+\graphicspath{{fig/}}
+    \begin{center}
+        \includegraphics[scale=0.2]{exp_ori.jpg}
+        \vspace{0cm}
+        \caption{This is the hallucination result of part A in our experiment. The three rows shows images with different levels of occlusion. The columns are LR input, HR \cite{convex}, our proposed method, and ground truth respectively. }
+        \label{fig:exp_ori}
+    \end{center}
+
+\end{figure}
+%fig6
+\begin{figure}
+\graphicspath{{fig/}}
+    \begin{center}
+        \includegraphics[scale=0.2]{exp_masked.jpg}
+        \vspace{0cm}
+        \caption{This is the hallucination result of part B in our experiment. After hallucination, we impose our mask on the HR image for every method and the ground truth as well. The clean region of the HR method \cite{convex} is distorted due to occlusion, while our method isn't.}
+        \label{fig:exp_masked}
+    \end{center}
+\end{figure}
+
+There are two parts of the comparison. In part A, which is a traditional comparison setting, we use the whole HR image of the LR input as ground truth to compute PSNR and SSIM. In part B, for fairness, we use the mask learned in our method to mask out the occluded regions on the result of every hallucination method as well as the HR ground truth. And then we compute PSNR and SSIM for the remaining clean region. In both part A and B, we can see that the performance of common hallucination method on occluded images would degrade on both occluded and clean region, while the mask we proposed can prevent the clean region to be interfered. The experimental result is shown in Figs.~\ref{fig:exp_ori} and \ref{fig:exp_masked} and Tables~\ref{tab:partA} and \ref{tab:partB}.
+
+\subsection{Recognition Result}
+One of the most important applications for hallucination is to improve the performance of face recognition when the quality of the input query image is poor. In reality, occlusions may also exist and enhance the difficulty of face recognition. In this work, we deal with the problem mention above and we would show that our HR result could help it.
+We use RSC, which is proposed in \cite{RSC} to perform face recognition due to the robustness it provide to handle images with occlusions. We fine tune the parameter in RSC and perform it on the following 4 settings.
+\begin{enumerate}
+\item LR training set and LR testing set
+\item HR training set and HR testing set hallucinated by bicubic interpolation
+\item HR training set and HR testing set hallucinated by Jung's method
+\item HR training set and HR testing set hallucinated by our method (occluded region is masked out by the mask learned in our method)
+
+The experimental result is shown in Table \ref{tab:recog} and it demonstrates that our hallucination method helps RSC to do better while other methods only lower the performance.
+\end{enumerate}
+
+% table 1
+\begin{table}
+\centering
+\caption{}\label{tab:recog}\vspace{.1cm}
+\begin{tabular}{lllll}
+\hline
+\multicolumn{1}{|c|}{Method}           & \multicolumn{1}{c|}{LR} & \multicolumn{1}{c|}{HR\_Bicubic} & \multicolumn{1}{c|}{HR\_Jung} & \multicolumn{1}{c|}{HR\_Ours} \\ \hline
+\multicolumn{1}{|c|}{Accuracy} & \multicolumn{1}{c|}{85.50\%} & \multicolumn{1}{c|}{80.33\%}          & \multicolumn{1}{c|}{83.50\%}       & \multicolumn{1}{c|}{88.50\%}       \\ \hline
+                                       &                              &                                       &                                    &                                    \\
+                                       &                              &                                       &                                    &                                   
+\end{tabular}
+\end{table}
+

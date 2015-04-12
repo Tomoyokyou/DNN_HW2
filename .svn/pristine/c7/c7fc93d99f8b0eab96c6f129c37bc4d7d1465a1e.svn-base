@@ -1,0 +1,29 @@
+{
+
+%fig5 : is separated, back in experiment.tex
+\iffalse
+\begin{figure*}[!Htbp]
+
+\graphicspath{{fig/}}
+    \centering
+        \subfigure{ \includegraphics[scale=0.25]{exp_ori.jpg}}
+        \subfigure{ \includegraphics[scale=0.25]{exp_masked.jpg}}
+    \caption{The hallucination result of experiment. The columns in each side are (a) Bicubic (b) Jung's Method \cite{convex}, (c) our proposed method, and (d) ground truth respectively\label{fig:exp}}
+\end{figure*}
+\fi
+The position-patch based approach has been one of the most popular face hallucination methods in recent years. The basic idea behind this approach is that the coefficients for reconstructing the LR probe image using LR gallery images are similar to those for reconstructing the HR probe image using HR gallery images. In this paper, we extend the position-patch based approach \cite{convex} for occlusion invariant face hallucination. The detailed steps are described below.
+
+First, we apply the mask learned from the LR input to mask the occluded region for both the LR input $X_{L}$ and the LR training set $Y_L$. Next, we synthesize the HR mask from the LR mask via interpolation, and the corresponding region in the HR training set is masked. Afterwards, we divide the masked LR input $X_{L}$ into overlapping position-patches, denoted by $X_{L} (i,j)$ with $(i,j)$ being the position index. In the same way, each of the masked LR training image is also divided into overlapping patches, denoted by $Y_{L}^{m} (i,j)$ for $m=1, 2,\ldots,M$ ($M$ is the number of training images). The reconstruction weight for the position $(i,j)$ could be determined by solving the following minimization problem:
+\begin{equation}
+\min_{w(i,j)}\| X_L(i,j)-\sum_{m=1}^{M}w_{m}(i,j)Y^{m}_L(i,j)\|_2^2 + \lambda\|w(i,j)\|_{1}.
+\end{equation}
+Once $w(i,j)$ is obtained, the masked HR output in position $(i,j)$ can be synthesized via
+\begin{equation}
+X_{H}(i,j)=\sum_{m=1}^{M} w_{m}(i,j)Y_{H}^{m}(i,j).
+\end{equation}
+After combining the HR patches and averaging the overlapping area, we obtain the hallucinated HR output $X_{H}$. Finally, we perform bicubic interpolation on the LR input to get the masked region in HR, which is used to replace the occluded region in $X_{H}$. The flow chart of our method is depicted in Fig. \ref{fig:algFlow}.
+
+}
+
+
+%\mathop{\arg\min}_\limits{w_{m}(i,j)}

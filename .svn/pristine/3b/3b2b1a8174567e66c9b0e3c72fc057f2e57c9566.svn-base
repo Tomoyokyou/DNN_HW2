@@ -1,0 +1,26 @@
+
+%\label{subsec:RSC}
+
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\norm}[1]{\left\|#1 \right\|}
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\balpha}{\boldsymbol{\alpha}}
+
+{
+Since the LR input images may be partially occluded, we need to detect the occluded region in advance before further processing. In this work, we utilize robust sparse coding (RSC) \cite{Yang_CVPR2011} to handle occlusion.
+Let $\by_L\in\Real^d$ be the LR test image and $\bD_L\in\Real^{d\times n}$ be the LR training dictionary, i.e., $\bD_L = [\bx_{L,1},\bx_{L,2},\cdots,\bx_{L,n}]$, where $\bx_{L,i}\in\Real^d$ is the $i$th LR training image. The algorithm of RSC repeated solving a weighted sparse coding problem and updating a weight matrix. The formulation of the weighted sparse coding problem is as follows:
+\begin{equation} \label{eq:RSCProblem}
+\min_{\balpha_L}\norm{\bW(\by_L-\bD_L\balpha_L)}_2^2+\lambda\norm{\balpha_L}_1,
+\end{equation}
+where
+\begin{equation} \label{eq:W}
+\mathbf{W} = \mbox{diag}(w(e_{1}), w(e_{2}), \ldots, w(e_{d}))^{1/2},
+\end{equation}
+\begin{equation}\label{eq:weight}
+w(e_{k}) = \frac{exp(-\mu e_{k}^{2}+\mu\delta)}{1+exp(-\mu e_{k}^{2}+\mu\delta)},
+\end{equation}
+where $e_k$ is the $k$th entry of $\mathbf{e} = \by_L-\bD_L\balpha_L$. The weight function $w(e_{k})$ outputs a small value when the magnitude of $e_k$ is large. As a result, RSC can lower the influence of poorly reconstructed pixels. In \eqref{eq:weight}, the product $\mu\delta$ is chosen to be a large constant, and $\delta$ is the $j$th largest entry in the vector $[e_{1}^{2},e_{2}^{2}\ldots e_{d}^{2}]$. RSC choose $j$ as the nearest integer to $\tau d$ with $\tau \in [0.6, 0.8]$. Note that when {\bf W} is fixed, \eqref{eq:RSCProblem} becomes a standard L1-minimization problem. In all of our experiments, we utilize the Homotopy method for solving \eqref{eq:RSCProblem} because of its efficiency as suggested in \cite{L1review}.
+} 

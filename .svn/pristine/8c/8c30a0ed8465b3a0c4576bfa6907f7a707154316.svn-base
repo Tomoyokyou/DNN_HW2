@@ -1,0 +1,27 @@
+\label{sec:intro}
+{
+Face hallucination typically refers to the synthesis of a high-resolution (HR) face image from its low-resolution (LR) inputs. Its success would be beneficial for several real-world applications. For example, with the increasing use of surveillance cameras, one typically needs to improve the resolution of the collected face images, aiming at achieving satisfactory recognition performance.
+
+In addition, one of recent research directions on face hallucination is multi-view face image synthesis\cite{simpleMultiView,sparseMultiView}, which is to synthesize face images at a specific view using those of different views. Nevertheless, we choose to focus on the super-resolution (SR) of face images in this paper. In particular, we consider the challenging face hallucination task in which face images might be corrupted due to occlusion. Therefore, our goal is to recover the image pixels of interest in occluded face images with recognition guarantees.
+
+\begin{figure}
+\graphicspath{{fig/}}
+    \begin{center}
+        \includegraphics[scale=0.28]{algFlow.jpg}
+        \vspace{-0.4cm}
+        \caption{Illustration of occlusion invariant face hallucination.}
+        \label{fig:algFlow}
+    \end{center}
+\end{figure}
+
+By using a training set containing HR and LR face image pairs, most existing face hallucination approaches construct a co-occurrence model for observing the relationships between LR and HR images. Thus, given a test LR image input, the derived model can be directly applied to predict its HR output. Generally, the strategies for performing the above learning process can be divided into global or local matching based techniques. Global matching based approaches like \cite{eigen, LR} aim to fit the HR image by the LR images directly. While being computationally efficient, one might encounter artifacts in the synthesized output and thus require additional post processing processes. 
+
+On the other hand, local matching based ones perform the above modeling process at the image patch level. Although improved image quality can be achieved, such methods typically involves more sophisticated learning processes. For example, Chang \emph{et al.}~\cite{superRes} proposed a SR framework based on least squares regression (LSR), which selects candidate patches for determining proper reconstruction weights for input image patches. Ma \emph{et al.}~\cite{positionMa} extended the above work by observing the image structure information, and proposed at position-based matching algorithm for face hallucination. Inspired by the above idea, Jung \emph{et al.}~\cite{convex} advocated the sparse representation of such image patches, while Jiang \emph{et al.}~\cite{localConstrained} exploited locality information during image synthesis. Recently, coupled-layer information between HR and LR images was further utilized for improved image quality.
+
+Nevertheless, the performance of most existing face hallucination works would degrade if the input images are corrupted (e.g., occlude images). To deal with such practical problems, we propose a novel learning algorithm which is able to model the relationship between training HR and LR image patches in a robust way. To be more specific, our algorithm is able to identify corrupted image pixels during the learning process, which would prevent the degradation of the derived image model. As a result, HR images with improved quality will be obtained even occluded LR images are considered as inputs. In our experiments, we will not only show that our method is able to produce satisfactory face hallucination outputs (via both quantitative and qualitative evaluation), we will also confirm that the use of our approach allows us to achieve promising recognition results.
+
+%The remaining of this paper is organized as follows. Our proposed LR algorithm for person re-identification will be detailed in Section~\ref{sec:method}. Section~\ref{sec:exp} presents our empirical results, including the comparisons to several baseline and state-of-the-art methods. Finally, Section~\ref{sec:conclusion} concludes this paper.
+
+
+
+}

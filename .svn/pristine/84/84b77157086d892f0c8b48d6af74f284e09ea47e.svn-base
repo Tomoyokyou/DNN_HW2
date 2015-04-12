@@ -1,0 +1,62 @@
+\begin{thebibliography}{10}
+
+\bibitem{simpleMultiView}
+X.~Ma, H.~Huang, S.~Wang, and C.~Qi,
+\newblock ``A simple approach to multiview face hallucination,''
+\newblock {\em Signal Processing Letters, IEEE}, 2010.
+
+\bibitem{sparseMultiView}
+Z.~Hui and K.-M. Lam,
+\newblock ``Multi-view face hallucination based on sparse representation,''
+\newblock in {\em Acoustics, Speech and Signal Processing (ICASSP), 2013 IEEE
+  International Conference on}. IEEE, 2013.
+
+\bibitem{eigen}
+X.~Wang and X.~Tang,
+\newblock ``Hallucinating face by eigentransformation,''
+\newblock {\em Systems, Man, and Cybernetics, Part C: Applications and Reviews,
+  IEEE Transactions on}, 2005.
+
+\bibitem{LR}
+J.-S. Park and S.-W. Lee,
+\newblock ``An example-based face hallucination method for single-frame,
+  low-resolution facial images,''
+\newblock {\em Image Processing, IEEE Transactions on}, 2008.
+
+\bibitem{superRes}
+H.~Chang, D.-Y. Yeung, and Y.~Xiong,
+\newblock ``Super-resolution through neighbor embedding,''
+\newblock in {\em Computer Vision and Pattern Recognition, 2004. CVPR 2004.
+  Proceedings of the 2004 IEEE Computer Society Conference on}. IEEE, 2004.
+
+\bibitem{positionMa}
+X.~Ma, J.~Zhang, and C.~Qi,
+\newblock ``Hallucinating face by position-patch,''
+\newblock {\em Pattern Recognition}, 2010.
+
+\bibitem{convex}
+C.~Jung, L.~Jiao, B.~Liu, and M.~Gong,
+\newblock ``Position-patch based face hallucination using convex
+  optimization,''
+\newblock {\em Signal Processing Letters, IEEE}, 2011.
+
+\bibitem{localConstrained}
+J.~Jiang, R.~Hu, Z.~Han, T.~Lu, and K.~Huang,
+\newblock ``Position-patch based face hallucination via locality-constrained
+  representation,''
+\newblock in {\em Multimedia and Expo (ICME), 2012 IEEE International
+  Conference on}. IEEE, 2012.
+
+\bibitem{RSC}
+C.-P. Wei and Y.-C.~F. Wang,
+\newblock ``Learning auxiliary dictionaries for undersampled face
+  recognition,''
+\newblock 2013.
+
+\bibitem{L1review}
+A.~Y. Yang, S.~S. Sastry, A.~Ganesh, and Y.~Ma,
+\newblock ``Fast $\ell_1$-minimization algorithms and an application in robust
+  face recognition: A review,''
+\newblock 2010.
+
+\end{thebibliography}

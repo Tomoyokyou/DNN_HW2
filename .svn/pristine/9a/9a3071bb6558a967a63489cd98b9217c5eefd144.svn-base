@@ -1,0 +1,18 @@
+{
+As mentioned in section \ref{sec:intro}, position-patch based method is one of the most popular face hallucination methods in recent years. In this paper, we choose one of its adaptations \cite{convex} which utilizes the L1-norm regualarizer to find the reconstruct weight for each position-patch. It assumed that the LR input could be linearly represented by the training LR image gallery sparsely. In this work, we combine this method with our mask learned above to perform face hallucination. The process is stated below.
+
+First, we apply the learned mask of the LR input to mask out the region of occlusions for both LR input and LR training set. Also, we interpolate this LR mask to high resolution, and then mask out the corresponding occluded region in HR training set. Afterwards, we divide the masked LR input, $^{*}X_{L}$ ($*$ means the image is masked), into overlapping position-patches denoted by ${{^{*}X_{L}^{P} (i,j)}_{P=1}^{N}}$, where (i,j) is the position index and N is the number of patches. The mth masked LR training image, $^{*}Y_{L}^{m}$ , is also divided into patches in the same way, denoted by ${^{*}Y_{L}^{mP} (i,j)}_{P=1}^{N}$, where $m=1, 2,\ldots,M$ and $M$ is the number of training images. The reconstruct weight in the position (i,j) could be determined by the following minimization problem:
+\begin{equation}
+w(i,j) = \arg\min_{w_{m}(i,j)}\| ^{*}X^{P}_{i,j}-\sum_{m=1}^{M}w_{m}(i,j) ^{*}Y^{mP}(i,j)\| + \lambda|w|_{1}
+\end{equation}
+
+The masked HR output in position (i,j),$^{*}X_{H}^{P}(i,j)$ is then obtained by
+\begin{equation}
+^{*}X_{H}^{P}(i,j)=\sum_{m=1}^{M} Y_{H}^{mP}(i,j)\cdot w_{m}(i,j)
+\end{equation}
+
+After combining the HR patches and averaging the overlapping area, we obtain the hallucinated HR output with the mask, $^{*}X_{H}$ . At last, we perform bicubic interpolation on the LR input to get a HR image on the masked region, $^{bicubic}X_{H}$, and then add it to $^{*}X_{H}$ to get our final result, $X_{H}$. The flow chart of our method is summarized in fig. \ref{fig:algFlow}.
+}
+
+
+%\mathop{\arg\min}_\limits{w_{m}(i,j)}

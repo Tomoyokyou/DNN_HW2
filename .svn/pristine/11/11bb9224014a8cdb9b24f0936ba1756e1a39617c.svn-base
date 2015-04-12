@@ -1,0 +1,71 @@
+
+{
+%\label{subsec:RSC}
+
+
+Since the LR input images may be partially occluded, we need to find the occluded region in advance before performing further processing. In this work, we utilize the robust sparse coding method proposed in \cite{RSC} to neglect the occluded pixels, and focuses only on the clean part of the image to calculate the reconstruction
+error. In this way, the non-occluded part can be separated and left unaffected by the occluded region. The minimization problem in RSC is stated below
+%
+%
+%begin comment
+\iffalse
+\begin{equation}\label{eq:minFormula}
+ \min_{x}\rho(\mathbf{y-Dx})+\lambda\|\mathbf{x}\|_{1} 
+\end{equation}
+where the residual function $\rho(\cdot):R^{d} \to R$ is defined as:
+\begin{equation}
+\rho(\mathbf{e}) = \sum_{k=1}^{d}\rho(e_{k})
+\end{equation}
+\begin{equation}
+\rho(e_{k}) = -\frac{1}{2\mu}ln\frac{1+exp(-\mu e_{k}^{2}+\mu\delta)}{1+exp (\mu\delta)}
+\end{equation}
+
+where $e_{k}$ is the $k$th entry of ${\bf e} = {\bf y}-{\bf Dx}$, We sort the vector [$e_{1}^{2}, e_{2}^{2},\ldots,e_{d}^{2}$] and choose $\delta$ to be the $j$th largest element in the vector, where j is the nearest integer to $\tau d$, where $\tau \in [0, 1]$. $\mu$ is selected as $8/\delta$, as suggested in \cite{RSC}.We observe from our experiment that the recognition rate is insensitive to $\tau$ when $\tau$ is larger than 0.8.
+
+Since the L2-norm residual function grows quadratically when the absolute error increases, it can be sensitive to those makeup pixels and therefore isn't appropriate in makeup recognition tasks. Here we consider the aforementioned residual function $\rho(\cdot)$ to decrease the impact of these pixels. As in the above graph, $\rho(\cdot)$ remains 1 when the absolute error stays low, and it drops sharply to 0 when the error exceeds the threshold. Pixels with a huge intensity difference will be assigned a small weight so that they won't be calculated in the reconstruction error, and the impact of facial makeup can be minimized.
+
+Fig.\ref{fig:RSCContrast} shows the effect of RSC algorithm on makeup facial image in VMU database. The black pixels are identified as corrupted pixels, so they won't contribute to the reconstruction error during classification. The pixels are highly concentrated in the lip and eye part, and the facial characteristics are well preserved; this property makes RSC an effective algorithm for makeup detection.
+
+
+We will first derive the solution for \eqref{eq:minFormula}, and then discuss its effect on makeup detection.
+% subsec : Derivation
+\subsubsection{Derivation}
+Now, we show the derivation of the solution to \eqref{eq:minFormula}. We take the derivative of the residual function in \eqref{eq:minFormula} with respect to $\mathbf{x}$:
+\begin{equation} \label{eq:derive1}
+\frac{d}{d\mathbf{x}} ( \rho(\mathbf{e})+\lambda\|\mathbf{x}\|_{1} )
+=\sum_{k=1}^{d} \frac{d}{d \mathbf{x}}  \rho(e_{k})) + \lambda\partial\|\bf{x}\|_{1}
+\end{equation}
+where $\partial\|\mathbf{x}\|_{1}$ represents the derivative of $\|\mathbf{x}\|_{1}$. Using the chain rule of derivatives, \eqref{eq:derive1} can be expressed as 
+
+\begin{equation} \label{eq:longDerive}
+\begin{aligned}
+\sum_{k=1}{d}\frac{\rho(e_{k})}{de_{k}}\frac{de_{k}}{d\mathbf{x}} + \lambda\partial\|\mathbf{x}\|_{1}\\
+=\frac{1}{2}\sum_{k=1}^{d}\frac{d\rho(e_{k})}{de_{k}}\frac{1}{e_{k}}\frac{de_{k}^{2}}{d\mathbf{x}} + \lambda\partial\|\mathbf{x}\|_{1}\\
+=\frac{1}{2}\sum_{k=1}^{d}w(e_{k})\frac{de_{k}^{2}}{d\mathbf{x}} + \lambda\partial\|\mathbf{x}\|_{1}
+\end{aligned}
+\end{equation}
+where
+
+\begin{equation}
+\frac{1}{2}\sum_{k=1}^{d}w(e_{k})e_{k}^{2}+\lambda\|\mathbf{x}\|_{1} = \frac{1}{2}\|\mathbf{We}\|_{2}^{2} + \lambda\|\mathbf{x}\|_{1}
+\end{equation}
+
+\fi
+% end comment
+%
+%
+\begin{equation} \label{eq:RSCProblem}
+\min_{x}\|\mathbf{W}(\mathbf{y}-\mathbf{Dx})\|_{2}^{2}+\lambda\|\mathbf{x}\|_{1} 
+\end{equation}
+where $\mathbf{e} = \mathbf{y}-\mathbf{D}\mathbf{x}$ and
+\begin{equation} \label{eq:W}
+\mathbf{W} = diag(w(e_{1}), w(e_{2}), \ldots, w(e_{d}))^{1/2}.
+\end{equation}
+\begin{equation}
+w(e_{k}) = \frac{exp(-\mu e_{k}^{2}+\mu\delta)}{1+exp(-\mu e_{k}^{2}+\mu\delta)}
+\end{equation}
+$w(e_{k})$ is the error weight function that drops sharply when the error exceeds the 
+threshold. As suggested in \cite{RSC}, the product $\mu\delta$ is chosen to be a large constant, and $\delta$ is selected by the $k$th largest term in the vector $[e_{1}^{2},e_{2}^{2}\ldots e_{d}^{2}]$, where k is the nearest integer to $\tau d$ with $\tau \in [0.6, 0.8]$ and $d$ = number of total pixels in the query image. 
+
+Since {\bf W } is a function of {\bf x}, we can solve \eqref{eq:RSCProblem} by iteratively solving {\bf x} and updating $\mathbf{W}$ according to \eqref{eq:W}. When {\bf W} is fixed, \eqref{eq:RSCProblem} can be simplified to a standard L1-minimization problem. In our experiment, we choose to use the Homotopy method for its efficiency as suggested in \cite{L1review}.
+} 

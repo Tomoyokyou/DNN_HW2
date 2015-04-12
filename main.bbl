@@ -1,0 +1,68 @@
+\begin{thebibliography}{10}
+
+\bibitem{eigen}
+X.~Wang and X.~Tang,
+\newblock ``Hallucinating face by eigentransformation,''
+\newblock {\em IEEE Trans. on Systems, Man, and Cybernetics, Part C:
+  Applications and Reviews}, 2005.
+
+\bibitem{LR}
+J.-S. Park and S.-W. Lee,
+\newblock ``An example-based face hallucination method for single-frame,
+  low-resolution facial images,''
+\newblock {\em IEEE Trans. on Image Processing}, 2008.
+
+\bibitem{superRes}
+H.~Chang, D.-Y. Yeung, and Y.~Xiong,
+\newblock ``Super-resolution through neighbor embedding,''
+\newblock in {\em Proc. IEEE CVPR}, 2004.
+
+\bibitem{positionMa}
+X.~Ma, J.~Zhang, and C.~Qi,
+\newblock ``Hallucinating face by position-patch,''
+\newblock {\em Pattern Recognition}, 2010.
+
+\bibitem{convex}
+C.~Jung, L.~Jiao, B.~Liu, and M.~Gong,
+\newblock ``Position-patch based face hallucination using convex
+  optimization,''
+\newblock {\em Signal Processing Letters}, 2011.
+
+\bibitem{Jiang_TMM2014}
+J.~Jiang, R.~Hu, Z.~Wang, and Z.~Han,
+\newblock ``Noise robust face hallucination via locality-constrained
+  representation,''
+\newblock {\em IEEE Trans. on Multimedia}, 2014.
+
+\bibitem{coupledLayer}
+J.~Jiang, R.~Hu, L.~Chen, Z.~Han, T.~Lu, and J.~Chen,
+\newblock ``Coupled-layer neighbor embedding for surveillance face
+  hallucination.,''
+\newblock in {\em Proc. IEEE ICIP}, 2013.
+
+\bibitem{Yang_CVPR2011}
+M.~Yang, L.~Zhang, J.~Yang, and D.~Zhang,
+\newblock ``Robust sparse coding for face recognition,''
+\newblock in {\em Proc. IEEE CVPR}, 2011.
+
+\bibitem{Bishop_2006}
+C.~M. Bishop,
+\newblock {\em Pattern Recognition and Machine Learning},
+\newblock Springer, 2006.
+
+\bibitem{TIP10}
+J.~Yang, J.~Wright, T.~Huang, and Y.~Ma,
+\newblock ``Image super-resolution via sparse representation,''
+\newblock {\em IEEE Trans. on Image Processing}, 2010.
+
+\bibitem{Martinez_CVC1998}
+A.~M. Martinez and R.~Benavente,
+\newblock ``The {AR} face database,''
+\newblock {\em CVC Technical Report}, 1998.
+
+\bibitem{Wright_PAMI2009}
+J.~Wright, A.~Yang, A.~Ganesh, S.~Sastry, and Y.~Ma,
+\newblock ``Robust face recognition via sparse representation,''
+\newblock {\em IEEE Trans. on Pattern Analysis and Machine Intelligence}, 2009.
+
+\end{thebibliography}

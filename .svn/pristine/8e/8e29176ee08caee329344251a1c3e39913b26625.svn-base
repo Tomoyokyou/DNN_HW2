@@ -1,0 +1,79 @@
+\newcommand{\bW}{\mathbf{W}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\be}{\mathbf{e}}
+\newcommand{\bD}{\mathbf{D}}
+\newcommand{\te}{\tilde{\mathbf{e}}}
+\newcommand{\balpha}{\boldsymbol{\alpha}}
+\newcommand{\btau}{\boldsymbol{\tau}}
+\newcommand{\bPhi}{\boldsymbol{\Phi}}
+\newcommand{\norm}[1]{\left\|#1 \right\|}
+\newcommand{\Real}{\mathbb{R}}
+\newcommand{\bemx}{\begin{bmatrix}}
+\newcommand{\enmx}{\end{bmatrix}}
+
+Since the LR input images might be partially occluded, we need to detect occluded regions in advance before further processing. In this work, we utilize robust sparse coding (RSC) \cite{Yang_CVPR2011} to handle occlusion.
+Let $\by_L\in\Real^d$ be the LR test image and $\bD_L\in\Real^{d\times n}$ be the LR training dictionary, i.e., $\bD_L = [\bx_{L,1},\bx_{L,2},\cdots,\bx_{L,n}]$, where $\bx_{L,i}\in\Real^d$ is the $i$th LR training image. The algorithm of RSC repeatedly solves a weighted sparse coding problem and updates a weight matrix. The formulation of the weighted sparse coding problem is as follows:
+\begin{equation} \label{eq:RSCProblem}
+\min_{\balpha_L}\norm{\bW_L(\by_L-\bD_L\balpha_L)}_2^2+\lambda\norm{\balpha_L}_1,
+\end{equation}
+where the weight matrix $\bW_L$ is defined as
+\begin{equation} \label{eq:W}
+\bW_L = \mbox{diag}(w(e_{1}), w(e_{2}), \ldots, w(e_{d}))^{1/2},
+\end{equation}
+\begin{equation}\label{eq:weight}
+w(e_{k}) = \frac{exp(-\mu e_{k}^{2}+\mu\delta)}{1+exp(-\mu e_{k}^{2}+\mu\delta)},
+\end{equation}
+where $e_k$ is the $k$th entry of $\mathbf{e} = \by_L-\bD_L\balpha_L$. The weight function $w(e_{k})$ outputs a small value when the magnitude of $e_k$ is large. As a result, RSC can lower the influence of poorly reconstructed pixels. In \eqref{eq:weight}, the product $\mu\delta$ is chosen to be a large constant, and $\delta$ is the $j$th largest entry in the vector $[e_{1}^{2},e_{2}^{2}\ldots e_{d}^{2}]$. RSC choose $j$ as the nearest integer to $\tau d$ with $\tau \in [0.6, 0.8]$.
+%Note that when $\bW_L$ is fixed, \eqref{eq:RSCProblem} becomes a standard L1-minimization problem. In all of our experiments, we utilize the Homotopy method for solving \eqref{eq:RSCProblem} because of its efficiency as suggested in \cite{L1review}.
+
+In the algorithm of RSC, we notice that $\tau$ could be interpreted as the proportion of the input image to be reserved. For example, if we set $\tau$ as 0.6, the worst 40 percent of pixels are neglected, while the remaining 60 percent of pixels are reserved for recognition purposes. Although RSC is able to detect occluded pixels, it needs to properly select the parameter $\tau$ (which controls when $w(e_k)$ begins to drop rapidly). Fig.~\ref{fig_regression} shows different weight matrices $\bW_L$ corresponding to different values of $\tau$ for a given LR input image. Since the occluded region varies with face images, the parameter $\tau$ should be adjusted accordingly. However, RSC utilizes a fixed value of $\tau$ for all input images. Since our goal is to apply RSC to the problem of occlusion invariant face hallucination, it is important to be able to adaptively determine the parameter $\tau$ for each input image. Next, we detail how to choose the parameter $\tau$.
+
+% fig: idealCurve
+\begin{figure}[!t]
+\graphicspath{{fig/}}
+        \begin{center}
+            \includegraphics[scale=0.37]{exponential_regression.pdf}
+            \caption{Each black point denotes a pair $(\tau_m, e_m)$, where $e_m$ is the reconstruction error associated the parameter $\tau_m$. The blue reconstruction curve is an exponential function $e=a\exp(b\tau)$ that fits the black points. Four weight matrices corresponding to four different values of $\tau$ are shown. The weight matrix with a red box is the optimal one.}\label{fig_regression}\vspace{-.5cm}
+        \end{center}
+\end{figure}
+
+First, by varying the value of $\tau$, we obtain a set of points $(\tau_1,e_1), \ldots, (\tau_M,e_M)$, where $e_m$ is the reconstruction error associated with $\tau_m$. Then, we aim at fitting these points using an exponential function, i.e.,
+\begin{equation}\label{eqn_exponential}
+     e = f(\tau,a,b) = a\exp(b\tau),
+\end{equation}
+where $a$ and $b$ are two parameters to be determined. Note that $f(\tau,a,b)$ in \eqref{eqn_exponential} is a nonlinear function of $\tau$. To simplify the fitting process, we take the natural logarithm of both sides of \eqref{eqn_exponential} and obtain $\ln (e) = \ln (a) + b\tau$.
+%\begin{equation}\label{eqn_logarithm} \ln (e) = \ln (a) + b\tau.  \end{equation}
+Using maximum likelihood estimation (MLE) \cite{Bishop_2006}, the curve fitting problem amounts to solving the minimization problem:
+\begin{equation}\label{eqn_ls}
+    \min_{a,b}\sum_{m=1}^M \left(\ln(e_m)-\ln(a)-b\tau_m\right)^2.
+\end{equation}
+By defining $\tilde{a} = \ln(a)$, the above minimization problem can be expressed as
+\begin{equation}\label{eqn_ls_eq}
+    \min_{\tilde{a},b} \norm{\te-[\mathbf{1}, \btau]\bemx \tilde{a}\\ b\enmx}_2^2,
+\end{equation}
+where $\te = [\ln(e_1),\ldots,\ln(e_M)]^T$, $\btau = [\tau_1,\ldots,\tau_M]^T$, and $\mathbf{1} = [1,\ldots,1]^T\in\Real^M$. We note that \eqref{eqn_ls_eq} is a standard least squares problem, and its analytical solution is given by
+\begin{equation}\label{eqn_ls_sol}
+     \bemx \tilde{a}\\b \enmx = (\bPhi^T\bPhi)^{-1}\bPhi^T\te
+\end{equation}
+with $\bPhi := [\mathbf{1}, \btau]$. Once we have $\tilde{a}$, the parameter $a$ is obtained as $a = \exp(\tilde{a})$.
+
+Now, we have derived parameters $a$ and $b$ for the exponential curve \eqref{eqn_exponential}. Finally, we show how to obtain the parameter $\tau$ suitable for RSC to produce the desired weight matrix $\bW_L$.  We empirically observe that the optimal parameter $\tau$ always corresponds to the intersection of the reconstruction curve and the straight line with a fixed slope $s$ as shown in Fig~\ref{fig_slopes}. Note that the slope $s$ does not varies with face images. The value of $s$ could be estimated from a set of training images. To calculate $\tau$, setting the derivative of \eqref{eqn_exponential} with respect to $\tau$ equal to $s$, we have $\frac{de}{d\tau} = ab\exp(b\tau) = s$.
+%\begin{equation}\label{eqn_exp_derivative} \frac{de}{d\tau} = ab\exp(b\tau) = s \end{equation}
+Therefore, the optimal parameter $\tau$ is obtained as follows
+\begin{equation}\label{eqn_tau}
+     \tau = \frac{1}{b}(\ln(s)-\ln(ab)).
+\end{equation}
+We note that RSC needs to manually determine the vaule of $\tau$, while our approach can automatically select the proper $\tau$ for each input image without the prior knowledge about occlusion.
+
+\begin{figure}
+\graphicspath{{fig/}}
+    \begin{center}
+        \includegraphics[scale=0.39]{ARSC_slopes.pdf}
+        \caption{The three reconstruction curves correspond to face images with different degrees of occlusion. The intersection of the reconstruction curve and the straight line with a fixed slope (not varying with face images) gives the optimal weight matrix shown in the bottom of the figure.}\label{fig_slopes}
+        %\topcaption{The appropriate slope for determining $\tau$. Although the two input images (i.e., the occluded one and the neutral one) have different proportion of occluded pixels, this pre-defined slope can identify the occluded region nicely.\label{fig:cutSlope}}
+    \end{center}\vspace{-.5cm}
+\end{figure}
+
+After having obtained the weight matrix $\bW_L$ for the input image, we apply a median filter to $\bW_L$ to eliminate noisy pixels based on the observation that the occluded region is contiguous.
+

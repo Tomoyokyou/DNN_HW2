@@ -1,0 +1,8 @@
+\label{sec:conclusion}
+{
+In this work, we propose a novel method to improve the performance of RSC through masking out the appropriate occluded region in the query image, and therefore preventing the clean pixels to be interfered. Our method not only improves the hallucination results, but also aids in the performance of face recognition task.
+
+\textbf{Acknowledgement}
+This work is supported in part by the National Science Council of Taiwan via NSC102-3111-Y-001-015, NSC102-2221-E-001-005-MY2, and NSC 101-2221-E-001-015-MY2.
+
+}

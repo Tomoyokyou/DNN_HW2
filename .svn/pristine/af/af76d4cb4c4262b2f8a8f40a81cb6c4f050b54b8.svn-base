@@ -1,0 +1,85 @@
+\subsection{Database and Settings}
+To evaluate the performance of our proposed method, we consider the AR database~\cite{Martinez_CVC1998}. This database contains 126 individuals with more than 4000 frontal face images. In our experiment, we consider a subset of AR by randomly choosing 100 individuals with 50 men and 50 women. All images are converted into grayscale and are cropped of size 165$\times$120 pixels. We rescale and downsample the images into 96$\times$96 and 24$\times$24 pixels as HR and LR images, respectively.
+
+For each subject in AR, we only consider his/her neutral images and images with expression variations in the training set. Their occluded images (i.e., those with sunglasses and scarves) are viewed as test images. We will first assess our approach in terms of its face hallucination ability, followed by the evaluation of recognition performance.
+
+%figure 5
+\begin{figure}
+\graphicspath{{fig/}}
+        \begin{center}
+            \includegraphics[scale=0.22]{exp_ori_new.jpg}
+            \vspace{-0.3cm}
+            \caption{\small{Example face hallucination results including occluded image regions. Images in each row are outputs of (a) Bicubic, (b) Jung \emph{et al.}~\cite{convex}, (c) ours, and (d) the ground truth.} \label{fig:exp_ori}}
+        \end{center}\vspace{-.5cm}
+\end{figure}
+
+% table1
+\begin{table}
+\small
+\renewcommand{\arraystretch}{1.2}
+\centering
+\caption{Comparisons of average PSNR \& SSIM values of face hallucination outputs with occlusion.}\label{tab:partA}
+\vspace{0.2cm}
+\begin{tabular}{|l|l|l|l|}
+\hline
+ & Bicubic &~\cite{convex}  & Ours              \\ \hline
+PSNR  & 23.8445 & 24.7172 & \textbf{24.9705} \\
+SSIM  & 0.8050  & 0.7781  & \textbf{0.8288}  \\ \hline
+\end{tabular}\vspace{-.3cm}
+\end{table}
+
+\subsection{Face Hallucination}
+
+To evaluate our face hallucination results, we consider the LR face image inputs with and without occlusion. In addition, since our method is able to identify the corrupted pixels automatically, we further include the evaluation of recovered HR images using non-occluded pixels only. This is to show that, after disregarding such undesirable pixels, our method is able to achieve improved image quality for face hallucination.
+
+We first compare the example outputs in Figure~\ref{fig:exp_ori}, in which the HR images (including the occluded image regions) are produced by bicubic, the approach of Jung \emph{et al.}~\cite{convex}, and ours. In addition, we also show the ground truth HR images in the last column of Figure~\ref{fig:exp_ori}. From this figure, we see that our approach achieved satisfactory image quality for non-occluded image regions. Since the occluded image regions were viewed as image corruption, the corresponding pixels were the same as those produced by Bicubic. In Table~\ref{tab:partA}, we quantitatively compare the image quality using PSNR and SSIM values. It can be seen that our approach was able to achieve improved results than other SR methods did.
+
+Next, we consider the comparisons in which the HR images are corruption free. To be more specific, we apply our proposed method to remove the undesirable image pixels (mainly due to occlusion) from the HR images of different approaches. Figure~\ref{fig:exp_msk} and Table~\ref{tab:partB} present and compare the results of different approaches. We see that, after removing such corrupted image pixels, our method still obtained improved image quality for the remaining pixels of interest, and thus performed favorably against other SR approaches. Therefore, from the above qualitative and quantitative evaluation, the effectiveness of our proposed method for occlusion invariant face hallucination can be successfully verified.
+
+%figure 6
+\begin{figure}
+\graphicspath{{fig/}}
+        \begin{center}
+            \includegraphics[scale=0.22]{exp_masked_new.jpg}
+            \vspace{-0.3cm}
+            \caption{\small{Example face hallucination results with corrupted pixels removed. Images in each row are outputs of (a) Bicubic, (b) Jung \emph{et al.}~\cite{convex}, (c) ours, and (d) the ground truth.} \label{fig:exp_msk}}
+        \end{center}\vspace{-.5cm}
+\end{figure}
+
+\begin{table}
+\small
+\renewcommand{\arraystretch}{1.2}
+\centering
+\caption{Comparisons of average PSNR \& SSIM values of face hallucination outputs without corrupted pixels.} \label{tab:partB}
+\vspace{0.2cm}
+\begin{tabular}{|l|l|l|l|}
+\hline
+ & Bicubic &~\cite{convex}  & Ours              \\ \hline
+PSNR  & 25.6739 & 27.0004 & \textbf{27.2819} \\
+SSIM  & 0.8559  & 0.8683  & \textbf{0.8830}  \\ \hline
+\end{tabular}\vspace{-.3cm}
+\end{table}
+
+
+% table recog
+\begin{table}[!t]
+\small
+\renewcommand{\arraystretch}{1.2}
+\centering
+\caption{\small{Recognition performance on AR.}\label{tab:recog}}\vspace{.2cm}
+\begin{tabular}{lllll}
+\hline
+\multicolumn{1}{|c|}{Method}           & \multicolumn{1}{c|}{LR} & \multicolumn{1}{c|}{HR\_Bicubic} & \multicolumn{1}{c|}{HR by~\cite{convex}} & \multicolumn{1}{c|}{HR\_Ours} \\ \hline
+\multicolumn{1}{|c|}{Accuracy} & \multicolumn{1}{c|}{85.50} & \multicolumn{1}{c|}{80.33}          & \multicolumn{1}{c|}{83.50}       & \multicolumn{1}{c|}{88.50}       \\ \hline
+\end{tabular}\vspace{-.3cm}
+\end{table}
+
+\subsection{LR-to-HR Face Recognition}\vspace{-.1cm}
+
+We further consider the task of face recognition using LR images as test inputs, while the HR ones as the training set. This is to confirm that, in addition to improved image quality, our proposed method would be preferable for the application of LR-to-HR face recognition.
+
+Recall that, our training set (now HR images only) does not contain any occluded images. To recognize the LR test images, we first apply our method to recover their HR versions. Next, the approach of sparse representation based classification (SRC) will be applied to perform recognition. As a baseline approach (denoted as LR), we downsample the HR training images into the same resolution as that of the LR ones, and perform SRC in that resolution. Also, we consider the uses of bicubic and the approach of Jung \emph{et al.}~\cite{convex} for recovering the HR outputs for recognition (denoted as HR\_Bicubic and HR by~\cite{convex}, respectively). Table~\ref{tab:recog} lists and compares the recognition results of different method. From this table, we can see that our approach achieved the highest recognition rate. As a result, our experiments support the use of our proposed method for LR-to-HR face recognition.
+
+
+
+

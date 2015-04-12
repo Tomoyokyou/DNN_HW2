@@ -1,0 +1,90 @@
+
+% the face figure is put in LR.tex to make it settle in the appropriate position
+
+\subsection{Database And Settings}
+%To demonstrate the superiority of our hallucination method under conditions of occlusion, we perform the experiment on AR database. It contains 126 individuals with more than 4000 frontal face images. There are two sessions in it, both containing images with different variations like expression, illumination and facial occlusions. In our experiment, we consider a subset of AR by randomly choosing 100 individuals with 50 men and 50 women. Two sessions are used for training and testing purpose separately while images with occlusions are removed in the training set. We also remove images with variation of illumination since we focus only on occlusions in this work. In short, there are 4 clean images and 2 occluded images for each individual in testing set. All images are converted to grayscale and cropped to 165x120 pixels. Afterwards, images are down-sampled to 96x96 and 24x24 to be HR and LR images respectively. In the following, we divide the experiment into two parts; we would first demonstrate the better quality of our hallucinated images and then show that these HR images with better quality can help face recognition in reality.
+To evaluate the performance of our proposed method, we consider the AR database~\cite{Martinez_CVC1998}. This database contains 126 individuals with more than 4000 frontal face images. In our experiment, we consider a subset of AR by randomly choosing 100 individuals with 50 men and 50 women. All images are converted into grayscale and are cropped of size 165$\times$120 pixels. We rescale and downsample the images into 96$\times$96 and 24$\times$24 pixels as HR and LR images, respectively.
+
+For each subject in AR, we only consider his/her neutral images and images with expression variations in the training set. Their occluded images (i.e., those with sunglasses and scarves) are viewed as test images. We will first assess our approach in terms of its face hallucination ability, followed by the evaluation of recognition performance.
+
+%figure 5
+\begin{figure}[!t]
+\graphicspath{{fig/}}
+        \begin{center}
+            \includegraphics[scale=0.22]{exp_ori_new.jpg}
+            \vspace{-0.3cm}
+            \caption{The hallucination result of experiment part A. The columns in each side are (a) Bicubic (b) Jung's Method \cite{convex}, (c) our proposed method, and (d) ground truth respectively. \label{fig:exp_ori}}
+        \end{center}
+\end{figure}
+
+% table1
+\begin{table}
+\centering
+\caption{The PSNR\& SSIM value for unmasked output.\label{tab:partA}}
+\begin{tabular}{|l|l|l|l|}
+\hline
+PartA & Bicubic & Jung's  & Our              \\ \hline
+PSNR  & 23.8445 & 24.7172 & \textbf{24.9705} \\ \hline
+SSIM  & 0.8050  & 0.7781  & \textbf{0.8288}  \\ \hline
+\end{tabular}
+\end{table}
+\subsection{Hallucination Result}
+%Since there are barely any methods handling occlusion in the face hallucination problem, we only compare our result with a few representative hallucination methods. In our experiment, we select Jung's method and the bicubic interpolation as baselines for comparison. The reason for choosing Jung's method is that since we, in our work, use Jung's method to hallucinate the clean region of the face images, this comparison is able to show the effectiveness of the learned mask proposed in our work.
+
+Since there are barely any methods handling occlusion in the face hallucination problem, we only compare our result with a few representative hallucination methods. In our experiment, we select Jung's method and the bicubic interpolation as baselines for comparison.
+
+
+
+% table recog
+\begin{table}[b]
+\centering
+\caption{The recognition experiment result.\label{tab:recog}}
+\begin{tabular}{lllll}
+\hline
+\multicolumn{1}{|c|}{Method}           & \multicolumn{1}{c|}{LR} & \multicolumn{1}{c|}{HR\_Bicubic} & \multicolumn{1}{c|}{HR\_Jung} & \multicolumn{1}{c|}{HR\_Ours} \\ \hline
+\multicolumn{1}{|c|}{Accuracy} & \multicolumn{1}{c|}{85.50\%} & \multicolumn{1}{c|}{80.33\%}          & \multicolumn{1}{c|}{83.50\%}       & \multicolumn{1}{c|}{88.50\%}       \\ \hline
+                                       &                              &                                       &                                    &                                    \\
+                                       &                              &                                       &                                    &
+\end{tabular}
+\end{table}
+There are two parts of the comparison. In part A, we use the whole HR image of the LR input as ground truth to compute PSNR and SSIM. In part B, for fairness, we use the mask learned in our method to mask out the occluded regions on the result of every hallucination method and the HR ground truth as well. In both parts, we can see that the performance of common hallucination method degrades on both occluded and clean region, while our proposed mask can prevent the clean region to be interfered. The experimental result is shown in Figs.~\ref{fig:exp_ori}, \ref{fig:exp_msk} and Tables~\ref{tab:partA}, \ref{tab:partB}.
+
+\subsection{Recognition Result}
+%One of the most important applications for hallucination is to improve the performance of face recognition when the quality of the input query image is poor. In reality, occlusions may also exist and enhance the difficulty of face recognition. In this work, we deal with the problem mention above and we would show that our HR result could help it.
+Since occluded images aren't included in the training gallery, the performance of face recognition task will be heavily degraded. In the experiment, our method is shown to alleviate the aforementioned problem and improve the recognition rate.
+
+%figure 6
+\begin{figure}[!t]
+\graphicspath{{fig/}}
+        \begin{center}
+            \includegraphics[scale=0.22]{exp_masked_new.jpg}
+            \vspace{-0.3cm}
+            \caption{The hallucination result of experiment part B. The columns in each side are (a) Bicubic (b) Jung's Method \cite{convex}, (c) our proposed method, and (d) ground truth respectively. \label{fig:exp_msk}}
+        \end{center}
+\end{figure}
+
+% table 2
+\begin{table}
+\centering
+\caption{The PSNR \& SSIM values for masked output.\label{tab:partB}}
+\begin{tabular}{|l|l|l|l|}
+\hline
+PartB & Bicubic & Jung's  & Our              \\ \hline
+PSNR  & 25.6739 & 27.0004 & \textbf{27.2819} \\ \hline
+SSIM  & 0.8559  & 0.8683  & \textbf{0.8830}  \\ \hline
+\end{tabular}
+\end{table}
+
+We test our method on the four settings below:
+\begin{enumerate}
+\itemsep=0pt
+\item LR training and testing set
+\item HR training and testing set using bicubic interpolation
+\item HR training and testing set using Jung's method
+\item HR training and testing set using our method (occluded region is masked out by the learned mask)
+\end{enumerate}
+The result is shown in Table \ref{tab:recog}, and it demonstrates that our hallucination method can increase the performance of RSC, while other methods only lower the performance.
+
+
+
+

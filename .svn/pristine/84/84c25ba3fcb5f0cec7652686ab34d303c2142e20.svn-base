@@ -1,0 +1,33 @@
+{
+
+%fig5 : is separated, back in experiment.tex
+\iffalse
+\begin{figure*}[!Htbp]
+
+\graphicspath{{fig/}}
+    \centering
+        \subfigure{ \includegraphics[scale=0.25]{exp_ori.jpg}}
+        \subfigure{ \includegraphics[scale=0.25]{exp_masked.jpg}}
+    \caption{The hallucination result of experiment. The columns in each side are (a) Bicubic (b) Jung's Method \cite{convex}, (c) our proposed method, and (d) ground truth respectively\label{fig:exp}}
+\end{figure*}
+\fi
+The position-patch based approach has been one of the most popular face hallucination methods in recent years. The basic idea behind this approach is that the coefficients for reconstructing the LR probe image using LR gallery images are similar to those for reconstructing the HR probe image using HR gallery images. In this paper, we extend the position-patch based approach \cite{convex} for occlusion invariant face hallucination. The detailed steps are described below.
+
+%First, we apply the mask learned from the LR input to mask the occluded region for both the LR input $\by_L$ and the LR training dictionary $\bD_L = [\bx_{L,1},\bx_{L,2},\cdots,\bx_{L,n}]$.
+
+Let $\by_L$  and $\bD_L = [\bx_{L,1}, \bx_{L,2}, \cdots, \bx_{L,n}]$ be the LR test image and the LR training dictionary, respectively. First, we learn the mask $\bW_L$ from $\by_L$ and $\bD_L$ via robust sparse coding as discussed in Section 2.1. Next, we synthesize the HR mask $\bW_H$ from the LR mask $\bW_L$ via interpolation. Afterwards, we divide the LR input $\by_L$ into overlapping position-patches, denoted by $\by_L^i$, where $i$ is the position index. In the same way, each of the LR training image is also divided into overlapping patches, denoted by $\bx_{L,k}^i$ for $k=1, 2,\ldots,M$ ($M$ is the number of training images). The reconstruction coefficient in the $i$th position could be determined by solving the following minimization problem:
+\begin{equation}\label{eqn1}
+     \min_{\balpha_L^i} \norm{\bW_L^i(\by_L^i - \bD_L^i\balpha_L^i)}_2^2+\lambda\norm{\balpha_L^i}_1,
+\end{equation}
+where $\bW_L^i$ is the $i$th patch of $\bW_L$.
+
+Once $\balpha_L^i$ is obtained, the masked HR output in the $i$th position can be synthesized via
+\begin{equation}
+\by_H^i = \bW_H^i\bD_H^i\balpha_L^i,
+\end{equation}
+where $\bW_H^i$ is the $i$th patch of $\bW_H$, and $\bD_H^i$ is the $i$th patch of the HR training dictionary $\bD_H$. After combining the HR patches and averaging the overlapping area, we obtain the hallucinated HR output $\by_H$. Finally, we perform bicubic interpolation on the LR input to get the masked region in HR, which is used to replace the occluded region in $\by_H$. The flow chart of our method is depicted in Fig. \ref{fig:algFlow}.
+
+}
+
+
+%\mathop{\arg\min}_\limits{w_{m}(i,j)}

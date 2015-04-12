@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: main.aux
+The style file: myIEEEbib.bst
+Database file #1: face.bib
+Warning--string name "icip" is undefined
+--line 29 of file face.bib
+Warning--string name "icme" is undefined
+--line 43 of file face.bib
+Warning--empty booktitle in RSC
+Warning--empty booktitle in L1review
+You've used 10 entries,
+            1828 wiz_defined-function locations,
+            523 strings with 5317 characters,
+and the built_in function-call counts, 1641 in all, are:
+= -- 133
+> -- 113
+< -- 0
++ -- 41
+- -- 31
+* -- 116
+:= -- 321
+add.period$ -- 13
+call.type$ -- 10
+change.case$ -- 10
+chr.to.int$ -- 0
+cite$ -- 12
+duplicate$ -- 68
+empty$ -- 132
+format.name$ -- 31
+if$ -- 347
+int.to.chr$ -- 0
+int.to.str$ -- 10
+missing$ -- 10
+newline$ -- 53
+num.names$ -- 10
+pop$ -- 22
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 17
+stack$ -- 0
+substring$ -- 0
+swap$ -- 13
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 2
+while$ -- 10
+width$ -- 12
+write$ -- 103
+(There were 4 warnings)

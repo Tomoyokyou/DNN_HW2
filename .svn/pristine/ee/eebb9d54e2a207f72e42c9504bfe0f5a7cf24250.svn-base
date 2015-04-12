@@ -1,0 +1,67 @@
+
+{
+%\label{subsec:aRSC}
+
+%In section \ref{subsec:RSC}, we demonstrated that RSC is capable of masking out the corrupted pixels and producing a clean image for further recognition tasks. However, the proportion of the unwanted pixels are predetermined by $\tau$, which controls the threshold that $w(e_{k})$ starts to drop rapidly. Since the occluded proportion in every patch varies tremendously, it doesn't make sense to fix $\tau$ at a single value for all patches.
+
+%Here, we propose a new measure to determine the threshold by the slope of the error vector instead of $\tau$. This adaptive method is shown to capture the full range of occluded proportion precisely, and is able to produce satisfying mask for the occlude region.
+%
+%
+	Looking into RSC, we notice that $\tau$ can be interpreted as the proportion of images we want to reserve. For example, if we set $\tau$ to be 0.6, the worst 40\% of pixels in reconstruction would be marked and neglected while the remaining 60\% would be reserved for further recognition purpose.
+
+	In Section \ref{subsec:RSC}, we demonstrate that RSC is capable of masking out the corrupted pixels and producing a clean image for further hallucination tasks. However, the proportion of the unwanted pixels are predetermined by $\tau$ ( which controls
+the threshold that $w(e_{k})$ starts to drop rapidly). Since the occluded proportion in every image varies tremendously, it doesn’t make sense to fix $\tau$ at a single value for all patches. Thus, the biggest problem of occlusion-robust face hallucination becomes how to adaptively determine the proportion of pixels to drop for each input image.
+To solve this problem, some assumptions are made:
+
+% fig: idealCurve
+\begin{figure}[!b]
+\graphicspath{{fig/}}
+        \begin{center}
+            \includegraphics[scale=0.35]{idealCurve.jpg}
+            \vspace{0cm}
+            \caption{The ideal relationship between reconstruct error with $\tau$. (a) Input image (b) too many pixels are dropeed (c) ideal $\tau$ (d) the remaining image still contains occlusion\label{fig:idealCurve}}
+        \end{center}
+        
+\end{figure}
+
+
+
+\begin{enumerate}
+\itemsep=0pt
+\item The reconstruct error of the occluded region would be a lot greater than that of the non-occluded ones.
+\item The reconstruct error in all occluded region would be approximately at the same level, while the reconstruct error in non-occluded region would be at a significantly lower level. 
+\end{enumerate}
+
+Following these assumptions, we can examine the relationship between reconstruction error and $\tau$. Ideally, the curve, which is illustrated in Fig. \ref{fig:idealCurve}, should consist of two straight line segments: the plain one contributed by pixels in the non-occluded region, and the 
+steep one by the occluded region.
+
+However, as shown in Fig. \ref{fig:fitting}, we can see that the curve is more similar to an exponential curve rather than two straight lines. This difference may result from the intensity variation in the reconstruct region, which is later masked and set to a single value. Therefore, we choose to fit an exponential curve here not only for the reflection of real data, but also to neglect outlier points in the curve.
+
+ \begin{figure}[!t] 
+        \begin{center}
+            \graphicspath{{fig/}}
+            \includegraphics[scale=0.35]{fitting.jpg}
+            \vspace{0cm}
+        \end{center}
+    \topcaption{The exponential fitted curve on the experimental data.\label{fig:fitting}}
+    
+\end{figure}
+%Therefore, if we adjust $\tau$ dynamically, when $\tau$ is too large(the reserved region still contains occlusions), the reconstruct error of the reserved region would be high, otherwise($\tau$ is too small and too many pixels including clean ones are dropped) the error would be low. Furthermore, although the reconstruct error would fall as $\tau$ decreases, there should be two trend in the relation curve between $\tau$ and the reconstruct error. By the second assumption, if $\tau$ falls into the range that the reserved region contains occlusions, the reconstruct error would fall linearly and sharply when we drop a few more pixels. On the contrary, if $\tau$ falls into the range that too many pixels have already been dropped, the reconstruct error would fall mildly when dropping more pixels. The curve we mention above is plotted in Fig. \ref{fig:idealCurve}.
+
+%Consequently, by finding the intersection point of the two straight line shown above, we can determine the value of $\tau$. As we sample through the relation between $\tau$ and the reconstruct error, the curve does indicate the two trends of relation; however, it cannot be easily fit by two straight lines. To approximate our assumption, we use an exponential curve to fit the sampled points in practice. Such curve is chosen due to its ability to reflect two trends mentioned above and neglect outlier pixels. The approximated curve is shown in Fig. \ref{fig:fitting}.
+
+In order to find the target value of $\tau$ in the new exponential curve we approximate, we use a point with fixed slope in the exponential curve to simulate the intersection point of the two lines in our assumption. Since we have no prior knowledge of the occlusion, we still need to divide some training images as validations to select this slope. Nonetheless, with the properly selected slope value, we could adaptively find $\tau$ for input images without any prior knowledge about the occluded proportion.
+
+% Nevertheless, this slope is a far more robust feature compared to $\tau$. (to replace the last sentence)
+	At last, we get a mask of occluded region for every input image. We further assume that the occlusions are contiguous, so a median filter is utilized to remove idle pixels in the learned mask. Fig. \ref{fig:cutSlope} shows the effectiveness of using adaptive robust coding to find different value of $\tau$ and the learned masks for corresponding $\tau$.
+
+\begin{figure}[!t]
+\graphicspath{{fig/}}
+    \begin{center}
+        \includegraphics[scale=0.35]{cutSlope.jpg}
+        \vspace{0cm}
+        \topcaption{The appropriately selected slpe and the corresponding facial masks. Although these two images have different occluded proportion of pixels, this pre-defined slope can identify the occluded region precisely.\label{fig:cutSlope}}
+        
+    \end{center}
+\end{figure}
+} 
