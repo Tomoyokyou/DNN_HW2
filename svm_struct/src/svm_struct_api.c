@@ -106,7 +106,7 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 					boo=fscanf(fid," %f",&(storeFeature[i*69+j]));
 				boo=fscanf(fid," %f]\n[",&(storeFeature[i*69+68]));
 		}
-		examples[unum].x._pattern=(float *)malloc(69*fnum*sizeof(float));
+		examples[unum].x._pattern=(double *)malloc(69*fnum*sizeof(double));
 		examples[unum].y._label=(int *)malloc(fnum*sizeof(int));
 		examples[unum].x._fnum=fnum;
 		examples[unum].x._dim=69;
@@ -137,7 +137,7 @@ void        init_struct_model(SAMPLE sample, STRUCTMODEL *sm,
      weights that can be learned. Later, the weight vector w will
      contain the learned weights for the model. */
 
-  sm->sizePsi=100; /* replace by appropriate number of features */
+  sm->sizePsi=5616; /* replace by appropriate number of features */
 }
 
 CONSTSET    init_struct_constraints(SAMPLE sample, STRUCTMODEL *sm, 
@@ -371,7 +371,9 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   size_t weightLength = sm->sizePsi;
   size_t transIdx = inputDim * stateNum;
   int* seq = ybar._label;
-
+	printf( "size of w is %f\n",  weightLength);
+	printf( "weightlength is %f\n ", stateNum * stateNum + inputDim * stateNum + 1);
+	printf("x._dim is %d\n", featureNum);
   assert( weightLength == stateNum * stateNum + inputDim * stateNum + 1);
 
   memset(seq, 0, featureNum*sizeof(int));
