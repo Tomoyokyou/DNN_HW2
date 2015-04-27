@@ -941,6 +941,10 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
     /* continue; */
   }
   printf("111\n"); 
+  // debugging print
+  printf("cccccc:%d\n", ybar._size);
+  printf("dddddd:%d\n", ex->y._size);
+  
   /**** get psi(x,y) and psi(x,ybar) ****/
   if(struct_verbosity>=2) rt2=get_runtime();
   if(fycached)
@@ -948,7 +952,8 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
   else 
     fy=psi(ex->x,ex->y,sm,sparm);
   fybar=psi(ex->x,ybar,sm,sparm);
-  
+  //write_psi("fy.txt", &fy);
+  write_psi("fybar.txt", &fybar);
   if(struct_verbosity>=2) (*rt_psi)+=MAX(get_runtime()-rt2,0);
   lossval=loss(ex->y,ybar,sparm);
   free_label(ybar);

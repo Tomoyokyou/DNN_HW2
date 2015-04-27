@@ -499,7 +499,7 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
 	
   /* insert code for computing the feature vector for x and y here */
 	WORD* words;
-	
+	assert(y._size != 0);
 	double factor = 1;
 	size_t feature_vector_size = x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX;
       
