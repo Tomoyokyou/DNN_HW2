@@ -684,32 +684,32 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	int i;	
 	fp = fopen(file, "r");
 	// read struct model
-	fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
-	fscanf(fp, "w: ");
+	i=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
+	i=fscanf(fp, "w: ");
 	for (i = 0; i < mdl.sizePsi; i++){
-		fscanf(fp, "%.6f ", &mdl.w[i]);
+		i=fscanf(fp, "%.6f ", &mdl.w[i]);
 	}	
-	fscanf(fp, "walpha: %lf\n", &mdl.walpha);
+	i=fscanf(fp, "walpha: %lf\n", &mdl.walpha);
 	// structure model unknown
 	// write struct_model_parameter
-	fscanf(fp, "epsilon: %lf\n", &(sparm->epsilon));	
-	fscanf(fp, "newconstretrain: %lf\n", &(sparm->newconstretrain));
-	fscanf(fp, "ccache_size: %d\n", &(sparm->ccache_size));
-	fscanf(fp, "batch_size: %lf\n", &(sparm->batch_size));
-	fscanf(fp, "C: %lf\n", &(sparm->C));
-	fscanf(fp, "slack_norm: %d\n", &(sparm->slack_norm));
-	fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
-	fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
+	i=fscanf(fp, "epsilon: %lf\n", &(sparm->epsilon));	
+	i=fscanf(fp, "newconstretrain: %lf\n", &(sparm->newconstretrain));
+	i=fscanf(fp, "ccache_size: %d\n", &(sparm->ccache_size));
+	i=fscanf(fp, "batch_size: %lf\n", &(sparm->batch_size));
+	i=fscanf(fp, "C: %lf\n", &(sparm->C));
+	i=fscanf(fp, "slack_norm: %d\n", &(sparm->slack_norm));
+	i=fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
+	i=fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
 	// write custom arguments
 
-	fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
-	fscanf(fp, "custom_argv: \n");
-	int j = 0;
+	i=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
+	i=fscanf(fp, "custom_argv: \n");
+	int j = 0, tmp=0;
 	for (i = 0; i < sparm->custom_argc; i++){
 		for(j = 0; j < 300; j++){
-			fscanf(fp, "%c ", &(sparm->custom_argv[i][j]));
+			tmp=fscanf(fp, "%c ", &(sparm->custom_argv[i][j]));
 		}
-		fscanf(fp, "\n");
+		tmp=fscanf(fp, "\n");
 	}
 	fclose(fp);
 	//if(i) {printf("read_struct_model done!\n");}
