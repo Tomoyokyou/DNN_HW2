@@ -137,7 +137,7 @@ void        init_struct_model(SAMPLE sample, STRUCTMODEL *sm,
      weights that can be learned. Later, the weight vector w will
      contain the learned weights for the model. */
 
-  sm->sizePsi=5616; /* replace by appropriate number of features */
+  sm->sizePsi=5617; /* replace by appropriate number of features */
 }
 
 CONSTSET    init_struct_constraints(SAMPLE sample, STRUCTMODEL *sm, 
@@ -322,9 +322,10 @@ LABEL       find_most_violated_constraint_slackrescaling(PATTERN x, LABEL y,
      Psi(x,ybar)>Psi(x,y)-1. If the function cannot find a label, it
      shall return an empty label as recognized by the function
      empty_label(y). */
-  LABEL ybar;
-
-  
+  LABEL ybar; 
+  ybar._label = (int*)malloc(sizeof(int)*x._fnum);
+  //ybar.isEmpty = 0;
+  ybar._size = x._fnum;
   /* insert your code for computing the label ybar here */
 
   return(ybar);
@@ -356,7 +357,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
      shall return an empty label as recognized by the function
      empty_label(y). */
   LABEL ybar;
-
   /* insert your code for computing the label ybar here */
   ybar._label = (int*)malloc(sizeof(int)*x._fnum);
   //ybar.isEmpty = 0;
@@ -371,9 +371,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   size_t weightLength = sm->sizePsi;
   size_t transIdx = inputDim * stateNum;
   int* seq = ybar._label;
-	printf( "size of w is %f\n",  weightLength);
-	printf( "weightlength is %f\n ", stateNum * stateNum + inputDim * stateNum + 1);
-	printf("x._dim is %d\n", featureNum);
+  // debugging
   assert( weightLength == stateNum * stateNum + inputDim * stateNum + 1);
 
   memset(seq, 0, featureNum*sizeof(int));
@@ -397,8 +395,8 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 	phi[transIdx + k*stateNum + k] = 1;
 
 	// printf("\n");
-	// print(phi, weightLength);
-	// printf("\n");
+	 //print(phi, weightLength);
+	 //printf("\n");
 
 	dotProduct(temp, weight, phi, 0, 0, weightLength);
 	//thrust::transform(phi.begin(), phi.end(), ptrW, temp.begin(), thrust::multiplies<double>());
@@ -406,7 +404,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 	//double sum = thrust::reduce(temp.begin(), temp.end(), (double) 0, thrust::plus<double>());
 	viterbiTemp[k][0] = sum;
   }
-
   for(i = 1; i < featureNum-1; i++){
     for(k = 0; k < stateNum; k++){
 	  for(j = 0; j < stateNum; j++){
@@ -427,7 +424,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 	  }
 	}
   }
-
   for(k = 0; k < stateNum; k++){
     for(j = 0; j < stateNum; j++){
 	  memset(phi, 0, weightLength*sizeof(double));
@@ -446,7 +442,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 	  }
 	}
   }
-
   // Back tracking
   double maxValue = viterbiTemp[0][featureNum-1];
   size_t idx = 0;
@@ -461,8 +456,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
     idx = viterbiTrack[idx][i];
 	seq[i-1] = idx;
   }
-
-
+ printf("done find most violated\n");
   return(ybar);
 }
 
@@ -580,10 +574,11 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
 double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index){
   /* loss for correct label y and predicted label ybar. The loss for
      y==ybar has to be zero. sparm->loss_function is set with the -l option. */
+  //printf("bla : %d\n", sizeof(y._label));
   if(sparm->loss_function == 0) { /* type 0 loss: 0/1 loss */
                                   /* return 0, if y==ybar. return 1 else */
-	if (state == y._label[index]){ free(y._label); return 1; }
-	else { free(y._label); return 0; } // all match
+	if (state == y._label[index]){ return 1; }
+	else { return 0; } // all match
   }
   else {
     /* Put your code for different loss functions here. But then

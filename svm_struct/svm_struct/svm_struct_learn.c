@@ -65,7 +65,7 @@ void svm_learn_struct(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 
   init_struct_model(sample,sm,sparm,lparm,kparm); 
   sizePsi=sm->sizePsi+1;          /* sm must contain size of psi on return */
-
+	printf("in learn, size of w : %f\n", sm->sizePsi);
   /* initialize shrinking-style example selection heuristic */ 
   if(alg_type == NSLACK_SHRINK_ALG)
     use_shrinking=1;
@@ -940,7 +940,7 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
     /* exit(1); */
     /* continue; */
   }
-  
+  printf("111\n"); 
   /**** get psi(x,y) and psi(x,ybar) ****/
   if(struct_verbosity>=2) rt2=get_runtime();
   if(fycached)
@@ -948,10 +948,12 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
   else 
     fy=psi(ex->x,ex->y,sm,sparm);
   fybar=psi(ex->x,ybar,sm,sparm);
+  
   if(struct_verbosity>=2) (*rt_psi)+=MAX(get_runtime()-rt2,0);
   lossval=loss(ex->y,ybar,sparm);
   free_label(ybar);
-  
+  printf("222\n");
+
   /**** scale feature vector and margin by loss ****/
   if(sparm->loss_type == SLACK_RESCALING)
     factor=lossval/n;
