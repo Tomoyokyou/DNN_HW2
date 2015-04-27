@@ -137,7 +137,9 @@ void        init_struct_model(SAMPLE sample, STRUCTMODEL *sm,
      weights that can be learned. Later, the weight vector w will
      contain the learned weights for the model. */
 
+
   sm->sizePsi=5617; /* replace by appropriate number of features */
+
 }
 
 CONSTSET    init_struct_constraints(SAMPLE sample, STRUCTMODEL *sm, 
@@ -522,7 +524,8 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
               words[i].wnum = i+1;
       }
 	words[feature_vector_size].wnum=0;
-	create_svector(words,NULL,factor);    
+	words[feature_vector_size].weight=0;
+	fvec = create_svector(words,NULL,factor);    
 /*
   assert(x._fnum==y._size);
 	SVECTOR *fvec = (SVECTOR*)malloc(sizeof(SVECTOR));
