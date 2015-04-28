@@ -43,8 +43,8 @@ LIBRARY=-lcuda -lcublas -lcudart
 #=============APP================================
 larry: example/larryTest.cpp $(OBJ) $(LIBS)
 	$(CXX) $(CPPFLAGS) -o bin/larry.app $^ $(INCLUDE) $(LIBRARY) $(LD_LIBRARY)
-#ahpan: example/ahpanDatasetTest.cpp $(OBJ) $(LIBS)
-#	$(CXX) $(CPPFLAGS) -o bin/ahpanDatasetTest.app $^ $(INCLUDE) $(LIBRARY) $(LD_LIBRARY)
+ahpan: Trimming.cpp $(OBJ) $(LIBS)
+	$(CXX) $(CPPFLAGS) -o Trimming.app $^ $(INCLUDE) $(LIBRARY) $(LD_LIBRARY)
 svmGen: example/svmFeatureGen.cpp
 	$(CXX) $(CPPFLAGS) -o bin/svmFeatureGen.app $^
 featNorm: example/featureNorm.cpp
