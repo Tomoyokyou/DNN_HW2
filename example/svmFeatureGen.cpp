@@ -31,8 +31,8 @@ size_t p1=cmd.find_first_of('-');
 if(p1==string::npos){myUsage();return 1;}
 int type=-1;  //-1:false 0:train 1:test
 cmd=cmd.substr(p1);
-if(cmd.compare(0,6,"-train")==0){type=0;}
-else if(cmd.compare(0,5,"-test")==0){type=1;}
+if(cmd.compare(0,7,"--train")==0){type=0;}
+else if(cmd.compare(0,6,"--test")==0){type=1;}
 else{type=-1;}
 		vector<size_t>* l_ptr=new vector<size_t>;
 		map<string,size_t> lmap;
@@ -217,7 +217,7 @@ bool parseFeature(string& str,feature& fvec,char dilimeter){
 }
 
 void write(ofstream& out,vector<frame>* f_ptr,vector<size_t>* l_ptr,const vector<size_t>& fsize,int type){
-	assert(f_ptr->size()==l_ptr->size());
+	//assert(f_ptr->size()==l_ptr->size());
 	string part1,part2,hold;
 	switch(type){
 	case 0:
