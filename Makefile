@@ -57,7 +57,7 @@ svm_empty_classify:
 #===========UTIL==========
 dir:
 	@cd svm_struct; make dir; cd ..
-	@mkdir -p obj; mkdir -p bin
+	@mkdir -p obj; mkdir -p bin; mkdir -p model
 
 ctags:
 	@cd svm_struct; make ctags; cd ..
