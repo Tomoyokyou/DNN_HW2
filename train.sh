@@ -10,7 +10,7 @@ UNIRANGE="0.1 0.5 1 2";
 # ====== new parameters
 C=0.01
 #TRAIN=/home/hui/model/svm_fbank.ark
-TRAIN=/home/hui/model/u10.ark
+TRAIN=/home/hui/model/train/svm_fbank.ark
 LABEL=/home/ahpan/DeepLearningHW2/DNN_HW2/Data/MLDS_HW1_RELEASE_v1/label/train.lab 
 MODEL=./model/test.mdl
 #gdb --args ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
