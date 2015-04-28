@@ -42,3 +42,4 @@ tags
 *.mdl
 *.txt
 model/*
+*/*.mdl

@@ -712,7 +712,8 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 				      sm,sparm,&rt_viol,&rt_psi,&argmax_count);
 	  /* add current fy-fybar to lhs of constraint */
 	  if(kparm->kernel_type == LINEAR) {
-	    add_list_n_ns(lhs_n,fydelta,1.0); /* add fy-fybar to sum */
+	    printf("aaa\n");
+		add_list_n_ns(lhs_n,fydelta,1.0); /* add fy-fybar to sum */
 	    free_svector(fydelta);
 	  }
 	  else {
@@ -720,7 +721,7 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	    lhs=fydelta;
 	  }
 	  rhs+=rhs_i;                         /* add loss to rhs */
-	  
+	  printf("rhs is now: %f\n", rhs);
 	  rt_total+=MAX(get_runtime()-rt1,0);
 
 	} /* end of example loop */
@@ -828,6 +829,9 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	       svmModel->sv_num-1,ceps,svmModel->maxdiff);
 
       rt_total+=MAX(get_runtime()-rt1,0);
+	printf("cached_constraint: %d\n", cached_constraint);
+	printf("ceps: %lf\n", ceps);
+	printf("epsilon: %lf\n", sparm->epsilon);
 
   } while(cached_constraint || (ceps > sparm->epsilon) || 
 	  finalize_iteration(ceps,cached_constraint,sample,sm,cset,alpha,sparm)

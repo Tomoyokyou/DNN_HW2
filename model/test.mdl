@@ -5,7 +5,7 @@ epsilon: 0.100000
 newconstretrain: 100.000000
 ccache_size: 5
 batch_size: 100.000000
-C: 0.010000
+C: 10.000000
 slack_norm: 1
 loss_type: 2
 loss_function: 0
