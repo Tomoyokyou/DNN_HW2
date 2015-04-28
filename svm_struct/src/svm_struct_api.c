@@ -91,7 +91,7 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 	FILE* fid;
 	char name[80];
 	int fnum=0;
-	int unum=0;
+	long unum=0;
 	int i,j,boo=0;
 	int lab;
 	float storeFeature[1024*69];
@@ -119,10 +119,10 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 		}
 		unum++;
 	}
-	if(boo){printf("read_struct_examples done!\n");}
+	if(boo){printf("total utterence:%ld ",unum);}
 //  n=100; /* replace by appropriate number of examples */
   /* fill in your code here */
-  sample.n=n;
+  sample.n=unum; //modified
   sample.examples=examples;
   return(sample);
 }
