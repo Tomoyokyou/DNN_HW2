@@ -169,9 +169,9 @@ void svm_learn_struct(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
       do { /* with shrinking turned on, go through examples that keep
 	      producing new constraints */
 
-	if(struct_verbosity>=1) { 
-	  printf("Iter %i (%ld active): ",++numIt,activenum); 
-	  fflush(stdout);
+	if(struct_verbosity>=1) {
+	  	printf("Iter %i (%ld active): ",++numIt,activenum); 
+	  	fflush(stdout);
 	}
 	
 	ceps=0;
@@ -701,11 +701,11 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	rt_total+=MAX(get_runtime()-rt1,0);
 
 	for(i=0; i<n; i++) {
-		if (i%100 == 0) printf("at utterance %d\n", i);
 	  rt1=get_runtime();
 
+
 	  if(struct_verbosity>=1) 
-	    print_percent_progress(&progress,n,10,".");
+	    //print_percent_progress(&progress,n,10,".");
 
 	  /* compute most violating fydelta=fy-fybar and rhs for example i */
 	  find_most_violated_constraint(&fydelta,&rhs_i,&ex[i],fycache[i],n,
