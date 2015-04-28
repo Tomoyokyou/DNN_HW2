@@ -12,7 +12,7 @@ C=0.01
 #TRAIN=/home/hui/model/svm_fbank.ark
 TRAIN=/home/hui/model/u10.ark
 LABEL=/home/ahpan/DeepLearningHW2/DNN_HW2/Data/MLDS_HW1_RELEASE_v1/label/train.lab 
-MODEL=~/DNN_HW2/model/test.mdl
+MODEL=./model/test.mdl
 #gdb --args ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
 ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
 

@@ -295,6 +295,8 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
     idx = viterbiTrack[idx][i];
 	seq[i-1] = idx;
   }
+  free(phi);
+  free(temp);
 
   return(y);
 }
@@ -460,6 +462,8 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 	seq[i-1] = idx;
   }
  //printf("done find most violated\n");
+  free(phi);
+  free(temp);
   return(ybar);
 }
 
@@ -650,7 +654,7 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
 	fprintf(fp, "w: ");
 	for (i = 0; i < sm->sizePsi; i++){
 		fprintf(fp, "%lf ", sm->w[i]);
-		printf("%lf ", sm->w[i]);
+		//printf("%lf ", sm->w[i]);
 	}
 	fprintf(fp, "\n");
 	fprintf(fp, "walpha: %f\n", sm->walpha);
