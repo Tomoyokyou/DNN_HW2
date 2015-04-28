@@ -8,7 +8,7 @@
 #include <iomanip>
 
 using namespace std;
-void myUsage(){cerr<<" USAGE: [feature file] [label file] [label map] <out file>"<<endl;}
+void myUsage(){cerr<<" USAGE: [feature file] --test/train {[label file] [label map]} <out file>"<<endl;}
 typedef vector<double> feature;
 typedef pair<string,feature> frame;
 bool readFeature(ifstream& inf,vector<frame>* out,vector<size_t>& l_frame);
@@ -16,7 +16,7 @@ bool readLabel(ifstream& inf,vector<size_t>* out,const map<string,size_t>& lMap)
 bool readMap(ifstream& inf,map<string,size_t>& lMap);
 bool parseName(string& str,string& name,char dilimeter=' ');
 bool parseFeature(string& str,feature& fvec,char dilimeter=' ');
-void write(ofstream& out,vector<frame>* f_ptr,vector<size_t>* l_ptr,const vector<size_t>& fsize);
+void write(ofstream& out,vector<frame>* f_ptr,vector<size_t>* l_ptr,const vector<size_t>& fsize,int type);
 
 void svmFeature(ofstream& out,vector<frame>* f_ptr,vector<size_t>* l_ptr,double** ob,int** st,size_t l);
 string getFrameName(string str);
@@ -25,37 +25,61 @@ void mySum(double* val,const feature& v);
 void oneFrameOut(ofstream& out,double** ob,int** st,size_t l,size_t v,string name,const vector<size_t>& lab);
 
 int main(int argc,char** argv){
-if(argc<4){myUsage();return 1;}
+if(argc<3){myUsage();return 1;}
+string cmd(argv[2]);
+size_t p1=cmd.find_first_of('-');
+if(p1==string::npos){myUsage();return 1;}
+int type=-1;  //-1:false 0:train 1:test
+cmd=cmd.substr(p1);
+if(cmd.compare(0,6,"-train")==0){type=0;}
+else if(cmd.compare(0,5,"-test")==0){type=1;}
+else{type=-1;}
+		vector<size_t>* l_ptr=new vector<size_t>;
+		map<string,size_t> lmap;
+		cout<<"reading features...";
+		ifstream input(argv[1]);
+		if(!input){cerr<<" ERROR: unable to open feature file: [ "<<argv[1]<<" ]\n ";myUsage();return 1;}
+		vector<frame>* f_ptr=new vector<frame>;
+		vector<size_t> l_frame;
+		if(!readFeature(input,f_ptr,l_frame)){cerr<<"ERROR: feature format not recognized \n";return 1;}
+		input.close();
+		cout<<"done!"<<endl;
+switch(type){
+	case 0:
+		cout<<"training feature recognized"<<endl;
+		cout<<"reading labels...";
+		input.open(argv[4]);
+		if(!input){cerr<<" ERROR: unable to open label map: [ "<<argv[4]<<" ]\n ";myUsage();return 1;}
+		if(!readMap(input,lmap)){cerr<<"ERROR: label map not recognized \n";return 1;}
+		input.close();
 
-cout<<"reading features...";
-ifstream input(argv[1]);
-if(!input){cerr<<" ERROR: unable to open feature file: [ "<<argv[1]<<" ]\n ";myUsage();return 1;}
-vector<frame>* f_ptr=new vector<frame>;
-vector<size_t> l_frame;
-if(!readFeature(input,f_ptr,l_frame)){cerr<<"ERROR: feature format not recognized \n";return 1;}
-input.close();
-cout<<"done!"<<endl;
+		input.open(argv[3]);
+		if(!input){cerr<<" ERROR: unable to open label file: [ "<<argv[3]<<" ]\n ";myUsage();return 1;}
+		if(!readLabel(input,l_ptr,lmap)){cerr<<"ERROR: label format not recognized \n";return 1;}
+		input.close();
+		cout<<"done!"<<endl;
+		
+		break;
+	case 1:
+		cout<<"testing feature recognized"<<endl;
+		break;
+	default:
+	case -1:
+		cout<<"wrong option!"<<endl;
+		myUsage();
+		return 1;
+}
 
-cout<<"reading labels...";
-input.open(argv[3]);
-if(!input){cerr<<" ERROR: unable to open label map: [ "<<argv[3]<<" ]\n ";myUsage();return 1;}
-map<string,size_t> lmap;
-if(!readMap(input,lmap)){cerr<<"ERROR: label map not recognized \n";return 1;}
-input.close();
 
-input.open(argv[2]);
-if(!input){cerr<<" ERROR: unable to open label file: [ "<<argv[2]<<" ]\n ";myUsage();return 1;}
-vector<size_t>* l_ptr=new vector<size_t>;
-if(!readLabel(input,l_ptr,lmap)){cerr<<"ERROR: label format not recognized \n";return 1;}
-input.close();
-cout<<"done!"<<endl;
-
-cout<<"parsing complete!"<<endl;
 
 cout<<"begin to write file...";
-ofstream out(argv[4]);
+ofstream out;
+if(type==0)
+out.open(argv[5]);
+else
+out.open(argv[3]);
 if(!out){cerr<<" ERROR: unable to write file: [ "<<argv[4]<<" ]\n ";}
-write(out,f_ptr,l_ptr,l_frame);
+write(out,f_ptr,l_ptr,l_frame,type);
 out.close();
 cout<<"done!"<<endl;
 /*
@@ -192,9 +216,19 @@ bool parseFeature(string& str,feature& fvec,char dilimeter){
 	return true;
 }
 
-void write(ofstream& out,vector<frame>* f_ptr,vector<size_t>* l_ptr,const vector<size_t>& fsize){
+void write(ofstream& out,vector<frame>* f_ptr,vector<size_t>* l_ptr,const vector<size_t>& fsize,int type){
 	assert(f_ptr->size()==l_ptr->size());
 	string part1,part2,hold;
+	switch(type){
+	case 0:
+		out<<"[training]"<<endl;
+		break;
+	case 1:
+		out<<"[testing]"<<endl;
+		break;
+	default:
+		break;
+	}
 	int acc=0;
 	for(size_t t=0;t<fsize.size();++t){
 			hold=(f_ptr->at(acc)).first;
@@ -202,7 +236,10 @@ void write(ofstream& out,vector<frame>* f_ptr,vector<size_t>* l_ptr,const vector
 			parseName(hold,part2,'_');
 			out<<"<"<<part1+part2<<"> "<<fsize[t]<<"\n";
 	for(size_t k=0;k<fsize[t];++k){
-			out<<"["<<l_ptr->at(acc+k);
+			if(type==0)
+				out<<"["<<l_ptr->at(acc+k);
+			else if(type==1)
+				out<<"[";
 		for(size_t l=0;l<(f_ptr->at(acc+k)).second.size();++l)
 				out<<" "<<fixed<<setprecision(6)<<(f_ptr->at(acc+k)).second.at(l);
 				out<<"]\n";
