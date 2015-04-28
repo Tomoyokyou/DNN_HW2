@@ -412,7 +412,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   for(i = 1; i < featureNum-1; i++){
     for(k = 0; k < stateNum; k++){
 	  for(j = 0; j < stateNum; j++){
-	    memset(phi, 0, weightLength*sizeof(double));
+		memset(phi, 0, weightLength*sizeof(double));
 		//thrust::fill(phi.begin(), phi.end(), 0);
 		memcpy(phi + k*inputDim, pattern + i*inputDim, inputDim*sizeof(double));
 		//thrust::copy(ptrX+i*inputDim, ptrX+(i+1)*inputDim, phi.begin() + k*inputDim);
@@ -651,12 +651,14 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
 	int i = 0;
 	
 	fprintf(fp, "size of w: %ld\n", sm->sizePsi);
+	
 	fprintf(fp, "w: ");
 	for (i = 0; i < sm->sizePsi; i++){
 		fprintf(fp, "%lf ", sm->w[i]);
 		//printf("%lf ", sm->w[i]);
 	}
 	fprintf(fp, "\n");
+	
 	fprintf(fp, "walpha: %f\n", sm->walpha);
 	// structure model unknown
 	// write struct_model_parameter

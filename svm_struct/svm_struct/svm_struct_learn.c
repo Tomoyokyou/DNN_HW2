@@ -703,16 +703,16 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	for(i=0; i<n; i++) {
 		if (i%100 == 0) printf("at utterance %d\n", i);
 	  rt1=get_runtime();
-
 	  if(struct_verbosity>=1) 
 	    print_percent_progress(&progress,n,10,".");
 
 	  /* compute most violating fydelta=fy-fybar and rhs for example i */
+	  
 	  find_most_violated_constraint(&fydelta,&rhs_i,&ex[i],fycache[i],n,
 				      sm,sparm,&rt_viol,&rt_psi,&argmax_count);
+	  
 	  /* add current fy-fybar to lhs of constraint */
 	  if(kparm->kernel_type == LINEAR) {
-	    printf("aaa\n");
 		add_list_n_ns(lhs_n,fydelta,1.0); /* add fy-fybar to sum */
 	    free_svector(fydelta);
 	  }
@@ -721,12 +721,10 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	    lhs=fydelta;
 	  }
 	  rhs+=rhs_i;                         /* add loss to rhs */
-	  printf("rhs is now: %f\n", rhs);
 	  rt_total+=MAX(get_runtime()-rt1,0);
 
 	} /* end of example loop */
 
-	rt1=get_runtime();
 
 	/* create sparse vector from dense sum */
 	if(kparm->kernel_type == LINEAR)
@@ -741,7 +739,6 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 
       } /* end of finding most violated joint constraint */
 
-      rt1=get_runtime();
 
       /**** if `error', then add constraint and recompute QP ****/
       if(slack > (rhs-lhsXw+0.000001)) {
@@ -832,7 +829,7 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	printf("cached_constraint: %d\n", cached_constraint);
 	printf("ceps: %lf\n", ceps);
 	printf("epsilon: %lf\n", sparm->epsilon);
-
+  	//if (numIt > 1) break;
   } while(cached_constraint || (ceps > sparm->epsilon) || 
 	  finalize_iteration(ceps,cached_constraint,sample,sm,cset,alpha,sparm)
 	 );
@@ -931,12 +928,16 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
   SVECTOR     *fybar, *fy;
   double      factor,lossval;
 
-  if(struct_verbosity>=2) rt2=get_runtime();
   (*argmax_count)++;
   if(sparm->loss_type == SLACK_RESCALING) 
     ybar=find_most_violated_constraint_slackrescaling(ex->x,ex->y,sm,sparm);
-  else
+  else{
+    rt2 = get_runtime();
+    printf("rta: %f\n", rt2);
     ybar=find_most_violated_constraint_marginrescaling(ex->x,ex->y,sm,sparm);
+    rt2 = get_runtime();
+    printf("rtb: %f\n", rt2);
+  }
   if(struct_verbosity>=2) (*rt_viol)+=MAX(get_runtime()-rt2,0);
   
   if(empty_label(ybar)) {
@@ -947,11 +948,11 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
   // debugging print
   
   /**** get psi(x,y) and psi(x,ybar) ****/
-  if(struct_verbosity>=2) rt2=get_runtime();
   if(fycached)
     fy=copy_svector(fycached); 
   else 
     fy=psi(ex->x,ex->y,sm,sparm);
+  
   fybar=psi(ex->x,ybar,sm,sparm);
   //write_psi("fy.txt", &fy);
   //write_psi("fybar.txt", &fybar);
