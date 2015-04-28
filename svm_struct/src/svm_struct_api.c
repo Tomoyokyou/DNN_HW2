@@ -585,8 +585,8 @@ double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index
   //printf("bla : %d\n", sizeof(y._label));
   if(sparm->loss_function == 0) { /* type 0 loss: 0/1 loss */
                                   /* return 0, if y==ybar. return 1 else */
-	if (state == y._label[index]){ return 1; }
-	else { return 0; } // all match
+	if (state == y._label[index]){ return 0; }
+	else { return 1; } // all match
   }
   else {
     /* Put your code for different loss functions here. But then
