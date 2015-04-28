@@ -90,7 +90,8 @@ ctags:
 	@cd svm_struct; ctags -a *.c include/*.h; cd ..
 	@echo "Tagging svm_light"
 	@cd svm_light; ctags -a *.c *.h; cd ..
-	@ctags -a src/* include/* svm_struct/* svm_light/* 
+	@cd src; ctags -a ../include/* ../svm_struct/* ../svm_light/*; cd ..
+	@ctags -a src/* include/* svm_struct/* svm_light/* svm_struct/include/*
 dir:
 	@echo "creating object folder: obj/"
 	@mkdir -p obj

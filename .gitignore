@@ -37,3 +37,9 @@ bin/*
 # Tags
 tags
 */tags
+
+# model
+*.mdl
+*.txt
+model/*
+*/*.mdl

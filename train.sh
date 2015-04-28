@@ -14,5 +14,6 @@ TRAIN=/home/hui/model/u10.ark
 LABEL=/home/ahpan/DeepLearningHW2/DNN_HW2/Data/MLDS_HW1_RELEASE_v1/label/train.lab 
 MODEL=./model/test.mdl
 #gdb --args ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
+mkdir -p model
 ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
 
