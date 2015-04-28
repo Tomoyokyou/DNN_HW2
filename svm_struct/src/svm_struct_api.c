@@ -671,9 +671,9 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
 	int j = 0;
 	for (i = 0; i < sparm->custom_argc; i++){
 		for (j = 0; j < 300; j++){
-			printf(fp, "%c", sparm->custom_argv[i][j]);
+			fprintf(fp, "%d", sparm->custom_argv[i][j]);
 		}
-		printf("\n");
+		fprintf(fp,"\n");
 	}
 	}
 	fclose(fp);
@@ -686,37 +686,39 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
      only in the prediction module, not in the learning module. */
 	STRUCTMODEL mdl;
 	FILE* fp;
-	int i;	
+	int i;
+	int check=1;	
 	fp = fopen(file, "r");
 	// read struct model
-	i=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
-	i=fscanf(fp, "w: ");
+	check=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
+	check=fscanf(fp, "w: ");
 	for (i = 0; i < mdl.sizePsi; i++){
-		i=fscanf(fp, "%.6f ", &mdl.w[i]);
+		check=fscanf(fp, "%lf ", &mdl.w[i]);
 	}	
-	i=fscanf(fp, "walpha: %lf\n", &mdl.walpha);
+	check=fscanf(fp, "walpha: %lf\n", &mdl.walpha);
 	// structure model unknown
 	// write struct_model_parameter
-	i=fscanf(fp, "epsilon: %lf\n", &(sparm->epsilon));	
-	i=fscanf(fp, "newconstretrain: %lf\n", &(sparm->newconstretrain));
-	i=fscanf(fp, "ccache_size: %d\n", &(sparm->ccache_size));
-	i=fscanf(fp, "batch_size: %lf\n", &(sparm->batch_size));
-	i=fscanf(fp, "C: %lf\n", &(sparm->C));
-	i=fscanf(fp, "slack_norm: %d\n", &(sparm->slack_norm));
-	i=fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
-	i=fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
+	check=fscanf(fp, "epsilon: %lf\n", &(sparm->epsilon));	
+	check=fscanf(fp, "newconstretrain: %lf\n", &(sparm->newconstretrain));
+	check=fscanf(fp, "ccache_size: %d\n", &(sparm->ccache_size));
+	check=fscanf(fp, "batch_size: %lf\n", &(sparm->batch_size));
+	check=fscanf(fp, "C: %lf\n", &(sparm->C));
+	check=fscanf(fp, "slack_norm: %d\n", &(sparm->slack_norm));
+	check=fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
+	check=fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
 	// write custom arguments
 
-	i=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
-	i=fscanf(fp, "custom_argv: \n");
-	int j = 0, tmp=0;
+	check=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
+	check=fscanf(fp, "custom_argv: \n");
+	int j = 0;
 	for (i = 0; i < sparm->custom_argc; i++){
 		for(j = 0; j < 300; j++){
-			tmp=fscanf(fp, "%c ", &(sparm->custom_argv[i][j]));
+			check=fscanf(fp, "%c ", &(sparm->custom_argv[i][j]));
 		}
-		tmp=fscanf(fp, "\n");
+		check=fscanf(fp, "\n");
 	}
 	fclose(fp);
+	if(check==0){printf("\n unknown format in read_struct_model\n");}
 	//if(i) {printf("read_struct_model done!\n");}
 	return mdl;
 }
