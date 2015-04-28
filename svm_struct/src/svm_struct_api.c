@@ -92,38 +92,46 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 	FILE* fid;
 	char name[80];
 	int fnum=0;
-	int unum=0;
+	long unum=0;
 	int i,j,boo=0;
-	int lab;
-	float storeFeature[1024*69];
+	int lab,train=0;
+	double storeFeature[1024*69];
 	int storeLabel[1024];
 	fid=fopen(file,"r");
+	boo=fscanf(fid,"%s\n",name);
+	train=(strcmp(name,"[training]")==0)?1:0;
+	train=(strcmp(name,"[testing]")==0)?-1:train;
 	while(fscanf(fid,"%s",name)!=EOF){
 		boo=fscanf(fid,"%d \n [",&fnum);
 		for(i=0;i<fnum;++i){
+			if(train==1){
 			boo=fscanf(fid,"%d",&lab);
 				storeLabel[i]=lab;
+			}
 			for(j=0;j<68;++j)
-					boo=fscanf(fid," %f",&(storeFeature[i*69+j]));
-				boo=fscanf(fid," %f]\n[",&(storeFeature[i*69+68]));
+					boo=fscanf(fid," %lf",&(storeFeature[i*69+j]));
+				boo=fscanf(fid," %lf]\n[",&(storeFeature[i*69+68]));
 		}
 		examples[unum].x._pattern=(double *)malloc(69*fnum*sizeof(double));
 		examples[unum].y._label=(int *)malloc(fnum*sizeof(int));
 		examples[unum].x._fnum=fnum;
 		examples[unum].x._dim=69;
-		examples[unum].y._isEmpty=0;
+		examples[unum].y._isEmpty=(train==-1)?1:0;
 		examples[unum].y._size=fnum;
 		for(i=0;i<fnum;++i){
+				if(train==1)
 				examples[unum].y._label[i]=storeLabel[i];
+				else
+				examples[unum].y._label[i]=-1;
 			for(j=0;j<69;++j)
 					examples[unum].x._pattern[i*69+j]=storeFeature[i*69+j];
 		}
 		unum++;
 	}
-	if(boo){printf("read_struct_examples done!\n");}
+	if(boo){printf("total utterence:%ld ",unum);}
 //  n=100; /* replace by appropriate number of examples */
   /* fill in your code here */
-  sample.n=unum;
+  sample.n=unum; //modified
   sample.examples=examples;
   return(sample);
 }
