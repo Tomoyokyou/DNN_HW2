@@ -11,9 +11,10 @@ UNIRANGE="0.1 0.5 1 2";
 C=10
 #TRAIN=/home/hui/model/svm_fbank.ark
 TRAIN=/home/hui/model/u10.ark
+TEST=/home/hui/model/test/test_gender.svm
 MODEL=./model/test.mdl
 OUTPUT=./model/output.txt
 #gdb --args ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
 mkdir -p model
-./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
-#./svm_struct/svm_empty_classify.app ${TEST} ${MODEL} ${OUTPUT}
+#gdb --args ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
+gdb --args ./svm_struct/svm_empty_classify.app ${TEST} ${MODEL} ${OUTPUT}

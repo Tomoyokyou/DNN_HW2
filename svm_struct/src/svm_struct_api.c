@@ -387,49 +387,64 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   //printf("WeightLength: %d, LatterPart: %d. \n", weightLength, stateNum * stateNum + inputDim * stateNum + 1);
   assert( weightLength == stateNum * stateNum + inputDim * stateNum + 1);
 
-  memset(seq, 0, featureNum*sizeof(int));
+  size_t i = 0;
+  size_t j = 0;
+  size_t k = 0;
+  size_t l = 0;
+  for(l = 0; l < featureNum; l++){
+     seq[l] = 0;
+  }
+
   double viterbiTemp[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
   int viterbiTrack[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
 
   memset(viterbiTemp, -DBL_MAX, sizeof(viterbiTemp));
   memset(viterbiTrack, -1, sizeof(viterbiTrack));
 
-  double* phi = (double*)malloc(sizeof(double)*weightLength);
-  double* temp = (double*)malloc(sizeof(double)*weightLength);
+  //double* phi = (double*)malloc(sizeof(double)*weightLength);
+  //double* temp = (double*)malloc(sizeof(double)*weightLength);
   
-  size_t i = 0;
-  size_t j = 0;
-  size_t k = 0;
+  //size_t i = 0;
+  //size_t j = 0;
+  //size_t k = 0;
   for(k = 0; k < stateNum; k++){
-	memset(phi, 0.0, weightLength*sizeof(double));
+	//memset(phi, 0.0, weightLength*sizeof(double));
 	//thrust::fill(phi.begin(), phi.end(), 0);
-	memcpy(phi + k*inputDim, pattern, inputDim*sizeof(double));
+	//memcpy(phi + k*inputDim, pattern, inputDim*sizeof(double));
 	//thrust::copy(ptrX, ptrX + inputDim, phi.begin() + k*inputDim);
-	phi[transIdx + k*stateNum + k] = 1;
+	//phi[transIdx + k*stateNum + k] = 1;
 
 	// printf("\n");
 	 //print(phi, weightLength);
 	 //printf("\n");
 
-	dotProduct(temp, weight, phi, 0, 0, weightLength);
+	//dotProduct(temp, weight, phi, 0, 0, weightLength);
 	//thrust::transform(phi.begin(), phi.end(), ptrW, temp.begin(), thrust::multiplies<double>());
-	double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, 0);
+	//double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, 0);
 	//double sum = thrust::reduce(temp.begin(), temp.end(), (double) 0, thrust::plus<double>());
+	double sum = weight[transIdx + k*stateNum + k] + loss_viterbi(y, k, sparm, 0);
+    for(l = k*inputDim; l < (k+1)*inputDim; l++){
+	      sum += weight[l]*pattern[l-k*inputDim];
+		      }
 	viterbiTemp[k][0] = sum;
   }
   for(i = 1; i < featureNum-1; i++){
     for(k = 0; k < stateNum; k++){
 	  for(j = 0; j < stateNum; j++){
-		memset(phi, 0, weightLength*sizeof(double));
+		//memset(phi, 0, weightLength*sizeof(double));
 		//thrust::fill(phi.begin(), phi.end(), 0);
-		memcpy(phi + k*inputDim, pattern + i*inputDim, inputDim*sizeof(double));
+		//memcpy(phi + k*inputDim, pattern + i*inputDim, inputDim*sizeof(double));
 		//thrust::copy(ptrX+i*inputDim, ptrX+(i+1)*inputDim, phi.begin() + k*inputDim);
-		phi[transIdx + j*stateNum + k] = 1;
+		//phi[transIdx + j*stateNum + k] = 1;
 
-		dotProduct(temp, weight, phi, 0, 0, weightLength);
+		//dotProduct(temp, weight, phi, 0, 0, weightLength);
 		//thrust::transform(phi.begin(), phi.end(), ptrW, temp.begin(), thrust::multiplies<double>());
-		double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, i);
+		//double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, i);
 		//double sum = thrust::reduce(temp.begin(), temp.end(), (double) 0, thrust::plus<double>());
+		double sum = weight[transIdx + j*stateNum + k] + loss_viterbi(y, k, sparm, i);
+		for(l = k*inputDim; l < (k+1)*inputDim; l++){
+			sum += weight[l]*pattern[i*inputDim + (l-k*inputDim)];
+		}
 		if( viterbiTemp[k][i] < sum + viterbiTemp[j][i-1] ){
 		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
 		  viterbiTrack[k][i] = j;
@@ -439,16 +454,20 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   }
   for(k = 0; k < stateNum; k++){
     for(j = 0; j < stateNum; j++){
-	  memset(phi, 0, weightLength*sizeof(double));
+	  //memset(phi, 0, weightLength*sizeof(double));
 	  //thrust::fill(phi.begin(), phi.end(), 0);
-	  memcpy(phi + k*inputDim, pattern + (featureNum-1)*inputDim, inputDim*sizeof(double));
+	  //memcpy(phi + k*inputDim, pattern + (featureNum-1)*inputDim, inputDim*sizeof(double));
 	  //thrust::copy(ptrX + (featureNum-1)*inputDim, ptrX + featureNum*inputDim, phi.begin() + k*inputDim);
-      phi[transIdx + stateNum*stateNum] = 1;
+      //phi[transIdx + stateNum*stateNum] = 1;
 																				
-	  dotProduct(temp, weight, phi, 0, 0, weightLength);
+	  //dotProduct(temp, weight, phi, 0, 0, weightLength);
 	  //thrust::transform(phi.begin(), phi.end(), ptrW, temp.begin(), thrust::multiplies<double>());
-	  double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, featureNum-1);
+	  //double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, featureNum-1);
 	  //double sum = thrust::reduce(temp.begin(), temp.end(), (double) 0, thrust::plus<double>());
+	  double sum = weight[transIdx + stateNum*stateNum] + loss_viterbi(y, k, sparm, featureNum-1);
+	  for(l = k*inputDim; l < (k+1)*inputDim; l++){
+	  	sum += weight[l]*pattern[(featureNum-1)*inputDim + (l-k*inputDim)];
+	  }
 	  if( viterbiTemp[k][featureNum-1] < sum + viterbiTemp[j][featureNum-2] ){
 	    viterbiTemp[k][featureNum-1] = sum + viterbiTemp[j][featureNum-2];
 		viterbiTrack[k][featureNum-1] = j;
@@ -470,8 +489,8 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 	seq[i-1] = idx;
   }
  //printf("done find most violated\n");
-  free(phi);
-  free(temp);
+  //free(phi);
+  //free(temp);
   return(ybar);
 }
 
@@ -705,10 +724,14 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	fp = fopen(file, "r");
 	// read struct model
 	check=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
+	printf("sizePsi is :%d\n", mdl.sizePsi);
+	
+    mdl.w=(double *)my_malloc(sizeof(double)*mdl.sizePsi);
 	check=fscanf(fp, "w: ");
-	for (i = 0; i < mdl.sizePsi; i++){
+	for (i = 0; i < 5617; i++){
 		check=fscanf(fp, "%lf ", &mdl.w[i]);
 	}	
+	printf("bbb\n");
 	check=fscanf(fp, "walpha: %lf\n", &mdl.walpha);
 	// structure model unknown
 	// write struct_model_parameter
@@ -721,7 +744,7 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	check=fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
 	check=fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
 	// write custom arguments
-
+	printf("ccc\n");
 	check=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
 	check=fscanf(fp, "custom_argv: \n");
 	int j = 0;
