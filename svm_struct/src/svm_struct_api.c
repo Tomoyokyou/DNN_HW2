@@ -94,12 +94,12 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 	long unum=0;
 	int i,j,boo=0;
 	int lab,train=0;
-	float storeFeature[1024*69];
+	double storeFeature[1024*69];
 	int storeLabel[1024];
 	fid=fopen(file,"r");
 	boo=fscanf(fid,"%s\n",name);
 	train=(strcmp(name,"[training]")==0)?1:0;
-	train=(strcmp(name,"[testing]")==0)?-1:0;
+	train=(strcmp(name,"[testing]")==0)?-1:train;
 	while(fscanf(fid,"%s",name)!=EOF){
 		boo=fscanf(fid,"%d \n [",&fnum);
 		for(i=0;i<fnum;++i){
@@ -108,8 +108,8 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 				storeLabel[i]=lab;
 			}
 			for(j=0;j<68;++j)
-					boo=fscanf(fid," %f",&(storeFeature[i*69+j]));
-				boo=fscanf(fid," %f]\n[",&(storeFeature[i*69+68]));
+					boo=fscanf(fid," %lf",&(storeFeature[i*69+j]));
+				boo=fscanf(fid," %lf]\n[",&(storeFeature[i*69+68]));
 		}
 		examples[unum].x._pattern=(double *)malloc(69*fnum*sizeof(double));
 		examples[unum].y._label=(int *)malloc(fnum*sizeof(int));
