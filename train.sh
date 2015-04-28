@@ -14,5 +14,6 @@ TRAIN=/home/hui/model/u10.ark
 MODEL=./model/test.mdl
 OUTPUT=./model/output.txt
 #gdb --args ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
+mkdir -p model
 ./svm_struct/svm_empty_learn.app -c ${C} ${TRAIN} ${MODEL} 
 #./svm_struct/svm_empty_classify.app ${TEST} ${MODEL} ${OUTPUT}
