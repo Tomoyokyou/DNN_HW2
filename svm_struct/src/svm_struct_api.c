@@ -122,7 +122,7 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 	if(boo){printf("read_struct_examples done!\n");}
 //  n=100; /* replace by appropriate number of examples */
   /* fill in your code here */
-  sample.n=n;
+  sample.n=unum;
   sample.examples=examples;
   return(sample);
 }
@@ -374,7 +374,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   size_t transIdx = inputDim * stateNum;
   int* seq = ybar._label;
 
-  printf("WeightLength: %d, LatterPart: %d. \n", weightLength, stateNum * stateNum + inputDim * stateNum + 1);
+  //printf("WeightLength: %d, LatterPart: %d. \n", weightLength, stateNum * stateNum + inputDim * stateNum + 1);
   assert( weightLength == stateNum * stateNum + inputDim * stateNum + 1);
 
   memset(seq, 0, featureNum*sizeof(int));
@@ -459,7 +459,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
     idx = viterbiTrack[idx][i];
 	seq[i-1] = idx;
   }
- printf("done find most violated\n");
+ //printf("done find most violated\n");
   return(ybar);
 }
 
@@ -640,13 +640,17 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
   /* Writes structural model sm to file file. */
 	FILE* fp;
 	fp = fopen(file, "w");
+	
+	if (fp != NULL){
+	
 	// write struct_model
 	int i = 0;
 	
 	fprintf(fp, "size of w: %ld\n", sm->sizePsi);
 	fprintf(fp, "w: ");
 	for (i = 0; i < sm->sizePsi; i++){
-		fprintf(fp, "%.6f ", sm->w[i]);
+		fprintf(fp, "%lf ", sm->w[i]);
+		printf("%lf ", sm->w[i]);
 	}
 	fprintf(fp, "\n");
 	fprintf(fp, "walpha: %f\n", sm->walpha);
@@ -671,7 +675,7 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
 		}
 		printf("\n");
 	}
-
+	}
 	fclose(fp);
 }
 

@@ -65,7 +65,6 @@ void svm_learn_struct(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 
   init_struct_model(sample,sm,sparm,lparm,kparm); 
   sizePsi=sm->sizePsi+1;          /* sm must contain size of psi on return */
-	printf("in learn, size of w : %f\n", sm->sizePsi);
   /* initialize shrinking-style example selection heuristic */ 
   if(alg_type == NSLACK_SHRINK_ALG)
     use_shrinking=1;
@@ -702,6 +701,7 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	rt_total+=MAX(get_runtime()-rt1,0);
 
 	for(i=0; i<n; i++) {
+		if (i%100 == 0) printf("at utterance %d\n", i);
 	  rt1=get_runtime();
 
 	  if(struct_verbosity>=1) 
@@ -940,10 +940,7 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
     /* exit(1); */
     /* continue; */
   }
-  printf("111\n"); 
   // debugging print
-  printf("cccccc:%d\n", ybar._size);
-  printf("dddddd:%d\n", ex->y._size);
   
   /**** get psi(x,y) and psi(x,ybar) ****/
   if(struct_verbosity>=2) rt2=get_runtime();
@@ -953,11 +950,10 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
     fy=psi(ex->x,ex->y,sm,sparm);
   fybar=psi(ex->x,ybar,sm,sparm);
   //write_psi("fy.txt", &fy);
-  write_psi("fybar.txt", &fybar);
+  //write_psi("fybar.txt", &fybar);
   if(struct_verbosity>=2) (*rt_psi)+=MAX(get_runtime()-rt2,0);
   lossval=loss(ex->y,ybar,sparm);
   free_label(ybar);
-  printf("222\n");
 
   /**** scale feature vector and margin by loss ****/
   if(sparm->loss_type == SLACK_RESCALING)
