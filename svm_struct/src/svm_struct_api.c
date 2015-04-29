@@ -733,7 +733,7 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	// read struct model
 	mdl.svm_model = NULL;
 	check=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
-	printf("sizePsi is :%d\n", mdl.sizePsi);
+	printf("sizePsi is :%ld\n", mdl.sizePsi);
     // malloc w	
     mdl.w=(double *)my_malloc(sizeof(double)*mdl.sizePsi);
 	check=fscanf(fp, "w: ");
@@ -754,12 +754,6 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	// write custom arguments
 	check=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
 	check=fscanf(fp, "custom_argv: \n");
-	int j = 0;
-	/*
-	for (i = 0; i < sparm->custom_argc; i++){
-		check = fscanf()
-	}
-	*/
 	fclose(fp);
 	if(check==0){printf("\n unknown format in read_struct_model\n");}
 	//if(i) {printf("read_struct_model done!\n");}
