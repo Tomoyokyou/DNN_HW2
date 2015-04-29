@@ -39,4 +39,4 @@ tags
 */tags
 
 # model file
-./model/*.mdl
+model/
