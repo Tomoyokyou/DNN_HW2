@@ -61,7 +61,7 @@ int main (int argc, char* argv[])
   read_input_parameters(argc,argv,trainfile,modelfile,&verbosity,
 			&struct_verbosity,&struct_parm,&learn_parm,
 			&kernel_parm,&alg_type);
-
+	printf("sparm->C: %f\n", struct_parm.C);
   if(struct_verbosity>=1) {
     printf("Reading training examples..."); fflush(stdout);
   }
