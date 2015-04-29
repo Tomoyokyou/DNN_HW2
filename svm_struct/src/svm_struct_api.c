@@ -216,7 +216,6 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
   size_t weightLength = sm->sizePsi;
   size_t transIdx = inputDim * stateNum;
   int* seq = y._label;
-
   assert( weightLength == stateNum * stateNum + inputDim * stateNum + 1);
 
   size_t i = 0;
@@ -322,9 +321,7 @@ LABEL       find_most_violated_constraint_slackrescaling(PATTERN x, LABEL y,
   return(ybar);
 }
 
-LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, 
-						     STRUCTMODEL *sm, 
-						     STRUCT_LEARN_PARM *sparm)
+LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, STRUCTMODEL *sm, STRUCT_LEARN_PARM *sparm)
 {
   /* Finds the label ybar for pattern x that that is responsible for
      the most violated constraint for the margin rescaling
@@ -368,22 +365,25 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   size_t j = 0;
   size_t k = 0;
   size_t l = 0;
-  
   for(l = 0; l < featureNum; l++){
   	seq[l] = 0;
   }
-
   double viterbiTemp[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
   int viterbiTrack[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
 
   memset(viterbiTemp, -DBL_MAX, sizeof(viterbiTemp));
   memset(viterbiTrack, -1, sizeof(viterbiTrack));
   
+  //size_t i = 0;
+  //size_t j = 0;
+  //size_t k = 0;
   for(k = 0; k < stateNum; k++){
 	double sum = weight[transIdx + k*stateNum + k] + loss_viterbi(y, k, sparm, 0);
-	for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	  sum += weight[l]*pattern[l-k*inputDim];
-	}
+    for(l = k*inputDim; l < (k+1)*inputDim; l++){
+	      sum += weight[l]*pattern[l-k*inputDim];
+		      }
+	//double sum = cblas_ddot(weightLength, weight, 1, phi, 1) + loss_viterbi(y, k, sparm, 0);
+	//double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, 0);
 	viterbiTemp[k][0] = sum;
   }
 
@@ -535,20 +535,27 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
   if(sparm->loss_function == 0) { /* type 0 loss: 0/1 loss */
                                   /* return 0, if y==ybar. return 1 else */
       assert(y._size == ybar._size);
-	  double count = 0;
 	  int i = 0;
 	  for (i = 0; i < y._size; i++){
 	      if (y._label[i] != ybar._label[i]){
-		      count = count + 1;
+		      return 1;
 		  }
 	  }
-	  return count; // all match
+	  return 0; // all match
   }
   else {
     /* Put your code for different loss functions here. But then
        find_most_violated_constraint_???(x, y, sm) has to return the
        highest scoring label with the largest loss. */
-		return 1; //TODO  return true loss instead of 1
+  
+      assert(y._size == ybar._size);
+	  int i = 0, err = 0;
+	  for (i = 0; i < y._size; i++){
+	      if (y._label[i] != ybar._label[i]){
+		      err ++;
+		  }
+      }
+	  return err;
   }
 }
 double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index){
@@ -623,13 +630,21 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
 	int i = 0;
 	
 	fprintf(fp, "size of w: %ld\n", sm->sizePsi);
+	
 	fprintf(fp, "w: ");
 	for (i = 0; i < sm->sizePsi; i++){
 		fprintf(fp, "%lf ", sm->w[i]);
 		//printf("%lf ", sm->w[i]);
 	}
 	fprintf(fp, "\n");
+		
 	fprintf(fp, "walpha: %f\n", sm->walpha);
+	/*
+	fprintf(fp, "mdl.sv_num: %ld\n", sm->svm_model->sv_num);
+	fprintf(fp, "mdl.at_upper_bound: %ld\n", sm->svm_model->at_upperbound);
+	fprintf(fp, "mdl.b: %lf\n", sm->svm_model->b);
+	
+	*/
 	// structure model unknown
 	// write struct_model_parameter
 	fprintf(fp, "epsilon: %f\n", sparm->epsilon);	
@@ -666,11 +681,15 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	int check=1;	
 	fp = fopen(file, "r");
 	// read struct model
+	mdl.svm_model = NULL;
 	check=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
+	printf("sizePsi is :%ld\n", mdl.sizePsi);
+    // malloc w	
+    mdl.w=(double *)my_malloc(sizeof(double)*mdl.sizePsi);
 	check=fscanf(fp, "w: ");
 	for (i = 0; i < mdl.sizePsi; i++){
-		check=fscanf(fp, "%lf ", &mdl.w[i]);
-	}	
+	check=fscanf(fp, "%lf ", &mdl.w[i]);
+	}
 	check=fscanf(fp, "walpha: %lf\n", &mdl.walpha);
 	// structure model unknown
 	// write struct_model_parameter
@@ -683,16 +702,8 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	check=fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
 	check=fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
 	// write custom arguments
-
 	check=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
 	check=fscanf(fp, "custom_argv: \n");
-	int j = 0;
-	for (i = 0; i < sparm->custom_argc; i++){
-		for(j = 0; j < 300; j++){
-			check=fscanf(fp, "%c ", &(sparm->custom_argv[i][j]));
-		}
-		check=fscanf(fp, "\n");
-	}
 	fclose(fp);
 	if(check==0){printf("\n unknown format in read_struct_model\n");}
 	//if(i) {printf("read_struct_model done!\n");}

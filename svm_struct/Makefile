@@ -58,12 +58,12 @@ svm_struct_clean:
 #----  SVM empty API  ----#
 #-------------------------#
 
-svm_empty_classify: svm_light_hideo_noexe svm_struct_noexe $(OBJ) svm_struct/svm_struct_classify.o svm_struct/svm_struct_common.o svm_struct/svm_struct_main.o $(OUTOBJDIR)myAlgorithm.o
+svm_empty_classify: svm_light_hideo_noexe svm_struct_noexe $(OBJ) svm_struct/svm_struct_classify.o svm_struct/svm_struct_common.o svm_struct/svm_struct_main.o
 	@echo "Compiling: $@"
 #	@$(LD) $(LDFLAGS) $(OBJ) svm_struct/svm_struct_classify.o svm_light/svm_common.o svm_struct/svm_struct_common.o -o svm_empty_classify.app $(INCLUDE) $(LIBS)
 	@gcc -o svm_empty_classify.app $(OBJ) svm_struct/svm_struct_classify.o svm_light/svm_common.o svm_struct/svm_struct_common.o /usr/local/lib/cblas_LINUX.a /usr/local/lib/libblas.a $(LIBS) -L/usr/lib64 -lcblas -lm
 
-svm_empty_learn: svm_light_hideo_noexe svm_struct_noexe $(OBJ) svm_struct/svm_struct_learn.o svm_struct/svm_struct_common.o svm_struct/svm_struct_main.o $(OUTOBJDIR)myAlgorithm.o
+svm_empty_learn: svm_light_hideo_noexe svm_struct_noexe $(OBJ) svm_struct/svm_struct_learn.o svm_struct/svm_struct_common.o svm_struct/svm_struct_main.o
 	@echo "Compiling: $@"
 #	@$(LD) $(LDFLAGS) svm_struct/svm_struct_learn.o $(OBJ) svm_light/svm_hideo.o svm_light/svm_learn.o svm_light/svm_common.o svm_struct/svm_struct_common.o svm_struct/svm_struct_main.o -o svm_empty_learn.app $(INCLUDE) $(LIBS)
 	@gcc -o svm_empty_learn.app svm_struct/svm_struct_learn.o $(OBJ) svm_light/svm_hideo.o svm_light/svm_learn.o svm_light/svm_common.o svm_struct/svm_struct_common.o svm_struct/svm_struct_main.o /usr/local/lib/cblas_LINUX.a /usr/local/lib/libblas.a $(LIBS) -L/usr/lib64 -lcblas -lm
@@ -80,10 +80,6 @@ obj/svm_struct_learn_custom.o: src/svm_struct_learn_custom.c
 #=================
 #==OTHER TARGETS==
 #=================
-$(OUTOBJDIR)myAlgorithm.o:
-	@echo "Compiling object: $@"
-	@cd .. ; make obj/myAlgorithm.o; cd svm_struct
-
 #=================
 #======UTIL=======
 #=================
@@ -93,7 +89,7 @@ ctags:
 	@cd svm_struct; ctags -a *.c include/*.h; cd ..
 	@echo "Tagging svm_light"
 	@cd svm_light; ctags -a *.c *.h; cd ..
-	@ctags -a src/* include/* svm_struct/* svm_light/* 
+	@ctags -a src/* include/* svm_struct/* svm_light/* svm_struct/include/*
 dir:
 	@echo "creating object folder: obj/"
 	@mkdir -p obj

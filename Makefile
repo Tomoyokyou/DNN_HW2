@@ -6,11 +6,11 @@ NVCFLAGS=-Xcompiler -fPIC -std=c++11
 CUDADIR=/usr/local/cuda/
 LIBCUMATDIR=tool/libcumatrix/
 SVMDIR=tool/svm_struct/
-OBJ=obj/svmset.o obj/myAlgorithm.o 
+OBJ=obj/svmset.o
 # ================================
 # = 		ADD EXE HERE         =
 # ================================
-EXECUTABLES=svmGen featNorm
+EXECUTABLES=svmGen featNorm svmTrim
 
 # +==============================+
 # +======== Phony Rules =========+
@@ -49,6 +49,8 @@ svmGen: example/svmFeatureGen.cpp
 	$(CXX) $(CPPFLAGS) -o bin/svmFeatureGen.app $^
 featNorm: example/featureNorm.cpp
 	$(CXX) $(CPPFLAGS) -o bin/featNorm.app $^
+svmTrim: example/svmTrimming.cpp
+	$(CXX) $(CPPFLAGS) -o bin/svmTrim.app $^
 structSvm: svm_empty_learn svm_empty_classify
 svm_empty_learn: 
 	@cd svm_struct; make svm_empty_learn; cd ..
@@ -65,7 +67,8 @@ ctags:
 	@echo "Tagging src directory"
 	@cd src; ctags -a *.cpp ../include/*.h; ctags -a *.cu ../include/*.h; cd ..
 	@echo "Tagging main directory"
-	@ctags -a src/* ; ctags -a svm_struct/*
+	@ctags -a src/* svm_struct/* svm_struct/src/* svm_struct/include/*\
+         svm_struct/svm_struct/* svm_struct/svm_light/* svm_struct/svm_struct/include/*
 
 clean:
 	@echo "All objects and executables removed"
