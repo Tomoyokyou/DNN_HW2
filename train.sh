@@ -3,9 +3,10 @@ kernel_type=0
 order=1
 epsilon=0.05
 loss_type=1
+#=====================
 #TRAIN=/home/hui/model/u10.ark
 TEST=/home/hui/model/test/test_gender.svm
-TRAIN=/home/hui/model/train/svm_fbank.ark
+TRAIN=/home/hui/model/train/train_gender_norm.svm
 MODEL=./model/test.mdl
 OUTPUT=./model/output.txt
 mkdir -p model
