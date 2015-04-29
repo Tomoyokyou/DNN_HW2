@@ -350,7 +350,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   LABEL ybar;
   /* insert your code for computing the label ybar here */
   ybar._label = (int*)malloc(sizeof(int)*x._fnum);
-  //ybar.isEmpty = 0;
   ybar._size = x._fnum;
   
   double* pattern = x._pattern;
@@ -381,20 +380,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   memset(viterbiTrack, -1, sizeof(viterbiTrack));
   
   for(k = 0; k < stateNum; k++){
-	//memset(phi, 0.0, weightLength*sizeof(double));
-	//for(l = 0; l < weightLength; l++){
-	//  phi[l] = 0;
-	//}
-	//memcpy(phi + k*inputDim, pattern, inputDim*sizeof(double));
-	//phi[transIdx + k*stateNum + k] = 1;
-
-	//printf("\n");
-	//print(phi, weightLength);
-	//printf("\n");
-
-	//dotProduct(temp, weight, phi, 0, 0, weightLength);
-	//double sum = cblas_ddot(weightLength, weight, 1, phi, 1) + loss_viterbi(y, k, sparm, 0);
-	//double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, 0);
 	double sum = weight[transIdx + k*stateNum + k] + loss_viterbi(y, k, sparm, 0);
 	for(l = k*inputDim; l < (k+1)*inputDim; l++){
 	  sum += weight[l]*pattern[l-k*inputDim];
@@ -405,16 +390,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   for(i = 1; i < featureNum-1; i++){
     for(k = 0; k < stateNum; k++){
 	  for(j = 0; j < stateNum; j++){
-	    //memset(phi, 0, weightLength*sizeof(double));
-		//for(l = 0; l < weightLength; l++){
-	  	//  phi[l] = 0;
-	    //}
-		//memcpy(phi + k*inputDim, pattern + i*inputDim, inputDim*sizeof(double));
-		//phi[transIdx + j*stateNum + k] = 1;
-
-		//dotProduct(temp, weight, phi, 0, 0, weightLength);
-		//double sum = cblas_ddot(weightLength, weight, 1, phi, 1) + loss_viterbi(y, k, sparm, i);
-		//double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, i);
 		double sum = weight[transIdx + j*stateNum + k] + loss_viterbi(y, k, sparm, i);
 		for(l = k*inputDim; l < (k+1)*inputDim; l++){
 	  	  sum += weight[l]*pattern[i*inputDim + (l-k*inputDim)];
@@ -428,16 +403,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   }
   for(k = 0; k < stateNum; k++){
     for(j = 0; j < stateNum; j++){
-	  //memset(phi, 0, weightLength*sizeof(double));
-	  //for(l = 0; l < weightLength; l++){
-	  //  phi[l] = 0;
-	  //}
-	  //memcpy(phi + k*inputDim, pattern + (featureNum-1)*inputDim, inputDim*sizeof(double));
-      //phi[transIdx + stateNum*stateNum] = 1;
-																				
-	  //dotProduct(temp, weight, phi, 0, 0, weightLength);
-	  //double sum = cblas_ddot(weightLength, weight, 1, phi, 1) + loss_viterbi(y, k, sparm, featureNum-1);
-	  //double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, featureNum-1);
 	  double sum = weight[transIdx + stateNum*stateNum] + loss_viterbi(y, k, sparm, featureNum-1);
       for(l = k*inputDim; l < (k+1)*inputDim; l++){
 	    sum += weight[l]*pattern[(featureNum-1)*inputDim + (l-k*inputDim)];
@@ -570,13 +535,14 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
   if(sparm->loss_function == 0) { /* type 0 loss: 0/1 loss */
                                   /* return 0, if y==ybar. return 1 else */
       assert(y._size == ybar._size);
+	  double count = 0;
 	  int i = 0;
 	  for (i = 0; i < y._size; i++){
 	      if (y._label[i] != ybar._label[i]){
-		      return 1;
+		      count = count + 1;
 		  }
 	  }
-	  return 0; // all match
+	  return count; // all match
   }
   else {
     /* Put your code for different loss functions here. But then
