@@ -115,7 +115,7 @@ int main(int argc, char *argv[])
 			}
 		}
 		insertSeq(labChar,labSeq);
-		fscanf(fid," \n");
+		check=fscanf(fid," \n");
 	}
 	fclose(fid);
 	cout<<"done!"<<endl;
