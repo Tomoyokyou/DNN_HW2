@@ -931,11 +931,7 @@ void find_most_violated_constraint(SVECTOR **fydelta, double *rhs,
   if(sparm->loss_type == SLACK_RESCALING) 
     ybar=find_most_violated_constraint_slackrescaling(ex->x,ex->y,sm,sparm);
   else{
-    rt2 = get_runtime();
-    printf("rta: %f\n", rt2);
     ybar=find_most_violated_constraint_marginrescaling(ex->x,ex->y,sm,sparm);
-    rt2 = get_runtime();
-    printf("rtb: %f\n", rt2);
   }
   if(struct_verbosity>=2) (*rt_viol)+=MAX(get_runtime()-rt2,0);
   

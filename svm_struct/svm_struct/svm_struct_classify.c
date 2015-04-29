@@ -61,12 +61,12 @@ int main (int argc, char* argv[])
   if(struct_verbosity>=1) {
     fprintf(stdout, "done.\n");
   }
-
-  if(model.svm_model->kernel_parm.kernel_type == LINEAR) { /* linear kernel */
-    /* compute weight vector */
+  /*
+  if(model.svm_model->kernel_parm.kernel_type == LINEAR) {
     add_weight_vector_to_linear_model(model.svm_model);
     model.w=model.svm_model->lin_weights;
   }
+  */
   
   if(struct_verbosity>=1) {
     printf("Reading test examples..."); fflush(stdout);

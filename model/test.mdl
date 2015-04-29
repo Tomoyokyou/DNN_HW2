@@ -10,4 +10,5 @@ slack_norm: 1
 loss_type: 2
 loss_function: 0
 custom_argc: 0
-custom_argv: 
+custom_argv:
+-c 0.01
