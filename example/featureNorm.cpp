@@ -178,9 +178,9 @@ void separateGender(vector<frame>* fin,vector<frame>* fout){
 // how to separate gender
 	for(size_t t=0;t<fin->size();++t){
 		check=(fin->at(t)).first;
-		if(check.compare(0,1,"f"))
+		if(check.compare(0,1,"f")==0)
 			female->push_back(fin->at(t));
-		else if(check.compare(0,1,"m"))
+		else if(check.compare(0,1,"m")==0)
 			male->push_back(fin->at(t));
 		else{formatcheck=false;}
 	}
