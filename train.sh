@@ -8,10 +8,10 @@ INITMODEL=model/momentExpInit.mdl
 MODELDIR=model/initexp
 UNIRANGE="0.1 0.5 1 2";
 # ====== new parameters
-C=10
+C=0.01
 #TRAIN=/home/hui/model/u10.ark
 TEST=/home/hui/model/test/test_gender.svm
-TRAIN=/home/hui/model/train/svm_fbank.ark
+TRAIN=/home/hui/model/train/train_gender_norm.svm
 MODEL=./model/test.mdl
 OUTPUT=./model/output.txt
 mkdir -p model
