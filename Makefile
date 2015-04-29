@@ -49,6 +49,8 @@ svmGen: example/svmFeatureGen.cpp
 	$(CXX) $(CPPFLAGS) -o bin/svmFeatureGen.app $^
 featNorm: example/featureNorm.cpp
 	$(CXX) $(CPPFLAGS) -o bin/featNorm.app $^
+svmTrim: example/svmTrimming.cpp
+	$(CXX) $(CPPFLAGS) -o bin/trimSvm.app $^
 structSvm: svm_empty_learn svm_empty_classify
 svm_empty_learn: 
 	@cd svm_struct; make svm_empty_learn; cd ..
