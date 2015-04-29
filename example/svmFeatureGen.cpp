@@ -143,13 +143,19 @@ bool readLabel(ifstream& inf, vector<size_t>* out, const map<string,size_t>& lMa
 	size_t line;
 	map<string,size_t>::const_iterator it;
 	for(line=0;getline(inf,str);++line){
-		if(!parseName(str,hold,','))
+		if(!parseName(str,hold,',')){
+			cerr<<"no comma"<<endl;
 				return false;
-		if(!parseName(str,hold,' '))
+		}
+		if(!parseName(str,hold,' ')){
+			cerr<<"no label"<<endl;
 				return false;
+		}
 		it=lMap.find(hold);
-		if(it==lMap.end())
+		if(it==lMap.end()){
+			cerr<<"not in map"<<endl;
 				return false;
+		}
 		out->push_back(it->second);
 	}
 	return true;
