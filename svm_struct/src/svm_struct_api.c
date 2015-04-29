@@ -23,6 +23,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <float.h>
+#include "cblas.h"
 #include "svm_struct_common.h"
 #include "svm_struct_api.h"
 
@@ -384,7 +385,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   size_t transIdx = inputDim * stateNum;
   int* seq = ybar._label;
 
-  //printf("WeightLength: %d, LatterPart: %d. \n", weightLength, stateNum * stateNum + inputDim * stateNum + 1);
   assert( weightLength == stateNum * stateNum + inputDim * stateNum + 1);
 
   size_t i = 0;
@@ -392,8 +392,8 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
   size_t k = 0;
   size_t l = 0;
   for(l = 0; l < featureNum; l++){
-     seq[l] = 0;
-  }
+  	seq[l] = 0;
+
 
   double viterbiTemp[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
   int viterbiTrack[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
@@ -426,6 +426,8 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
     for(l = k*inputDim; l < (k+1)*inputDim; l++){
 	      sum += weight[l]*pattern[l-k*inputDim];
 		      }
+	//double sum = cblas_ddot(weightLength, weight, 1, phi, 1) + loss_viterbi(y, k, sparm, 0);
+	//double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, 0);
 	viterbiTemp[k][0] = sum;
   }
   for(i = 1; i < featureNum-1; i++){
@@ -444,6 +446,16 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 		double sum = weight[transIdx + j*stateNum + k] + loss_viterbi(y, k, sparm, i);
 		for(l = k*inputDim; l < (k+1)*inputDim; l++){
 			sum += weight[l]*pattern[i*inputDim + (l-k*inputDim)];
+	    //memset(phi, 0, weightLength*sizeof(double));
+		//for(l = 0; l < weightLength; l++){
+	  	//  phi[l] = 0;
+	    //}
+		//memcpy(phi + k*inputDim, pattern + i*inputDim, inputDim*sizeof(double));
+		//phi[transIdx + j*stateNum + k] = 1;
+
+		//dotProduct(temp, weight, phi, 0, 0, weightLength);
+		//double sum = cblas_ddot(weightLength, weight, 1, phi, 1) + loss_viterbi(y, k, sparm, i);
+		//double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, i);
 		}
 		if( viterbiTemp[k][i] < sum + viterbiTemp[j][i-1] ){
 		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
@@ -464,10 +476,20 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 	  //thrust::transform(phi.begin(), phi.end(), ptrW, temp.begin(), thrust::multiplies<double>());
 	  //double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, featureNum-1);
 	  //double sum = thrust::reduce(temp.begin(), temp.end(), (double) 0, thrust::plus<double>());
+	  //for(l = 0; l < weightLength; l++){
+	  //  phi[l] = 0;
+	  //}
+	  //memcpy(phi + k*inputDim, pattern + (featureNum-1)*inputDim, inputDim*sizeof(double));
+      //phi[transIdx + stateNum*stateNum] = 1;
+																				
+	  //dotProduct(temp, weight, phi, 0, 0, weightLength);
+	  //double sum = cblas_ddot(weightLength, weight, 1, phi, 1) + loss_viterbi(y, k, sparm, featureNum-1);
+	  //double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, featureNum-1);
 	  double sum = weight[transIdx + stateNum*stateNum] + loss_viterbi(y, k, sparm, featureNum-1);
-	  for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	  	sum += weight[l]*pattern[(featureNum-1)*inputDim + (l-k*inputDim)];
+      for(l = k*inputDim; l < (k+1)*inputDim; l++){
+	    sum += weight[l]*pattern[(featureNum-1)*inputDim + (l-k*inputDim)];
 	  }
+	  
 	  if( viterbiTemp[k][featureNum-1] < sum + viterbiTemp[j][featureNum-2] ){
 	    viterbiTemp[k][featureNum-1] = sum + viterbiTemp[j][featureNum-2];
 		viterbiTrack[k][featureNum-1] = j;
@@ -489,6 +511,14 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y,
 	seq[i-1] = idx;
   }
  //printf("done find most violated\n");
+  /*
+  for(i = 0; i < featureNum; i++){
+  	printf("%lu %lu\n", seq[i], y._label[i]);
+  }
+  printf("\n");
+  */
+
+  //printf("done find most violated\n");
   //free(phi);
   //free(temp);
   return(ybar);
