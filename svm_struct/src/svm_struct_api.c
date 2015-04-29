@@ -605,7 +605,15 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
     /* Put your code for different loss functions here. But then
        find_most_violated_constraint_???(x, y, sm) has to return the
        highest scoring label with the largest loss. */
-		return 1; //TODO  return true loss instead of 1
+  
+      assert(y._size == ybar._size);
+	  int i = 0, err = 0;
+	  for (i = 0; i < y._size; i++){
+	      if (y._label[i] != ybar._label[i]){
+		      err ++;
+		  }
+      }
+	  return err;
   }
 }
 double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index){
