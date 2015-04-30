@@ -240,6 +240,7 @@ void write(ofstream& out,vector<frame>* f_ptr,vector<size_t>* l_ptr,const vector
 				out<<"["<<l_ptr->at(acc+k);
 			else if(type==1)
 				out<<"[";
+
 		for(size_t l=0;l<(f_ptr->at(acc+k)).second.size();++l)
 				out<<" "<<fixed<<setprecision(6)<<(f_ptr->at(acc+k)).second.at(l);
 				out<<"]\n";
