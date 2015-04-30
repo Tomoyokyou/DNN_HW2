@@ -823,11 +823,13 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	       svmModel->sv_num-1,ceps,svmModel->maxdiff);
 
       rt_total+=MAX(get_runtime()-rt1,0);
-	printf("time is %lf\n", rt_total);
 	//printf("cached_constraint: %d\n", cached_constraint);
 	//printf("ceps: %lf\n", ceps);
 	//printf("epsilon: %lf\n", sparm->epsilon);
   	//if (numIt > 1) break;
+  // write model
+  if (numIt != 0 && numIt % 100 == 0)
+  	write_struct_model("./model/temp.mdl", sm, sparm);
   } while(cached_constraint || (ceps > sparm->epsilon) || 
 	  finalize_iteration(ceps,cached_constraint,sample,sm,cset,alpha,sparm)
 	 );
