@@ -64,18 +64,19 @@ void insertSeq(const vector<string>& vin,vector<string>& vout){
 	vout.push_back(seq);
 }
 void trim(vector<string>& in){
-	size_t wsize=5;
-	for(size_t t=2;t<(in.size()-2)/2;t=t+2){
-		if( in[t-2]==in[t-1] && in[t]!=in[t-1] && in[t+1]==in[t+2] && in[t-1]==in[t+1] )
-			in[t]=in[t-1];
+	int center=2;//wsize=5
+	while(center+2<in.size()){
+		if( (in[center-2]==in[center-1] && in[center]!=in[center-1]) &&( in[center+1]==in[center+2] && in[center-1]==in[center+1]) )
+			in[center]=in[center-1];
 		else{
-			if(in[t-2]==in[t]&&in[t-1]!=in[t])
-				in[t-1]=in[t-2];
-			if(in[t-1]==in[t+1]&&in[t]!=in[t-1])
-				in[t]=in[t-1];
-			if(in[t]==in[t+2]&&in[t+1]!=in[t])
-				in[t+1]=in[t];
+			if(in[center-2]==in[center]&&in[center-1]!=in[center])
+				in[center-1]=in[center-2];
+			if(in[center-1]==in[center+1]&&in[center]!=in[center-1])
+				in[center]=in[center-1];
+			if(in[center]==in[center+2]&&in[center+1]!=in[center])
+				in[center+1]=in[center];
 		}
+		center=center+2;
 	}
 }
 void myUsage(){
