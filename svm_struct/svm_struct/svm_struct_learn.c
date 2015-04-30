@@ -354,8 +354,6 @@ void svm_learn_struct(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 
 	} /* end of example loop */
 
-	rt1=get_runtime();
-    printf("time is %lf\n", rt1);	
 	if(struct_verbosity>=1)
 	  printf("(NumConst=%d, SV=%ld, CEps=%.4f, QPEps=%.4f)\n",cset.m,
 		 svmModel->sv_num-1,ceps,svmModel->maxdiff);
