@@ -154,7 +154,7 @@ void        init_struct_model(SAMPLE sample, STRUCTMODEL *sm,
      contain the learned weights for the model. */
 
 
-  sm->sizePsi=5616; /* replace by appropriate number of features */
+  sm->sizePsi=5617; /* replace by appropriate number of features */
 
 }
 
@@ -211,75 +211,20 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
 
 /* insert your code for computing the predicted label y here */
   y._label = (int*)malloc(sizeof(int)*x._fnum);
+  //y.isEmpty = 0;
   y._size = x._fnum;
 
   double* pattern = x._pattern;
-  int featureNum = x._fnum;
-  int inputDim = x._dim;
-  int stateNum = MAX_STATE_SIZE;
+  size_t featureNum = x._fnum;
+  size_t inputDim = x._dim;
+  size_t stateNum = MAX_STATE_SIZE;
 
   double* weight = sm->w;
-  int weightLength = sm->sizePsi;
-  int transIdx = inputDim * stateNum;
+  size_t weightLength = sm->sizePsi;
+  size_t transIdx = inputDim * stateNum;
   int* seq = y._label;
-  assert( weightLength == stateNum * stateNum + inputDim * stateNum);
+  assert( weightLength == stateNum * stateNum + inputDim * stateNum + 1);
 
-  int i = 0;
-  int j = 0;
-  int k = 0;
-  int l = 0;
-  for(l = 0; l < featureNum; l++){
-  	seq[l] = -1;
-  }
-  double viterbiTemp[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
-  int viterbiTrack[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
-
-  for(k = 0; k < stateNum; k++){
-	double sum = 0.0;
-    for(l = k*inputDim; l < (k+1)*inputDim; l++){
-		sum += weight[1+l]*pattern[l-k*inputDim];
-	}
-	viterbiTemp[k][0] = sum;
-	viterbiTrack[k][0] = -1;
-  }
-
-  for(i = 1; i < featureNum; i++){
-    for(k = 0; k < stateNum; k++){
-	  double sum = 0.0;
-	  for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	    sum += weight[1+l]*pattern[i*inputDim + (l-k*inputDim)];
-	  }
-	  for(j = 0; j < stateNum; j++){
-		double temp = weight[1+transIdx + j*stateNum + k];
-	    sum += temp;
-		if(j == 0){
-		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
-		  viterbiTrack[k][i] = j;
-		}
-		else if( viterbiTemp[k][i] < sum + viterbiTemp[j][i-1] ){
-		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
-		  viterbiTrack[k][i] = j;
-		}
-		sum -= temp;
-	  }
-	}
-  }
-
-  // Back tracking
-  double maxValue = viterbiTemp[0][featureNum-1];
-  int idx = 0;
-  for(j = 1; j < stateNum; j++){
-    if(maxValue < viterbiTemp[j][featureNum-1]){
-	  maxValue = viterbiTemp[j][featureNum-1];
-	  idx = j;
-	}
-  }
-  seq[featureNum-1] = idx;
-  for(i = featureNum-1; i > 0; i--){
-    idx = viterbiTrack[idx][i];
-	seq[i-1] = idx;
-  }
-  /*
   size_t i = 0;
   size_t j = 0;
   size_t k = 0;
@@ -296,9 +241,9 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
   memset(viterbiTrack, -1, sizeof(viterbiTrack));
 
   for(k = 0; k < stateNum; k++){
-	double sum = weight[1+transIdx + k*stateNum + k];
+	double sum = weight[transIdx + k*stateNum + k];
 	for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	  sum += weight[1+l]*pattern[l-k*inputDim];
+	  sum += weight[l]*pattern[l-k*inputDim];
 	}
 	viterbiTemp[k][0] = sum;
   }
@@ -306,9 +251,9 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
   for(i = 1; i < featureNum-1; i++){
     for(k = 0; k < stateNum; k++){
 	  for(j = 0; j < stateNum; j++){
-		double sum = weight[1+transIdx + j*stateNum + k];
+		double sum = weight[transIdx + j*stateNum + k];
 		for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	  	  sum += weight[1+l]*pattern[i*inputDim + (l-k*inputDim)];
+	  	  sum += weight[l]*pattern[i*inputDim + (l-k*inputDim)];
 		}
 		if( viterbiTemp[k][i] < sum + viterbiTemp[j][i-1] ){
 		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
@@ -320,9 +265,9 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
 
   for(k = 0; k < stateNum; k++){
     for(j = 0; j < stateNum; j++){
-	  double sum = weight[1+transIdx + stateNum*stateNum] + loss_viterbi(y, k, sparm, featureNum-1);
+	  double sum = weight[transIdx + stateNum*stateNum] + loss_viterbi(y, k, sparm, featureNum-1);
       for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	    sum += weight[1+l]*pattern[(featureNum-1)*inputDim + (l-k*inputDim)];
+	    sum += weight[l]*pattern[(featureNum-1)*inputDim + (l-k*inputDim)];
 	  }
 	  if( viterbiTemp[k][featureNum-1] < sum + viterbiTemp[j][featureNum-2] ){
 	    viterbiTemp[k][featureNum-1] = sum + viterbiTemp[j][featureNum-2];
@@ -345,7 +290,7 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
     idx = viterbiTrack[idx][i];
 	seq[i-1] = idx;
   }
-  */
+
   return(y);
 }
 
@@ -406,8 +351,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
      Psi(x,ybar)>Psi(x,y)-1. If the function cannot find a label, it
      shall return an empty label as recognized by the function
      empty_label(y). */
-
-
   LABEL ybar;
   /* insert your code for computing the label ybar here */
   ybar._label = (int*)malloc(sizeof(int)*x._fnum);
@@ -423,7 +366,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   int transIdx = inputDim * stateNum;
   int* seq = ybar._label;
 
-  assert( weightLength == stateNum * stateNum + inputDim * stateNum);
+  assert( weightLength == stateNum * stateNum + inputDim * stateNum + 1);
 
   int i = 0;
   int j = 0;
@@ -435,24 +378,33 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   double viterbiTemp[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
   int viterbiTrack[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
 
+  //memset(viterbiTemp, -DBL_MAX, sizeof(viterbiTemp));
+  //memset(viterbiTrack, -1, sizeof(viterbiTrack));
+  
+  //size_t i = 0;
+  //size_t j = 0;
+  //size_t k = 0;
   for(k = 0; k < stateNum; k++){
+	//double sum = weight[transIdx + k*stateNum + k] + loss_viterbi(y, k, sparm, 0);
 	double sum = loss_viterbi(y, k, sparm, 0);
+	//double sum = isEqual(y._label[0], k);
     for(l = k*inputDim; l < (k+1)*inputDim; l++){
-		sum += weight[1+l]*pattern[l-k*inputDim];
+		sum += weight[l]*pattern[l-k*inputDim];
 	}
+	//double sum = cblas_ddot(weightLength, weight, 1, phi, 1) + loss_viterbi(y, k, sparm, 0);
+	//double sum = sumOfVec(temp, weightLength) + loss_viterbi(y, k, sparm, 0);
 	viterbiTemp[k][0] = sum;
 	viterbiTrack[k][0] = -1;
   }
 
-  for(i = 1; i < featureNum; i++){
+  for(i = 1; i < featureNum-1; i++){
     for(k = 0; k < stateNum; k++){
-	  double sum = loss_viterbi(y, k, sparm, i);
-	  for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	    sum += weight[1+l]*pattern[i*inputDim + (l-k*inputDim)];
-	  }
 	  for(j = 0; j < stateNum; j++){
-		double temp = weight[1+transIdx + j*stateNum + k];
-	    sum += temp;
+		double sum = weight[transIdx + j*stateNum + k] + loss_viterbi(y, k, sparm, i);
+		//double sum = weight[transIdx + j*stateNum + k] + isEqual(y._label[i], k);
+		for(l = k*inputDim; l < (k+1)*inputDim; l++){
+	  	  sum += weight[l]*pattern[i*inputDim + (l-k*inputDim)];
+		}
 		if(j == 0){
 		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
 		  viterbiTrack[k][i] = j;
@@ -461,11 +413,27 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
 		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
 		  viterbiTrack[k][i] = j;
 		}
-		sum -= temp;
 	  }
 	}
   }
-
+  for(k = 0; k < stateNum; k++){
+    for(j = 0; j < stateNum; j++){
+	  //double sum = weight[transIdx + stateNum*stateNum] + loss_viterbi(y, k, sparm, featureNum-1);
+	  double sum = loss_viterbi(y, k, sparm, featureNum-1);
+	  //double sum = isEqual(y._label[featureNum-1], k);
+      for(l = k*inputDim; l < (k+1)*inputDim; l++){
+	    sum += weight[l]*pattern[(featureNum-1)*inputDim + (l-k*inputDim)];
+	  }
+	  if(j == 0){
+	    viterbiTemp[k][featureNum-1] = sum + viterbiTemp[j][featureNum-2];
+		viterbiTrack[k][featureNum-1] = j;
+	  } 
+	  else if( viterbiTemp[k][featureNum-1] < sum + viterbiTemp[j][featureNum-2] ){
+	    viterbiTemp[k][featureNum-1] = sum + viterbiTemp[j][featureNum-2];
+		viterbiTrack[k][featureNum-1] = j;
+	  }
+	}
+  }
   // Back tracking
   double maxValue = viterbiTemp[0][featureNum-1];
   int idx = 0;
@@ -479,8 +447,28 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   for(i = featureNum-1; i > 0; i--){
     idx = viterbiTrack[idx][i];
 	seq[i-1] = idx;
+	//if(y._label[i-1] == seq[i-1] ){
+	//	printf("%u,%u,%u,%lf ", i-1, y._label[i-1], seq[i-1], loss_viterbi(y, seq[i-1], sparm, i-1));
+	//}
   }
-
+  /*
+  for(i = 0; i < featureNum; i++){
+  	printf("%lu %lu\n", seq[i], y._label[i]);
+  }
+  printf("\n");
+  */
+  //SVECTOR *debug;
+  //debug = psi(x, ybar, sm, sparm);
+  //double dot = 0;
+  //for(i = 0; i < weightLength; i++){
+  //	dot += weight[i]*(debug->words[i].weight);
+  //}
+  //dot += loss(y, ybar, sparm);
+  //printf("FeatureNum: %lu, Viterbi value: %lf, Dot value: %lf\n",featureNum, maxValue, dot);
+  //assert(maxValue - dot  < 0.00001 );
+  //static int cnt = 0;
+  //printf("%u\n", cnt);
+  //cnt++;
   return(ybar);
 }
 
@@ -608,7 +596,11 @@ double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index
   /* loss for correct label y and predicted label ybar. The loss for
      y==ybar has to be zero. sparm->loss_function is set with the -l option. */
   //printf("bla : %d\n", sizeof(y._label));
+<<<<<<< Updated upstream
 	if (state == y._label[index]){ return 0; }
+=======
+	if (state == (int)y._label[index]){ return 0; }
+>>>>>>> Stashed changes
 	else { return 1; } // all match
 }
 
@@ -723,13 +715,11 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	check=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
 	printf("sizePsi is :%ld\n", mdl.sizePsi);
     // malloc w	
-    mdl.w=(double *)my_malloc(sizeof(double)*(mdl.sizePsi + 1));
+    mdl.w=(double *)my_malloc(sizeof(double)*mdl.sizePsi);
 	check=fscanf(fp, "w: ");
-	mdl.w[0] = 0;
-	for (i = 1; i <= mdl.sizePsi; i++){
+	for (i = 0; i < mdl.sizePsi; i++){
 	check=fscanf(fp, "%lf ", &mdl.w[i]);
 	}
-	//mdl.sizePsi ++;
 	check=fscanf(fp, "walpha: %lf\n", &mdl.walpha);
 	// structure model unknown
 	// write struct_model_parameter

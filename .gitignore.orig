@@ -38,8 +38,13 @@ bin/*
 tags
 */tags
 
+<<<<<<< HEAD
 # model file
 model/
-
-# train.sh
-train.sh
+=======
+# model
+*.mdl
+*.txt
+model/*
+*/*.mdl
+>>>>>>> FETCH_HEAD
