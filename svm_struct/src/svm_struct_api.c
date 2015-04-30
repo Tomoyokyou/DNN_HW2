@@ -620,17 +620,8 @@ double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index
   /* loss for correct label y and predicted label ybar. The loss for
      y==ybar has to be zero. sparm->loss_function is set with the -l option. */
   //printf("bla : %d\n", sizeof(y._label));
-  if(sparm->loss_function == 0) { /* type 0 loss: 0/1 loss */
-                                  /* return 0, if y==ybar. return 1 else */
 	if (state == y._label[index]){ return 0; }
 	else { return 1; } // all match
-  }
-  else {
-    /* Put your code for different loss functions here. But then
-       find_most_violated_constraint_???(x, y, sm) has to return the
-       highest scoring label with the largest loss. */
-		return 1; //TODO  return true loss instead of 1
-  }
 }
 
 int         finalize_iteration(double ceps, int cached_constraint,
@@ -738,6 +729,7 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	int i;
 	int check=1;	
 	fp = fopen(file, "r");
+	if (fp != NULL){
 	// read struct model
 	mdl.svm_model = NULL;
 	check=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
@@ -762,6 +754,8 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	// write custom arguments
 	check=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
 	check=fscanf(fp, "custom_argv: \n");
+	}
+	else printf("can't read in model file!\n");
 	fclose(fp);
 	if(check==0){printf("\n unknown format in read_struct_model\n");}
 	//if(i) {printf("read_struct_model done!\n");}

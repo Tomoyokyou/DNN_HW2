@@ -11,4 +11,4 @@ MODEL=./model/test.mdl
 OUTPUT=./model/output.txt
 mkdir -p model
 ./svm_struct/svm_empty_learn.app -c ${C} -t ${kernel_type} -d ${order} -e ${epsilon} -l ${loss_type} ${TRAIN} ${MODEL} 
-./svm_struct/svm_empty_classify.app ${TEST} ${MODEL} ${OUTPUT}
+#gdb --args ./svm_struct/svm_empty_classify.app ${TEST} ${MODEL} ${OUTPUT}
