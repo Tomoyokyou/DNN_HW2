@@ -43,3 +43,4 @@ tags
 *.txt
 model/*
 */*.mdl
+*.csv
