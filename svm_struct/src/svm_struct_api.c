@@ -527,7 +527,7 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
 	double factor = 1;
 	size_t feature_vector_size = x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX;
       
-      	words = (WORD*)calloc(feature_vector_size+1,sizeof(WORD));
+      	words = (WORD*)calloc(feature_vector_size+1, sizeof(WORD));
       	int prevLabel = LABEL_MAX;
       	size_t i,j;
       	for( i=0;i<x._fnum;i++){
@@ -546,7 +546,8 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
       }
 	words[feature_vector_size].wnum=0;
 	words[feature_vector_size].weight=0;
-	fvec = create_svector(words,NULL,factor);    
+	fvec = create_svector(words,NULL,factor); 
+	free(words);
 /*
   assert(x._fnum==y._size);
 	SVECTOR *fvec = (SVECTOR*)malloc(sizeof(SVECTOR));
