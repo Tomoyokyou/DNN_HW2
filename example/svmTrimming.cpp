@@ -40,16 +40,44 @@ string getFrameName(string str){
 }
 void insertSeq(const vector<string>& vin,vector<string>& vout){
 	string seq="";
-	size_t end=vin.size();
+	size_t begin=0,end=vin.size();
+	while(begin<vin.size()){
+		if(vin[begin].compare("L")==0)
+			begin++;
+		else
+			break;
+	}
 	while(end>0){
 		if(vin[end-1].compare("L")==0)
 			end--;
 		else
 			break;
 	}
-	for(size_t t=0;t<end;++t)
-		seq=seq+vin[t];
+	string c_str="",n_str;
+	for(size_t t=begin;t<end;++t){
+		n_str=vin[t];
+		if(n_str.compare(c_str)!=0){
+			seq=seq+n_str;
+			c_str=n_str;
+		}
+	}
 	vout.push_back(seq);
+}
+void trim(vector<string>& in){
+	int center=2;//wsize=5
+	while(center+2<in.size()){
+		if( (in[center-2]==in[center-1] && in[center]!=in[center-1]) &&( in[center+1]==in[center+2] && in[center-1]==in[center+1]) )
+			in[center]=in[center-1];
+		else{
+			if(in[center-2]==in[center]&&in[center-1]!=in[center])
+				in[center-1]=in[center-2];
+			if(in[center-1]==in[center+1]&&in[center]!=in[center-1])
+				in[center]=in[center-1];
+			if(in[center]==in[center+2]&&in[center+1]!=in[center])
+				in[center+1]=in[center];
+		}
+		center=center+2;
+	}
 }
 void myUsage(){
 	cout<<"trimming.app <labelSeq> <test.ark> <mapfile> <outfile>"<<endl;
@@ -98,7 +126,6 @@ int main(int argc, char *argv[])
 	vector<string> labChar;
 	vector<string> labSeq;
 	map<int,string>::iterator it;
-	c_str="L";n_str="";
 	fid=fopen(in,"r");
 	if(!fid){cerr<<"ERROR: fail opening frame file!\n";return 1;}
 	cout<<"reading frame file...";
@@ -108,12 +135,9 @@ int main(int argc, char *argv[])
 			check=fscanf(fid," %d",&label);
 			it=labelMap.find(label);
 			if(it==labelMap.end()){cerr<<"unknown label...aborted"<<endl;return 1;}
-			n_str=it->second;
-			if(n_str.compare(c_str)!=0){
-				labChar.push_back(n_str);
-				c_str=n_str;
-			}
+			labChar.push_back(it->second);
 		}
+		trim(labChar);
 		insertSeq(labChar,labSeq);
 		check=fscanf(fid," \n");
 	}
