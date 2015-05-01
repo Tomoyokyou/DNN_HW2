@@ -247,10 +247,10 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
     for(k = 0; k < stateNum; k++){
 	  double sum = 0.0;
 	  for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	    sum += weight[1+l]*pattern[i*inputDim + (l-k*inputDim)];
+	    sum += weight[1 + l]*pattern[i*inputDim + (l-k*inputDim)];
 	  }
 	  for(j = 0; j < stateNum; j++){
-		double temp = weight[1+transIdx + j*stateNum + k];
+		double temp = weight[1 + transIdx + j*stateNum + k];
 	    sum += temp;
 		if(j == 0){
 		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
@@ -432,13 +432,14 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   for(l = 0; l < featureNum; l++){
   	seq[l] = -1;
   }
+
   double viterbiTemp[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
   int viterbiTrack[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
 
   for(k = 0; k < stateNum; k++){
 	double sum = loss_viterbi(y, k, sparm, 0);
-    for(l = k*inputDim; l < (k+1)*inputDim; l++){
-		sum += weight[1+l]*pattern[l-k*inputDim];
+    for(l = 0; l < inputDim; l++){
+		sum += weight[1 + k*inputDim + l] * pattern[l];
 	}
 	viterbiTemp[k][0] = sum;
 	viterbiTrack[k][0] = -1;
@@ -447,11 +448,11 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   for(i = 1; i < featureNum; i++){
     for(k = 0; k < stateNum; k++){
 	  double sum = loss_viterbi(y, k, sparm, i);
-	  for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	    sum += weight[1+l]*pattern[i*inputDim + (l-k*inputDim)];
+	  for(l = 0; l < inputDim; l++){
+	    sum += weight[1 + k*inputDim + l] * pattern[i*inputDim + l];
 	  }
 	  for(j = 0; j < stateNum; j++){
-		double temp = weight[1+transIdx + j*stateNum + k];
+		double temp = weight[1 + transIdx + j*stateNum + k];
 	    sum += temp;
 		if(j == 0){
 		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
@@ -480,6 +481,18 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
     idx = viterbiTrack[idx][i];
 	seq[i-1] = idx;
   }
+
+  /* Debug section*/
+  SVECTOR* psiVec = psi(x, ybar, sm, sparm);
+  double dot = 0;
+  for(l = 0; l < weightLength; l++)
+  	dot += psiVec->words[l].weight * weight[1 + l];
+
+  dot += loss(y, ybar, sparm);
+  if(maxValue - dot > 0.000001){
+  	printf("MaxValue: %lf, Dot: %lf \n", maxValue, dot);
+  }
+  //assert(maxValue - (dot + loss(y, ybar, sparm)) < 0.00001);
 
   return(ybar);
 }
@@ -530,20 +543,17 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
       	words = (WORD*)calloc(feature_vector_size+1, sizeof(WORD));
       	int prevLabel = LABEL_MAX;
       	size_t i,j;
-      	for( i=0;i<x._fnum;i++){
-        	 for(j=0;j<x._dim;j++){
-                	      words[x._dim*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
-
-              		}		
-
-             	 if(i>0) words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
-
+      	for(i = 0; i<x._fnum;i++){
+        	for(j=0;j<x._dim;j++){
+            	words[x._dim*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
+          	}		
+            if(i>0) words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
       		prevLabel = y._label[i];
-      }
+      	}
 
-      for( i=0;i<feature_vector_size;i++){
+        for( i=0;i<feature_vector_size;i++){
               words[i].wnum = i+1;
-      }
+        }
 	words[feature_vector_size].wnum=0;
 	words[feature_vector_size].weight=0;
 	fvec = create_svector(words,NULL,factor); 
@@ -671,7 +681,7 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
 	
 	fprintf(fp, "w: ");
 	for (i = 0; i < sm->sizePsi; i++){
-		fprintf(fp, "%lf ", sm->w[i]);
+		fprintf(fp, "%lf ", sm->w[i+1]);
 		//printf("%lf ", sm->w[i]);
 	}
 	fprintf(fp, "\n");

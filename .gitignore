@@ -33,6 +33,7 @@ bin/*
 
 # Log file
 *.log
+log/
 
 # Tags
 tags
@@ -41,16 +42,15 @@ tags
 
 # train.sh
 train.sh
-<<<<<<< HEAD
+*.sh
+
 # model
 *.mdl
 *.txt
 model/*
 */*.mdl
 *.csv
-=======
 
 # backup .orig file
 ./**/*.orig
 *.orig
->>>>>>> c708e9be08881b4b1c807ae7ac40ee3669506e3b
