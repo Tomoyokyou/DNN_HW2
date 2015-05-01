@@ -39,12 +39,17 @@ log/
 tags
 */tags
 
-# model file
-model/
 
 # train.sh
 train.sh
 *.sh
+
+# model
+*.mdl
+*.txt
+model/*
+*/*.mdl
+*.csv
 
 # backup .orig file
 ./**/*.orig
