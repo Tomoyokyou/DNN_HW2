@@ -482,19 +482,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
 	seq[i-1] = idx;
   }
 
-  /* Debug section*/
-  SVECTOR* psiVec = psi(x, ybar, sm, sparm);
-  double dot = 0;
-  for(l = 0; l < weightLength; l++)
-  	dot += psiVec->words[l].weight * weight[1 + l];
-
-  dot += loss(y, ybar, sparm);
-  /*if(maxValue - dot > 0.000001){
-  	printf("MaxValue: %lf, Dot: %lf \n", maxValue, dot);
-  }
-  */
-  //assert(maxValue - (dot + loss(y, ybar, sparm)) < 0.00001);
-
   return(ybar);
 }
 
@@ -533,57 +520,38 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
      that ybar!=y that maximizes psi(x,ybar,sm)*sm.w (where * is the
      inner vector product) and the appropriate function of the
      loss + margin/slack rescaling method. See that paper for details. */
-     SVECTOR *fvec=NULL;
+     SVECTOR *fvec=(SVECTOR * )my_malloc(sizeof(SVECTOR));
 	
   /* insert code for computing the feature vector for x and y here */
-	WORD* words;
+	//WORD* words;
 	assert(y._size != 0);
-	double factor = 1;
 	size_t feature_vector_size = x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX;
-      
-      	words = (WORD*)calloc(feature_vector_size+1, sizeof(WORD));
-      	int prevLabel = LABEL_MAX;
       	size_t i,j;
+      
+      	fvec->words = (WORD*)my_malloc((feature_vector_size+1)* sizeof(WORD));
+	for(i=0;i<feature_vector_size+1;++i)
+		fvec->words[i].weight=0.0;
+      	int prevLabel = LABEL_MAX;
       	for(i = 0; i<x._fnum;i++){
         	for(j=0;j<x._dim;j++){
-            	words[x._dim*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
+            	fvec->words[x._dim*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
           	}		
-            if(i>0) words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
+            if(i>0) fvec->words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
       		prevLabel = y._label[i];
       	}
 
         for( i=0;i<feature_vector_size;i++){
-              words[i].wnum = i+1;
-        }
-	words[feature_vector_size].wnum=0;
-	words[feature_vector_size].weight=0;
-	fvec = create_svector(words,NULL,factor); 
-	free(words);
-/*
-  assert(x._fnum==y._size);
-	SVECTOR *fvec = (SVECTOR*)malloc(sizeof(SVECTOR));
-      size_t feature_vector_size = x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX;
-      
-      fvec->words = (WORD*)calloc(feature_vector_size+1,sizeof(WORD));
-      int prevLabel = LABEL_MAX;
-      size_t i,j;
-      for( i=0;i<x._fnum;i++){
-              for(j=0;j<x._dim;j++){
-                      fvec->words[x._dim*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
-
-              }
-
-              if(i>0) fvec->words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
-
-      		prevLabel = y._label[i];
-      }
-
-      for( i=0;i<feature_vector_size;i++){
               fvec->words[i].wnum = i+1;
-      }
-*/
-	//for test
-	//write_psi("TEST.txt",fvec);
+        }
+	fvec->words[feature_vector_size].wnum=0;
+	fvec->words[feature_vector_size].weight=0.0;
+	fvec->twonorm_sq = -1;
+	fvec->userdefined = NULL;
+	fvec->kernel_id=0;
+	fvec->next=NULL;
+	fvec->factor = 1;
+	//fvec = create_svector(words,NULL,factor); 
+	//free(words);
 		return(fvec);
 }
 
