@@ -33,6 +33,7 @@ bin/*
 
 # Log file
 *.log
+log/
 
 # Tags
 tags
@@ -43,6 +44,7 @@ model/
 
 # train.sh
 train.sh
+*.sh
 
 # backup .orig file
 ./**/*.orig
