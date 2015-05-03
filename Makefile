@@ -51,6 +51,8 @@ svmTrim: example/svmTrimming.cpp
 	$(CXX) $(CPPFLAGS) -o bin/svmTrim.app $^
 svmValGen: example/svmValidationGen.cpp
 	$(CXX) $(CPPFLAGS) -o bin/svmValGen.app $^
+makeFrameData: example/makeFrameData.cpp
+	$(CXX) $(CPPFLAGS) -o bin/makeFrameData.app $^
 structSvm: svm_empty_learn svm_empty_classify
 svm_empty_learn: 
 	@cd svm_struct; make svm_empty_learn; cd ..
