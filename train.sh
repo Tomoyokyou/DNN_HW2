@@ -1,4 +1,4 @@
-C=1
+C=10
 kernel_type=0
 order=1
 epsilon=0.05
