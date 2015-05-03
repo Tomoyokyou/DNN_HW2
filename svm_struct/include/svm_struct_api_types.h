@@ -66,6 +66,7 @@ typedef struct label {
   /* this defines the y-part (the label) of a training example,
      e.g. the parse tree of the corresponding sentence. */
 	int* _label;
+	int* _count;
 	int  _isEmpty;
 	int  _size; // the number of frames in this utterance
 } LABEL;
