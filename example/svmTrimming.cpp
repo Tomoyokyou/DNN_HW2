@@ -79,6 +79,34 @@ void trim(vector<string>& in){
 		center=center+2;
 	}
 }
+vector<string> delRepeat(vector<string>& in, size_t repeatNum){
+	vector<string> in_delRepeat;
+	string prevStr = "";
+	size_t repeat = 1;
+	for(size_t i=0;i<in.size();i++){	
+		if(in[i].compare(prevStr)==0){
+			 repeat++;
+		}
+		else if(in[i].compare(prevStr)!=0 && i!=0){
+			if(repeat>repeatNum){
+				for(size_t j=0;j<repeat;j++){
+					in_delRepeat.push_back(prevStr);
+				}	
+			}
+			repeat=1;					
+		} 	
+		if(i==in.size()-1){
+			if(repeat>repeatNum){
+				for(size_t j=0;j<repeat;j++){
+					in_delRepeat.push_back(prevStr);
+				}
+			}
+		}
+		prevStr = in[i];
+	}
+	return in_delRepeat;
+}
+
 void myUsage(){
 	cout<<"trimming.app <labelSeq> <test.ark> <mapfile> <outfile>"<<endl;
 }
@@ -123,8 +151,10 @@ int main(int argc, char *argv[])
 	FILE* fid;
 	char buf[80];
 	int fsize,label,check,count=0;
+	size_t repeatNum = 3;
 	vector<string> labChar;
 	vector<string> labSeq;
+	vector<string> labChar_delRepeat;
 	map<int,string>::iterator it;
 	fid=fopen(in,"r");
 	if(!fid){cerr<<"ERROR: fail opening frame file!\n";return 1;}
@@ -138,6 +168,7 @@ int main(int argc, char *argv[])
 			labChar.push_back(it->second);
 		}
 		trim(labChar);
+		labChar = delRepeat(labChar, repeatNum);
 		insertSeq(labChar,labSeq);
 		check=fscanf(fid," \n");
 	}
