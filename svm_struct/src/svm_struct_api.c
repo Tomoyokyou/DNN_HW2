@@ -504,7 +504,7 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
   /* insert code for computing the feature vector for x and y here */
 	//WORD* words;
 	assert(y._size != 0);
-	size_t feature_vector_size = x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX;
+	size_t feature_vector_size = (x._dim+1)*LABEL_MAX+LABEL_MAX*LABEL_MAX+(x._dim+1);
       	size_t i,j;
       
       	fvec->words = (WORD*)my_malloc((feature_vector_size+1)* sizeof(WORD));
@@ -513,10 +513,15 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
       	int prevLabel = LABEL_MAX;
       	for(i = 0; i<x._fnum;i++){
         	for(j=0;j<x._dim;j++){
-            	fvec->words[x._dim*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
+            		fvec->words[(x._dim+1)*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
+			// + 70
+			fvec->words[(x._dim+1)*LABEL_MAX+LABEL_MAX*LABEL_MAX+j] +=  x._pattern[i*x._dim+j];
           	}		
-            if(i>0) fvec->words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
+            if(i>0) fvec->words[(x._dim+1)*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
       		prevLabel = y._label[i];
+					
+            	fvec->words[(x._dim+1)*y._label[i]+x._dim].weight += 1;  
+		fvec->words[(x._dim+1)*LABEL_MAX+LABEL_MAX*LABEL_MAX+x._dim] += 1;
       	}
 
         for( i=0;i<feature_vector_size;i++){
