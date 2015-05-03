@@ -41,8 +41,6 @@ LD_LIBRARY=-L$(CUDADIR)lib64 -L$(LIBCUMATDIR)lib
 LIBRARY=-lcuda -lcublas -lcudart
 
 #=============APP================================
-larry: example/larryTest.cpp $(OBJ) $(LIBS)
-	$(CXX) $(CPPFLAGS) -o bin/larry.app $^ $(INCLUDE) $(LIBRARY) $(LD_LIBRARY)
 #ahpan: example/ahpanDatasetTest.cpp $(OBJ) $(LIBS)
 #	$(CXX) $(CPPFLAGS) -o bin/ahpanDatasetTest.app $^ $(INCLUDE) $(LIBRARY) $(LD_LIBRARY)
 svmGen: example/svmFeatureGen.cpp

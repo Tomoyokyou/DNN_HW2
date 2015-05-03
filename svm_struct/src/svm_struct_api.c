@@ -39,30 +39,6 @@ void print(const double* vec, size_t vecSize){
   }
 }
 
-double isEqual(const int a, const int b){
-	if( a == b )
-		return 0.0;
-	else
-		return 1.0;
-}
-
-double sumOfVec(const double* vec, size_t vecSize){
-  double sum = 0.0;
-  size_t i = 0;
-  for(; i < vecSize; i++){
-    sum += vec[i];
-  }
-  return sum;
-}
-
-void dotProduct(double* temp, const double* vec1, const double* vec2, size_t idx1, size_t idx2, size_t dotRange){
-  size_t i = 0;
-  for(; i < dotRange; i++){
-    temp[i] = vec1[idx1+i] * vec2[idx2 + i];
-  }
-}
-
-
 void        svm_struct_learn_api_init(int argc, char* argv[])
 {
   /* Called in learning part before anything else is done to allow
@@ -121,14 +97,17 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 		}
 		examples[unum].x._pattern=(double *)malloc(69*fnum*sizeof(double));
 		examples[unum].y._label=(int *)malloc(fnum*sizeof(int));
+		examples[unum].y._count=(int *)calloc(48, sizeof(int));
 		examples[unum].x._fnum=fnum;
 		examples[unum].x._dim=69;
 		examples[unum].y._isEmpty=(train==-1)?1:0;
 		examples[unum].y._size=fnum;
 		for(i=0;i<fnum;++i){
-				if(train==1)
+			if(train==1){
 				examples[unum].y._label[i]=storeLabel[i];
-				else
+				examples[unum].y._count[storeLabel[i]] += 1;
+			}
+			else
 				examples[unum].y._label[i]=-1;
 			for(j=0;j<69;++j)
 					examples[unum].x._pattern[i*69+j]=storeFeature[i*69+j];
@@ -482,14 +461,14 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
 	seq[i-1] = idx;
   }
 
-  /* Debug section*/
+  /* Debug section
   SVECTOR* psiVec = psi(x, ybar, sm, sparm);
   double dot = 0;
   for(l = 0; l < weightLength; l++)
   	dot += psiVec->words[l].weight * weight[1 + l];
 
   dot += loss(y, ybar, sparm);
-  /*if(maxValue - dot > 0.000001){
+  if(maxValue - dot > 0.000001){
   	printf("MaxValue: %lf, Dot: %lf \n", maxValue, dot);
   }
   */
@@ -601,7 +580,7 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
 	  }
 	  return 0; // all match
   }
-  else {
+  else if(sparm->loss_function == 1){
     /* Put your code for different loss functions here. But then
        find_most_violated_constraint_???(x, y, sm) has to return the
        highest scoring label with the largest loss. */
@@ -615,13 +594,37 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
       }
 	  return err;
   }
+  else{
+  	  int i = 0, err = 0;
+	  for (i = 0; i < y._size; i++){
+	      if (y._label[i] != ybar._label[i]){
+		  	if(y._count[y._label[i]] > y._count[ybar._label[i]])
+				err += 2;
+			else
+				err += 1;
+ 
+		  }
+      }
+	  return err;
+  }
 }
 double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index){
   /* loss for correct label y and predicted label ybar. The loss for
      y==ybar has to be zero. sparm->loss_function is set with the -l option. */
   //printf("bla : %d\n", sizeof(y._label));
-	if (state == y._label[index]){ return 0; }
-	else { return 1; } // all match
+	if(sparm->loss_function == 0 || sparm->loss_function == 1) {
+		if (state == y._label[index]){ return 0; }
+		else { return 1; } // all match
+	}
+	else{
+		if (state == y._label[index]){ return 0; }
+		else{
+			if(y._count[y._label[index]] > y._count[state])
+				return 2;
+			else
+				return 1;
+		}
+	}
 }
 
 int         finalize_iteration(double ceps, int cached_constraint,
@@ -783,6 +786,7 @@ void        free_pattern(PATTERN x) {
 void        free_label(LABEL y) {
   /* Frees the memory of y. */
   free(y._label);
+  free(y._count);
 }
 
 void        free_struct_model(STRUCTMODEL sm) 
