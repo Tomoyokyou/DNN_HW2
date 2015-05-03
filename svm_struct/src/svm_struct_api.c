@@ -39,30 +39,6 @@ void print(const double* vec, size_t vecSize){
   }
 }
 
-double isEqual(const int a, const int b){
-	if( a == b )
-		return 0.0;
-	else
-		return 1.0;
-}
-
-double sumOfVec(const double* vec, size_t vecSize){
-  double sum = 0.0;
-  size_t i = 0;
-  for(; i < vecSize; i++){
-    sum += vec[i];
-  }
-  return sum;
-}
-
-void dotProduct(double* temp, const double* vec1, const double* vec2, size_t idx1, size_t idx2, size_t dotRange){
-  size_t i = 0;
-  for(; i < dotRange; i++){
-    temp[i] = vec1[idx1+i] * vec2[idx2 + i];
-  }
-}
-
-
 void        svm_struct_learn_api_init(int argc, char* argv[])
 {
   /* Called in learning part before anything else is done to allow
@@ -121,14 +97,17 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 		}
 		examples[unum].x._pattern=(double *)malloc(69*fnum*sizeof(double));
 		examples[unum].y._label=(int *)malloc(fnum*sizeof(int));
+		examples[unum].y._count=(int *)calloc(48, sizeof(int));
 		examples[unum].x._fnum=fnum;
-		examples[unum].x._dim=69;
+		examples[unum].x._dim=69+1;
 		examples[unum].y._isEmpty=(train==-1)?1:0;
 		examples[unum].y._size=fnum;
 		for(i=0;i<fnum;++i){
-				if(train==1)
+			if(train==1){
 				examples[unum].y._label[i]=storeLabel[i];
-				else
+				examples[unum].y._count[storeLabel[i]] += 1;
+			}
+			else
 				examples[unum].y._label[i]=-1;
 			for(j=0;j<69;++j)
 					examples[unum].x._pattern[i*69+j]=storeFeature[i*69+j];
@@ -154,7 +133,7 @@ void        init_struct_model(SAMPLE sample, STRUCTMODEL *sm,
      contain the learned weights for the model. */
 
 
-  sm->sizePsi=5616; /* replace by appropriate number of features */
+  sm->sizePsi=5734; /* replace by appropriate number of features */
 
 }
 
@@ -279,73 +258,7 @@ LABEL       classify_struct_example(PATTERN x, STRUCTMODEL *sm,
     idx = viterbiTrack[idx][i];
 	seq[i-1] = idx;
   }
-  /*
-  size_t i = 0;
-  size_t j = 0;
-  size_t k = 0;
-  size_t l = 0;
-  
-  for(l = 0; l < featureNum; l++){
-  	seq[l] = 0;
-  }
 
-  double viterbiTemp[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
-  int viterbiTrack[MAX_STATE_SIZE][MAX_FEATURE_SIZE];
-
-  memset(viterbiTemp, -DBL_MAX, sizeof(viterbiTemp));
-  memset(viterbiTrack, -1, sizeof(viterbiTrack));
-
-  for(k = 0; k < stateNum; k++){
-	double sum = weight[1+transIdx + k*stateNum + k];
-	for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	  sum += weight[1+l]*pattern[l-k*inputDim];
-	}
-	viterbiTemp[k][0] = sum;
-  }
-
-  for(i = 1; i < featureNum-1; i++){
-    for(k = 0; k < stateNum; k++){
-	  for(j = 0; j < stateNum; j++){
-		double sum = weight[1+transIdx + j*stateNum + k];
-		for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	  	  sum += weight[1+l]*pattern[i*inputDim + (l-k*inputDim)];
-		}
-		if( viterbiTemp[k][i] < sum + viterbiTemp[j][i-1] ){
-		  viterbiTemp[k][i] = sum + viterbiTemp[j][i-1];
-		  viterbiTrack[k][i] = j;
-		}
-	  }
-	}
-  }
-
-  for(k = 0; k < stateNum; k++){
-    for(j = 0; j < stateNum; j++){
-	  double sum = weight[1+transIdx + stateNum*stateNum] + loss_viterbi(y, k, sparm, featureNum-1);
-      for(l = k*inputDim; l < (k+1)*inputDim; l++){
-	    sum += weight[1+l]*pattern[(featureNum-1)*inputDim + (l-k*inputDim)];
-	  }
-	  if( viterbiTemp[k][featureNum-1] < sum + viterbiTemp[j][featureNum-2] ){
-	    viterbiTemp[k][featureNum-1] = sum + viterbiTemp[j][featureNum-2];
-		viterbiTrack[k][featureNum-1] = j;
-	  }
-	}
-  }
-
-  // Back tracking
-  double maxValue = viterbiTemp[0][featureNum-1];
-  size_t idx = 0;
-  for(j = 0; j < stateNum; j++){
-    if(maxValue < viterbiTemp[j][featureNum-1]){
-	  maxValue = viterbiTemp[j][featureNum-1];
-	  idx = j;
-	}
-  }
-  seq[featureNum-1] = idx;
-  for(i = featureNum-1; i > 0; i--){
-    idx = viterbiTrack[idx][i];
-	seq[i-1] = idx;
-  }
-  */
   return(y);
 }
 
@@ -421,9 +334,10 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   double* weight = sm->w;
   int weightLength = sm->sizePsi;
   int transIdx = inputDim * stateNum;
+  int dummyIdx = transIdx + stateNum * stateNum;
   int* seq = ybar._label;
 
-  assert( weightLength == stateNum * stateNum + inputDim * stateNum);
+  assert( weightLength == stateNum * stateNum + inputDim * stateNum + inputDim );
 
   int i = 0;
   int j = 0;
@@ -440,6 +354,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
 	double sum = loss_viterbi(y, k, sparm, 0);
     for(l = 0; l < inputDim; l++){
 		sum += weight[1 + k*inputDim + l] * pattern[l];
+		sum += weight[1 + dummyIdx + l] * pattern[l];
 	}
 	viterbiTemp[k][0] = sum;
 	viterbiTrack[k][0] = -1;
@@ -450,6 +365,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
 	  double sum = loss_viterbi(y, k, sparm, i);
 	  for(l = 0; l < inputDim; l++){
 	    sum += weight[1 + k*inputDim + l] * pattern[i*inputDim + l];
+		sum += weight[1 + dummyIdx + l] * pattern[i*inputDim + l];
 	  }
 	  for(j = 0; j < stateNum; j++){
 		double temp = weight[1 + transIdx + j*stateNum + k];
@@ -481,19 +397,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
     idx = viterbiTrack[idx][i];
 	seq[i-1] = idx;
   }
-
-  /* Debug section*/
-  SVECTOR* psiVec = psi(x, ybar, sm, sparm);
-  double dot = 0;
-  for(l = 0; l < weightLength; l++)
-  	dot += psiVec->words[l].weight * weight[1 + l];
-
-  dot += loss(y, ybar, sparm);
-  /*if(maxValue - dot > 0.000001){
-  	printf("MaxValue: %lf, Dot: %lf \n", maxValue, dot);
-  }
-  */
-  //assert(maxValue - (dot + loss(y, ybar, sparm)) < 0.00001);
 
   return(ybar);
 }
@@ -533,57 +436,43 @@ SVECTOR     *psi(PATTERN x, LABEL y, STRUCTMODEL *sm,
      that ybar!=y that maximizes psi(x,ybar,sm)*sm.w (where * is the
      inner vector product) and the appropriate function of the
      loss + margin/slack rescaling method. See that paper for details. */
-     SVECTOR *fvec=NULL;
+     SVECTOR *fvec=(SVECTOR * )my_malloc(sizeof(SVECTOR));
 	
   /* insert code for computing the feature vector for x and y here */
-	WORD* words;
+	//WORD* words;
 	assert(y._size != 0);
-	double factor = 1;
-	size_t feature_vector_size = x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX;
-      
-      	words = (WORD*)calloc(feature_vector_size+1, sizeof(WORD));
-      	int prevLabel = LABEL_MAX;
+	size_t feature_vector_size = x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX+x._dim;
       	size_t i,j;
+      
+      	fvec->words = (WORD*)my_malloc((feature_vector_size+1)* sizeof(WORD));
+	for(i=0;i<feature_vector_size+1;++i)
+		fvec->words[i].weight=0.0;
+      	int prevLabel = LABEL_MAX;
       	for(i = 0; i<x._fnum;i++){
-        	for(j=0;j<x._dim;j++){
-            	words[x._dim*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
+        	for(j=0;j<x._dim-1;j++){
+            		fvec->words[x._dim*y._label[i]+j].weight += x._pattern[i*(x._dim-1)+j];  
+			// + 70
+			fvec->words[x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX+j].weight +=  x._pattern[i*(x._dim-1)+j];
           	}		
-            if(i>0) words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
+            if(i>0) fvec->words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
       		prevLabel = y._label[i];
+					
+            	fvec->words[x._dim*y._label[i]+x._dim-1].weight += 1;  
+		fvec->words[x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX+x._dim-1].weight += 1;
       	}
 
         for( i=0;i<feature_vector_size;i++){
-              words[i].wnum = i+1;
-        }
-	words[feature_vector_size].wnum=0;
-	words[feature_vector_size].weight=0;
-	fvec = create_svector(words,NULL,factor); 
-	free(words);
-/*
-  assert(x._fnum==y._size);
-	SVECTOR *fvec = (SVECTOR*)malloc(sizeof(SVECTOR));
-      size_t feature_vector_size = x._dim*LABEL_MAX+LABEL_MAX*LABEL_MAX;
-      
-      fvec->words = (WORD*)calloc(feature_vector_size+1,sizeof(WORD));
-      int prevLabel = LABEL_MAX;
-      size_t i,j;
-      for( i=0;i<x._fnum;i++){
-              for(j=0;j<x._dim;j++){
-                      fvec->words[x._dim*y._label[i]+j].weight += x._pattern[i*x._dim+j];  
-
-              }
-
-              if(i>0) fvec->words[x._dim*LABEL_MAX+prevLabel*LABEL_MAX+y._label[i]].weight+=1;
-
-      		prevLabel = y._label[i];
-      }
-
-      for( i=0;i<feature_vector_size;i++){
               fvec->words[i].wnum = i+1;
-      }
-*/
-	//for test
-	//write_psi("TEST.txt",fvec);
+        }
+	fvec->words[feature_vector_size].wnum=0;
+	fvec->words[feature_vector_size].weight=0.0;
+	fvec->twonorm_sq = -1;
+	fvec->userdefined = NULL;
+	fvec->kernel_id=0;
+	fvec->next=NULL;
+	fvec->factor = 1;
+	//fvec = create_svector(words,NULL,factor); 
+	//free(words);
 		return(fvec);
 }
 
@@ -601,7 +490,7 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
 	  }
 	  return 0; // all match
   }
-  else {
+  else if(sparm->loss_function == 1){
     /* Put your code for different loss functions here. But then
        find_most_violated_constraint_???(x, y, sm) has to return the
        highest scoring label with the largest loss. */
@@ -615,13 +504,37 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
       }
 	  return err;
   }
+  else{
+  	  int i = 0, err = 0;
+	  for (i = 0; i < y._size; i++){
+	      if (y._label[i] != ybar._label[i]){
+		  	if(y._count[y._label[i]] > y._count[ybar._label[i]])
+				err += 2;
+			else
+				err += 1;
+ 
+		  }
+      }
+	  return err;
+  }
 }
 double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index){
   /* loss for correct label y and predicted label ybar. The loss for
      y==ybar has to be zero. sparm->loss_function is set with the -l option. */
   //printf("bla : %d\n", sizeof(y._label));
-	if (state == y._label[index]){ return 0; }
-	else { return 1; } // all match
+	if(sparm->loss_function == 0 || sparm->loss_function == 1) {
+		if (state == y._label[index]){ return 0; }
+		else { return 1; } // all match
+	}
+	else{
+		if (state == y._label[index]){ return 0; }
+		else{
+			if(y._count[y._label[index]] > y._count[state])
+				return 2;
+			else
+				return 1;
+		}
+	}
 }
 
 int         finalize_iteration(double ceps, int cached_constraint,
@@ -783,6 +696,7 @@ void        free_pattern(PATTERN x) {
 void        free_label(LABEL y) {
   /* Frees the memory of y. */
   free(y._label);
+  free(y._count);
 }
 
 void        free_struct_model(STRUCTMODEL sm) 

@@ -66,6 +66,7 @@ typedef struct label {
   /* this defines the y-part (the label) of a training example,
      e.g. the parse tree of the corresponding sentence. */
 	int* _label;
+	int* _count;
 	int  _isEmpty;
 	int  _size; // the number of frames in this utterance
 } LABEL;
@@ -107,6 +108,7 @@ typedef struct struct_learn_parm {
 				  option */
   /* further parameters that are passed to init_struct_model() */
   int add_your_variables_here;
+  int feat_dim;
 } STRUCT_LEARN_PARM;
 
 typedef struct struct_test_stats {

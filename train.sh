@@ -10,7 +10,11 @@ TRAIN=/home/hui/model/train/train_gender_norm.svm
 
 MODEL=./model/test_${C}_${epsilon}_hui.mdl
 OUTPUT=./model/${C}_${epsilon}_hui.seq
+#=====================
+#TRAIN=/home/hui/model/u10.ark
+#MODEL=./model/temp.mdl
+#OUTPUT=./model/temp.seq
 mkdir -p model
 mkdir -p log
-./svm_struct/svm_empty_learn.app -c ${C} -t ${kernel_type} -d ${order} -e ${epsilon} -l ${loss_type} ${TRAIN} ${MODEL} | tee ./log/${C}_${epsilon}.log
+./svm_struct/svm_empty_learn.app -c ${C} -t ${kernel_type} -d ${order} -e ${epsilon} -l ${loss_type} ${TRAIN} ${MODEL} | tee ./log/${order}_${C}_${epsilon}_${loss_type}.log
 ./svm_struct/svm_empty_classify.app ${TEST} ${MODEL} ${OUTPUT}
