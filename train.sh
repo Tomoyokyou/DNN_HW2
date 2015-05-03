@@ -3,7 +3,6 @@ kernel_type=0
 order=1
 epsilon=0.01
 loss_type=1
-#=====================
 TEST=/home/hui/model/u10.ark
 TRAIN=/home/hui/model/u10.ark
 #TEST=/home/hui/model/test/test_gender_norm.svm

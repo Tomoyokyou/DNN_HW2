@@ -489,9 +489,10 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   	dot += psiVec->words[l].weight * weight[1 + l];
 
   dot += loss(y, ybar, sparm);
-  if(maxValue - dot > 0.000001){
+  /*if(maxValue - dot > 0.000001){
   	printf("MaxValue: %lf, Dot: %lf \n", maxValue, dot);
   }
+  */
   //assert(maxValue - (dot + loss(y, ybar, sparm)) < 0.00001);
 
   return(ybar);
@@ -680,8 +681,8 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
 	fprintf(fp, "size of w: %ld\n", sm->sizePsi);
 	
 	fprintf(fp, "w: ");
-	for (i = 0; i < sm->sizePsi; i++){
-		fprintf(fp, "%lf ", sm->w[i+1]);
+	for (i = 1; i <= sm->sizePsi; i++){
+		fprintf(fp, "%lf ", sm->w[i]);
 		//printf("%lf ", sm->w[i]);
 	}
 	fprintf(fp, "\n");
