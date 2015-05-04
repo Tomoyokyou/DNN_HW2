@@ -130,6 +130,9 @@ void read_input_parameters(int argc,char *argv[],char *trainfile,
   struct_parm->newconstretrain=100;
   struct_parm->ccache_size=5;
   struct_parm->batch_size=100;
+  /* user defined  */
+  struct_parm->feat_dim=69;
+  struct_parm->feat_type=0;
 
   strcpy (modelfile, "svm_struct_model");
   strcpy (learn_parm->predfile, "trans_predictions");
@@ -191,6 +194,10 @@ void read_input_parameters(int argc,char *argv[],char *trainfile,
       case '-': strcpy(struct_parm->custom_argv[struct_parm->custom_argc++],argv[i]);i++; strcpy(struct_parm->custom_argv[struct_parm->custom_argc++],argv[i]);break; 
       case 'v': i++; (*struct_verbosity)=atol(argv[i]); break;
       case 'y': i++; (*verbosity)=atol(argv[i]); break;
+      /* user defined*/
+      case 'x': i++; struct_parm->feat_dim=atoi(argv[i]); break;
+      case 'z': i++; struct_parm->feat_type=atoi(argv[i]); break;
+
       default: printf("\nUnrecognized option %s!\n\n",argv[i]);
 	       print_help();
 	       exit(0);

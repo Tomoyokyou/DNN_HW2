@@ -23,7 +23,6 @@
 #include <stdlib.h>
 #include <time.h>
 #include <float.h>
-#include "cblas.h"
 #include "svm_struct_common.h"
 #include "svm_struct_api.h"
 
@@ -71,6 +70,8 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
   EXAMPLE  *examples;
    /* replace by appropriate number of examples */
   long     n=3696;       /* number of examples */
+  int featsize=sparm->feat_dim;
+	printf("feature dimension: %d ",featsize);
   examples=(EXAMPLE *)my_malloc(sizeof(EXAMPLE)*n);
 	FILE* fid;
 	char name[80];
@@ -78,7 +79,7 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 	long unum=0;
 	int i,j,boo=0;
 	int lab,train=0;
-	double storeFeature[1024*69];
+	double storeFeature[1024*featsize];
 	int storeLabel[1024];
 	fid=fopen(file,"r");
 	boo=fscanf(fid,"%s\n",name);
@@ -91,15 +92,24 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 			boo=fscanf(fid,"%d",&lab);
 				storeLabel[i]=lab;
 			}
-			for(j=0;j<68;++j)
-					boo=fscanf(fid," %lf",&(storeFeature[i*69+j]));
-				boo=fscanf(fid," %lf]\n[",&(storeFeature[i*69+68]));
+			for(j=0;j<featsize-1;++j)
+					boo=fscanf(fid," %lf",&(storeFeature[i*featsize+j]));
+				boo=fscanf(fid," %lf]\n[",&(storeFeature[i*featsize+featsize-1]));
 		}
-		examples[unum].x._pattern=(double *)malloc(69*fnum*sizeof(double));
+		switch(sparm->feat_type){
+			case 1: 
+				examples[unum].x._pattern=(double *)malloc((featsize+1)*fnum*sizeof(double));
+				examples[unum].x._dim=featsize+1;
+				break;
+			default:
+			case 0:	
+				examples[unum].x._pattern=(double *)malloc(featsize*fnum*sizeof(double));
+				examples[unum].x._dim=featsize;
+				break;
+		}	
 		examples[unum].y._label=(int *)malloc(fnum*sizeof(int));
 		examples[unum].y._count=(int *)calloc(48, sizeof(int));
 		examples[unum].x._fnum=fnum;
-		examples[unum].x._dim=69+1;
 		examples[unum].y._isEmpty=(train==-1)?1:0;
 		examples[unum].y._size=fnum;
 		for(i=0;i<fnum;++i){
@@ -109,8 +119,18 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 			}
 			else
 				examples[unum].y._label[i]=-1;
-			for(j=0;j<69;++j)
-					examples[unum].x._pattern[i*69+j]=storeFeature[i*69+j];
+			switch(sparm->feat_type){
+				case 1:
+					for(j=0;j<featsize;++j)
+					examples[unum].x._pattern[i*(featsize+1)+j]=storeFeature[i*(featsize+1)+j];
+					examples[unum].x._pattern[i*(featsize+1)+featsize]=1.0;
+					break;
+				case 0:
+				default:
+					for(j=0;j<featsize;++j)
+					examples[unum].x._pattern[i*featsize+j]=storeFeature[i*featsize+j];
+					break;
+			}
 		}
 		unum++;
 	}

@@ -66,10 +66,8 @@ dir:
 ctags:
 	@cd svm_struct; make ctags; cd ..
 	@rm -f src/tags tags
-	@echo "Tagging src directory"
-	@cd src; ctags -a *.cpp ../include/*.h; ctags -a *.cu ../include/*.h; cd ..
 	@echo "Tagging main directory"
-	@ctags -a src/* svm_struct/* svm_struct/src/* svm_struct/include/*\
+	@ctags -a svm_struct/* svm_struct/src/* svm_struct/include/*\
          svm_struct/svm_struct/* svm_struct/svm_light/* svm_struct/svm_struct/include/*
 
 clean:
