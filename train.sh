@@ -9,7 +9,7 @@ TEST=/home/hui/model/test/test_gender_norm.svm
 TRAIN=/home/hui/model/train/train_gender_norm.svm
 
 DIM=69
-FEATTYPE=1
+FEATTYPE=0
 
 MODEL=./model/test_${C}_${epsilon}_hui.mdl
 OUTPUT=./model/${C}_${epsilon}_hui.seq

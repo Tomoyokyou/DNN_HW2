@@ -152,8 +152,10 @@ void        init_struct_model(SAMPLE sample, STRUCTMODEL *sm,
      weights that can be learned. Later, the weight vector w will
      contain the learned weights for the model. */
 
-
-  sm->sizePsi=5734; /* replace by appropriate number of features */
+  size_t fs=sparm->feat_dim;
+  size_t type=sparm->feat_type; // feat_type=0 -> no dummy   feat_type=1 -> dummy pattern loaded
+  sm->sizePsi= (fs*48+48*48);  //assume no dummy added
+/* replace by appropriate number of features */
 
 }
 
@@ -357,7 +359,7 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   int dummyIdx = transIdx + stateNum * stateNum;
   int* seq = ybar._label;
 
-  assert( weightLength == stateNum * stateNum + inputDim * stateNum + inputDim );
+  assert( weightLength == stateNum * stateNum + inputDim * stateNum );
 
   int i = 0;
   int j = 0;
@@ -374,7 +376,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
 	double sum = loss_viterbi(y, k, sparm, 0);
     for(l = 0; l < inputDim; l++){
 		sum += weight[1 + k*inputDim + l] * pattern[l];
-		sum += weight[1 + dummyIdx + l] * pattern[l];
 	}
 	viterbiTemp[k][0] = sum;
 	viterbiTrack[k][0] = -1;
@@ -385,7 +386,6 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
 	  double sum = loss_viterbi(y, k, sparm, i);
 	  for(l = 0; l < inputDim; l++){
 	    sum += weight[1 + k*inputDim + l] * pattern[i*inputDim + l];
-		sum += weight[1 + dummyIdx + l] * pattern[i*inputDim + l];
 	  }
 	  for(j = 0; j < stateNum; j++){
 		double temp = weight[1 + transIdx + j*stateNum + k];
