@@ -41,8 +41,6 @@ LD_LIBRARY=-L$(CUDADIR)lib64 -L$(LIBCUMATDIR)lib
 LIBRARY=-lcuda -lcublas -lcudart
 
 #=============APP================================
-larry: example/larryTest.cpp $(OBJ) $(LIBS)
-	$(CXX) $(CPPFLAGS) -o bin/larry.app $^ $(INCLUDE) $(LIBRARY) $(LD_LIBRARY)
 #ahpan: example/ahpanDatasetTest.cpp $(OBJ) $(LIBS)
 #	$(CXX) $(CPPFLAGS) -o bin/ahpanDatasetTest.app $^ $(INCLUDE) $(LIBRARY) $(LD_LIBRARY)
 svmGen: example/svmFeatureGen.cpp
@@ -51,6 +49,10 @@ featNorm: example/featureNorm.cpp
 	$(CXX) $(CPPFLAGS) -o bin/featNorm.app $^
 svmTrim: example/svmTrimming.cpp
 	$(CXX) $(CPPFLAGS) -o bin/svmTrim.app $^
+svmValGen: example/svmValidationGen.cpp
+	$(CXX) $(CPPFLAGS) -o bin/svmValGen.app $^
+makeFrameData: example/makeFrameData.cpp
+	$(CXX) $(CPPFLAGS) -o bin/makeFrameData.app $^
 structSvm: svm_empty_learn svm_empty_classify
 svm_empty_learn: 
 	@cd svm_struct; make svm_empty_learn; cd ..
@@ -64,10 +66,8 @@ dir:
 ctags:
 	@cd svm_struct; make ctags; cd ..
 	@rm -f src/tags tags
-	@echo "Tagging src directory"
-	@cd src; ctags -a *.cpp ../include/*.h; ctags -a *.cu ../include/*.h; cd ..
 	@echo "Tagging main directory"
-	@ctags -a src/* svm_struct/* svm_struct/src/* svm_struct/include/*\
+	@ctags -a svm_struct/* svm_struct/src/* svm_struct/include/*\
          svm_struct/svm_struct/* svm_struct/svm_light/* svm_struct/svm_struct/include/*
 
 clean:
