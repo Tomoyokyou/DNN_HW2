@@ -29,7 +29,7 @@
 
 #define	MAX_FEATURE_SIZE	1000
 #define MAX_STATE_SIZE   	48
-#define FEATURE_DIMENSION	69
+#define FEATURE_DIMENSION	256 + 69
 
 // Helper function
 void print(const double* vec, size_t vecSize){
@@ -102,7 +102,7 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 	long unum=0;
 	int i,j,boo=0;
 	int lab,train=0;
-	double storeFeature[1024*69];
+	double storeFeature[1024*FEATURE_DIMENSION];
 	int storeLabel[1024];
 	fid=fopen(file,"r");
 	boo=fscanf(fid,"%s\n",name);
@@ -115,14 +115,14 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 			boo=fscanf(fid,"%d",&lab);
 				storeLabel[i]=lab;
 			}
-			for(j=0;j<68;++j)
-					boo=fscanf(fid," %lf",&(storeFeature[i*69+j]));
-				boo=fscanf(fid," %lf]\n[",&(storeFeature[i*69+68]));
+			for(j=0;j<FEATURE_DIMENSION-1;++j)
+					boo=fscanf(fid," %lf",&(storeFeature[i*FEATURE_DIMENSION+j]));
+				boo=fscanf(fid," %lf]\n[",&(storeFeature[i*FEATURE_DIMENSION+FEATURE_DIMENSION-1]));
 		}
-		examples[unum].x._pattern=(double *)malloc(69*fnum*sizeof(double));
+		examples[unum].x._pattern=(double *)malloc(FEATURE_DIMENSION*fnum*sizeof(double));
 		examples[unum].y._label=(int *)malloc(fnum*sizeof(int));
 		examples[unum].x._fnum=fnum;
-		examples[unum].x._dim=69;
+		examples[unum].x._dim=FEATURE_DIMENSION;
 		examples[unum].y._isEmpty=(train==-1)?1:0;
 		examples[unum].y._size=fnum;
 		for(i=0;i<fnum;++i){
@@ -130,8 +130,8 @@ SAMPLE      read_struct_examples(char *file, STRUCT_LEARN_PARM *sparm)
 				examples[unum].y._label[i]=storeLabel[i];
 				else
 				examples[unum].y._label[i]=-1;
-			for(j=0;j<69;++j)
-					examples[unum].x._pattern[i*69+j]=storeFeature[i*69+j];
+			for(j=0;j<FEATURE_DIMENSION;++j)
+					examples[unum].x._pattern[i*FEATURE_DIMENSION+j]=storeFeature[i*FEATURE_DIMENSION+j];
 		}
 		unum++;
 	}
@@ -154,7 +154,7 @@ void        init_struct_model(SAMPLE sample, STRUCTMODEL *sm,
      contain the learned weights for the model. */
 
 
-  sm->sizePsi=5616; /* replace by appropriate number of features */
+  sm->sizePsi=FEATURE_DIMENSION * MAX_STATE_SIZE + MAX_STATE_SIZE * MAX_STATE_SIZE; /* replace by appropriate number of features */
 
 }
 
@@ -483,12 +483,14 @@ LABEL       find_most_violated_constraint_marginrescaling(PATTERN x, LABEL y, ST
   }
 
   /* Debug section*/
+  /*
   SVECTOR* psiVec = psi(x, ybar, sm, sparm);
   double dot = 0;
   for(l = 0; l < weightLength; l++)
   	dot += psiVec->words[l].weight * weight[1 + l];
 
   dot += loss(y, ybar, sparm);
+  */
   /*if(maxValue - dot > 0.000001){
   	printf("MaxValue: %lf, Dot: %lf \n", maxValue, dot);
   }
