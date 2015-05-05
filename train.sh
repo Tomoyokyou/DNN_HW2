@@ -19,5 +19,5 @@ OUTPUT=./model/${C}_${epsilon}_hui.seq
 #OUTPUT=./model/temp.seq
 mkdir -p model
 mkdir -p log
-./svm_struct/svm_empty_learn.app -c ${C} -t ${kernel_type} -d ${order} -e ${epsilon} -l ${loss_type} -x ${DIM} -z ${FEATTYPE} ${TRAIN} ${MODEL} | tee ./log/${order}_${C}_${epsilon}_${loss_type}.log
-./svm_struct/svm_empty_classify.app ${TEST} ${MODEL} ${OUTPUT}
+gdb --args ./svm_struct/svm_empty_learn.app -c ${C} -t ${kernel_type} -d ${order} -e ${epsilon} -l ${loss_type} -x ${DIM} -z ${FEATTYPE} ${TRAIN} ${MODEL} | tee ./log/${order}_${C}_${epsilon}_${loss_type}.log
+#./svm_struct/svm_empty_classify.app ${TEST} ${MODEL} ${OUTPUT}
