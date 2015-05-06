@@ -1,0 +1,5 @@
+sparm->C: 1.000000
+Reading training examples...total utterence:3696 done
+Iter 1: *(NumConst=1, SV=1, CEps=608.6705, QPEps=0.0000)
+Iter 2: *(NumConst=2, SV=2, CEps=734.1792, QPEps=0.0000)
+Iter 3: 

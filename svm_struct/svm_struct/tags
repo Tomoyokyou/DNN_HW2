@@ -1,0 +1,74 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CCACHE	include/svm_struct_learn.h	/^} CCACHE;$/;"	t	typeref:struct:ccache
+CCACHEELEM	include/svm_struct_learn.h	/^} CCACHEELEM;$/;"	t	typeref:struct:ccacheelem
+CONSTSET	include/svm_struct_common.h	/^} CONSTSET;$/;"	t	typeref:struct:constset
+EXAMPLE	include/svm_struct_common.h	/^} EXAMPLE;$/;"	t	typeref:struct:example
+MARGIN_RESCALING	include/svm_struct_learn.h	36;"	d
+MAX	svm_struct_learn.c	26;"	d	file:
+MIN	svm_struct_learn.c	27;"	d	file:
+NSLACK_ALG	include/svm_struct_learn.h	38;"	d
+NSLACK_SHRINK_ALG	include/svm_struct_learn.h	39;"	d
+ONESLACK_DUAL_ALG	include/svm_struct_learn.h	41;"	d
+ONESLACK_DUAL_CACHE_ALG	include/svm_struct_learn.h	42;"	d
+ONESLACK_PRIMAL_ALG	include/svm_struct_learn.h	40;"	d
+SAMPLE	include/svm_struct_common.h	/^} SAMPLE;$/;"	t	typeref:struct:sample
+SLACK_RESCALING	include/svm_struct_learn.h	35;"	d
+STRUCT_VERSION	include/svm_struct_common.h	22;"	d
+STRUCT_VERSION_DATE	include/svm_struct_common.h	23;"	d
+SVM_STRUCT_LEARN	include/svm_struct_learn.h	22;"	d
+add_constraint_to_constraint_cache	svm_struct_learn.c	/^double add_constraint_to_constraint_cache(CCACHE *ccache, MODEL *svmModel, int exnum, SVECTOR *fydelta, double rhs, double gainthresh, int maxconst, double *rt_cachesum)$/;"	f
+avg_viol_gain	include/svm_struct_learn.h	/^  double  *avg_viol_gain; \/* array of average values by which$/;"	m	struct:ccache
+ccache	include/svm_struct_learn.h	/^typedef struct ccache {$/;"	s
+ccacheelem	include/svm_struct_learn.h	/^typedef struct ccacheelem {$/;"	s
+changed	include/svm_struct_learn.h	/^  int     *changed;       \/* array of boolean indicating whether the$/;"	m	struct:ccache
+compute_violation_of_constraint_in_cache	svm_struct_learn.c	/^double compute_violation_of_constraint_in_cache(CCACHE *ccache, double thresh)$/;"	f
+constlist	include/svm_struct_learn.h	/^  CCACHEELEM **constlist;    \/* array of pointers to constraint lists$/;"	m	struct:ccache
+constset	include/svm_struct_common.h	/^typedef struct constset { \/* a set of linear inequality constrains of$/;"	s
+create_constraint_cache	svm_struct_learn.c	/^CCACHE *create_constraint_cache(SAMPLE sample, STRUCT_LEARN_PARM *sparm, $/;"	f
+example	include/svm_struct_common.h	/^typedef struct example {  \/* an example is a pair of pattern and label *\/$/;"	s
+examples	include/svm_struct_common.h	/^  EXAMPLE *examples;$/;"	m	struct:sample
+find_most_violated_constraint	svm_struct_learn.c	/^void find_most_violated_constraint(SVECTOR **fydelta, double *rhs, $/;"	f
+find_most_violated_joint_constraint_in_cache	svm_struct_learn.c	/^double find_most_violated_joint_constraint_in_cache(CCACHE *ccache, double thresh, double *lhs_n, SVECTOR **lhs, double *rhs)$/;"	f
+free_constraint_cache	svm_struct_learn.c	/^void free_constraint_cache(CCACHE *ccache)$/;"	f
+fydelta	include/svm_struct_learn.h	/^  SVECTOR *fydelta; \/* left hand side of constraint *\/$/;"	m	struct:ccacheelem
+init_kernel_matrix	svm_struct_learn.c	/^MATRIX *init_kernel_matrix(CONSTSET *cset, KERNEL_PARM *kparm) $/;"	f
+lhs	include/svm_struct_common.h	/^  DOC     **lhs;$/;"	m	struct:constset
+m	include/svm_struct_common.h	/^  int     m;            \/* m is the total number of constrains *\/$/;"	m	struct:constset
+main	svm_struct_classify.c	/^int main (int argc, char* argv[])$/;"	f
+main	svm_struct_main.c	/^int main (int argc, char* argv[])$/;"	f
+modelfile	svm_struct_classify.c	/^char modelfile[200];$/;"	v
+modelfile	svm_struct_main.c	/^char modelfile[200];           \/* file for resulting classifier *\/$/;"	v
+n	include/svm_struct_common.h	/^  int     n;            \/* n is the total number of examples *\/$/;"	m	struct:sample
+n	include/svm_struct_learn.h	/^  int        n;              \/* number of examples *\/$/;"	m	struct:ccache
+next	include/svm_struct_learn.h	/^  struct ccacheelem *next; \/* next in linked list *\/$/;"	m	struct:ccacheelem	typeref:struct:ccacheelem::ccacheelem
+predictionsfile	svm_struct_classify.c	/^char predictionsfile[200];$/;"	v
+printDoubleArray	svm_struct_common.c	/^void printDoubleArray(double* x, int n)$/;"	f
+printIntArray	svm_struct_common.c	/^void printIntArray(int* x, int n)$/;"	f
+printW	svm_struct_common.c	/^void printW(double *w, long sizePhi, long n,double C)$/;"	f
+printWordArray	svm_struct_common.c	/^void printWordArray(WORD* x)$/;"	f
+print_help	svm_struct_classify.c	/^void print_help(void)$/;"	f
+print_help	svm_struct_main.c	/^void print_help()$/;"	f
+read_input_parameters	svm_struct_classify.c	/^void read_input_parameters(int argc,char *argv[],char *testfile,$/;"	f
+read_input_parameters	svm_struct_main.c	/^void read_input_parameters(int argc,char *argv[],char *trainfile,$/;"	f
+remove_inactive_constraints	svm_struct_learn.c	/^void remove_inactive_constraints(CONSTSET *cset, double *alpha, $/;"	f
+rhs	include/svm_struct_common.h	/^  double  *rhs;$/;"	m	struct:constset
+rhs	include/svm_struct_learn.h	/^  double  rhs;      \/* right hand side of constraint *\/$/;"	m	struct:ccacheelem
+sample	include/svm_struct_common.h	/^typedef struct sample { \/* a sample is a set of examples *\/$/;"	s
+sm	include/svm_struct_learn.h	/^  STRUCTMODEL *sm;           \/* pointer to model *\/$/;"	m	struct:ccache
+struct_verbosity	svm_struct_common.c	/^long struct_verbosity;                   \/* verbosity level (0-4) *\/$/;"	v
+svm_learn_struct	svm_struct_learn.c	/^void svm_learn_struct(SAMPLE sample, STRUCT_LEARN_PARM *sparm,$/;"	f
+svm_learn_struct_joint	svm_struct_learn.c	/^void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,$/;"	f
+svm_struct_common	include/svm_struct_common.h	20;"	d
+testfile	svm_struct_classify.c	/^char testfile[200];$/;"	v
+trainfile	svm_struct_main.c	/^char trainfile[200];           \/* file with training examples *\/$/;"	v
+update_constraint_cache_for_model	svm_struct_learn.c	/^void update_constraint_cache_for_model(CCACHE *ccache, MODEL *svmModel)$/;"	f
+update_kernel_matrix	svm_struct_learn.c	/^MATRIX *update_kernel_matrix(MATRIX *matrix, int newpos, CONSTSET *cset, $/;"	f
+viol	include/svm_struct_learn.h	/^  double  viol;     \/* violation score under current model *\/$/;"	m	struct:ccacheelem
+wait_any_key	svm_struct_main.c	/^void wait_any_key()$/;"	f
+x	include/svm_struct_common.h	/^  PATTERN x;$/;"	m	struct:example
+y	include/svm_struct_common.h	/^  LABEL y;$/;"	m	struct:example

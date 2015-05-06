@@ -1,0 +1,369 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+CFLOAT	svm_common.h	34;"	d
+CLASSIFICATION	svm_common.h	50;"	d
+CUSTOM	svm_common.h	47;"	d
+DEF_LINDEP_SENSITIVITY	svm_hideo.c	49;"	d	file:
+DEF_MAX_ITERATIONS	svm_hideo.c	48;"	d	file:
+DEF_PRECISION	svm_hideo.c	47;"	d	file:
+DEF_PRECISION_LINEAR	svm_loqo.c	29;"	d	file:
+DEF_PRECISION_NONLINEAR	svm_loqo.c	30;"	d	file:
+DOC	svm_common.h	/^} DOC;$/;"	t	typeref:struct:doc
+DUAL_OPTIMAL	svm_hideo.c	37;"	d	file:
+EPSILON_EQ	svm_hideo.c	51;"	d	file:
+EPSILON_HIDEO	svm_hideo.c	50;"	d	file:
+FNUM	svm_common.h	37;"	d
+FNUM_MAX	svm_common.h	38;"	d
+FVAL	svm_common.h	39;"	d
+GRAM	svm_common.h	48;"	d
+KERNEL_CACHE	svm_common.h	/^} KERNEL_CACHE;$/;"	t	typeref:struct:kernel_cache
+KERNEL_PARM	svm_common.h	/^} KERNEL_PARM;$/;"	t	typeref:struct:kernel_parm
+LARGEROUND	svm_hideo.c	42;"	d	file:
+LEARN_PARM	svm_common.h	/^} LEARN_PARM;$/;"	t	typeref:struct:learn_parm
+LINEAR	svm_common.h	43;"	d
+MATRIX	svm_common.h	/^} MATRIX;$/;"	t	typeref:struct:matrix
+MAX	svm_common.c	23;"	d	file:
+MAX	svm_learn.c	23;"	d	file:
+MAXFEATNUM	svm_common.h	40;"	d
+MAXITER_EXCEEDED	svm_hideo.c	38;"	d	file:
+MAXSHRINK	svm_common.h	55;"	d
+MIN	svm_common.c	24;"	d	file:
+MIN	svm_learn.c	24;"	d	file:
+MODEL	svm_common.h	/^} MODEL;$/;"	t	typeref:struct:model
+NAN_SOLUTION	svm_hideo.c	39;"	d	file:
+ONLY_ONE_VARIABLE	svm_hideo.c	40;"	d	file:
+OPTIMIZATION	svm_common.h	53;"	d
+POLY	svm_common.h	44;"	d
+PRIMAL_OPTIMAL	svm_hideo.c	36;"	d	file:
+QP	svm_common.h	/^} QP;$/;"	t	typeref:struct:quadratic_program
+RANDPAIR	svm_common.h	/^} RANDPAIR;$/;"	t	typeref:struct:randpair
+RANKING	svm_common.h	52;"	d
+RBF	svm_common.h	45;"	d
+REGRESSION	svm_common.h	51;"	d
+SHRINK_STATE	svm_common.h	/^} SHRINK_STATE;$/;"	t	typeref:struct:shrink_state
+SIGMOID	svm_common.h	46;"	d
+SIGN	svm_common.c	25;"	d	file:
+SIGN	svm_learn.c	25;"	d	file:
+SMALLROUND	svm_hideo.c	43;"	d	file:
+SVECTOR	svm_common.h	/^} SVECTOR;$/;"	t	typeref:struct:svector
+SVM_COMMON	svm_common.h	20;"	d
+SVM_LEARN	svm_learn.h	20;"	d
+TIMING	svm_common.h	/^} TIMING;$/;"	t	typeref:struct:timing_profile
+VERSION	svm_common.h	31;"	d
+VERSION_DATE	svm_common.h	32;"	d
+WORD	svm_common.h	/^} WORD;$/;"	t	typeref:struct:word
+a_history	svm_common.h	/^  double **a_history;  \/* for shrinking with non-linear kernel *\/$/;"	m	struct:shrink_state
+active	svm_common.h	/^  long   *active;$/;"	m	struct:shrink_state
+active2totdoc	svm_common.h	/^  long   *active2totdoc;$/;"	m	struct:kernel_cache
+activenum	svm_common.h	/^  long   activenum;$/;"	m	struct:kernel_cache
+add_dual_list_ns_r	svm_common.c	/^SVECTOR* add_dual_list_ns_r(SVECTOR *a, SVECTOR *b, double min_non_zero) $/;"	f
+add_dual_list_sort_ss_r	svm_common.c	/^SVECTOR* add_dual_list_sort_ss_r(SVECTOR *a, SVECTOR *b, double min_non_zero) $/;"	f
+add_dual_list_ss_r	svm_common.c	/^SVECTOR* add_dual_list_ss_r(SVECTOR *a, SVECTOR *b, double min_non_zero) $/;"	f
+add_list_n_ns	svm_common.c	/^void add_list_n_ns(double *vec_n, SVECTOR *vec_s, double faktor)$/;"	f
+add_list_ns	svm_common.c	/^SVECTOR* add_list_ns(SVECTOR *a)$/;"	f
+add_list_ns_r	svm_common.c	/^SVECTOR* add_list_ns_r(SVECTOR *a, double min_non_zero) $/;"	f
+add_list_sort_ss	svm_common.c	/^SVECTOR* add_list_sort_ss(SVECTOR *a) $/;"	f
+add_list_sort_ss_r	svm_common.c	/^SVECTOR* add_list_sort_ss_r(SVECTOR *a, double min_non_zero) $/;"	f
+add_list_ss	svm_common.c	/^SVECTOR* add_list_ss(SVECTOR *a) $/;"	f
+add_list_ss_r	svm_common.c	/^SVECTOR* add_list_ss_r(SVECTOR *a, double min_non_zero) $/;"	f
+add_ss	svm_common.c	/^SVECTOR* add_ss(SVECTOR *a, SVECTOR *b) $/;"	f
+add_ss_r	svm_common.c	/^SVECTOR* add_ss_r(SVECTOR *a, SVECTOR *b, double min_non_zero) $/;"	f
+add_to_index	svm_learn.c	/^void add_to_index(long int *index, long int elem)$/;"	f
+add_vector_ns	svm_common.c	/^void add_vector_ns(double *vec_n, SVECTOR *vec_s, double faktor)$/;"	f
+add_weight_vector_to_linear_model	svm_common.c	/^void add_weight_vector_to_linear_model(MODEL *model)$/;"	f
+alpha	svm_common.h	/^  double  *alpha;$/;"	m	struct:model
+alphafile	svm_common.h	/^  char alphafile[200];         \/* file to store optimal alphas in. use  $/;"	m	struct:learn_parm
+append_svector_list	svm_common.c	/^void append_svector_list(SVECTOR *a, SVECTOR *b) $/;"	f
+at_upper_bound	svm_common.h	/^  long    at_upper_bound;$/;"	m	struct:model
+b	svm_common.h	/^  double  b;$/;"	m	struct:model
+biased_hyperplane	svm_common.h	/^  long   biased_hyperplane;    \/* if nonzero, use hyperplane w*x+b=0 $/;"	m	struct:learn_parm
+buffer	svm_common.h	/^  CFLOAT *buffer; \/* to improve speed *\/$/;"	m	struct:kernel_cache
+buffer	svm_hideo.c	/^double *buffer;$/;"	v
+buffsize	svm_common.h	/^  long   buffsize;$/;"	m	struct:kernel_cache
+cache	svm_learn.h	/^  CFLOAT *cache;$/;"	m	struct:cache_parm_s
+cache_kernel_row	svm_learn.c	/^void cache_kernel_row(KERNEL_CACHE *kernel_cache, DOC **docs, $/;"	f
+cache_multiple_kernel_rows	svm_learn.c	/^void cache_multiple_kernel_rows(KERNEL_CACHE *kernel_cache, DOC **docs, $/;"	f
+cache_parm_s	svm_learn.h	/^typedef struct cache_parm_s {$/;"	s
+cache_parm_t	svm_learn.h	/^} cache_parm_t;$/;"	t	typeref:struct:cache_parm_s
+calculate_qp_objective	svm_hideo.c	/^double calculate_qp_objective(opt_n,opt_g,opt_g0,alpha)$/;"	f
+calculate_svm_model	svm_learn.c	/^long calculate_svm_model(DOC **docs, long int *label, long int *unlabeled, $/;"	f
+check_learning_parms	svm_common.c	/^int check_learning_parms(LEARN_PARM *learn_parm, KERNEL_PARM *kernel_parm)$/;"	f
+check_optimality	svm_learn.c	/^long check_optimality(MODEL *model, long int *label, long int *unlabeled, $/;"	f
+check_optimality_sharedslack	svm_learn.c	/^long check_optimality_sharedslack(DOC **docs, MODEL *model, long int *label,$/;"	f
+cholesky_matrix	svm_common.c	/^MATRIX *cholesky_matrix(MATRIX *A)$/;"	f
+classify_example	svm_common.c	/^double classify_example(MODEL *model, DOC *ex) $/;"	f
+classify_example_linear	svm_common.c	/^double classify_example_linear(MODEL *model, DOC *ex) $/;"	f
+clear_index	svm_learn.c	/^void clear_index(long int *index)$/;"	f
+clear_nvector	svm_common.c	/^void clear_nvector(double *vec, long int n)$/;"	f
+coef_const	svm_common.h	/^  double  coef_const;$/;"	m	struct:kernel_parm
+coef_lin	svm_common.h	/^  double  coef_lin;$/;"	m	struct:kernel_parm
+compact_linear_model	svm_common.c	/^MODEL *compact_linear_model(MODEL *model)$/;"	f
+compare_randpair	svm_common.c	/^int compare_randpair(const void *a, const void *b) $/;"	f
+compareup_word	svm_common.c	/^int compareup_word(const void *a, const void *b) $/;"	f
+compute_index	svm_learn.c	/^long compute_index(long int *binfeature, long int range, long int *index)$/;"	f
+compute_loo	svm_common.h	/^  long   compute_loo;          \/* if nonzero, computes leave-one-out$/;"	m	struct:learn_parm
+compute_matrices_for_optimization	svm_learn.c	/^void compute_matrices_for_optimization(DOC **docs, long int *label, $/;"	f
+compute_objective_function	svm_learn.c	/^double compute_objective_function(double *a, double *lin, double *c, $/;"	f
+compute_shared_slacks	svm_learn.c	/^void compute_shared_slacks(DOC **docs, long int *label, $/;"	f
+compute_xa_estimates	svm_learn.c	/^void compute_xa_estimates(MODEL *model, long int *label, $/;"	f
+copy_matrix	svm_common.c	/^MATRIX *copy_matrix(MATRIX *matrix)$/;"	f
+copy_model	svm_common.c	/^MODEL *copy_model(MODEL *model)$/;"	f
+copy_svector	svm_common.c	/^SVECTOR *copy_svector(SVECTOR *vec)$/;"	f
+copy_svector_shallow	svm_common.c	/^SVECTOR *copy_svector_shallow(SVECTOR *vec)$/;"	f
+copyright_notice	svm_common.c	/^void copyright_notice(void)$/;"	f
+costfactor	svm_common.h	/^  double  costfactor;          \/* Scales the cost of misclassifying this$/;"	m	struct:doc
+create_example	svm_common.c	/^DOC *create_example(long docnum, long queryid, long slackid, $/;"	f
+create_matrix	svm_common.c	/^MATRIX *create_matrix(int n, int m)$/;"	f
+create_nvector	svm_common.c	/^double *create_nvector(int n)$/;"	f
+create_svector	svm_common.c	/^SVECTOR *create_svector(WORD *words,char *userdefined,double factor)$/;"	f
+create_svector_n	svm_common.c	/^SVECTOR *create_svector_n(double *nonsparsevec, long maxfeatnum, char *userdefined, double factor)$/;"	f
+create_svector_n_r	svm_common.c	/^SVECTOR *create_svector_n_r(double *nonsparsevec, long maxfeatnum, char *userdefined, double factor, double min_non_zero)$/;"	f
+create_svector_shallow	svm_common.c	/^SVECTOR *create_svector_shallow(WORD *words,char *userdefined,double factor)$/;"	f
+custom	svm_common.h	/^  char    custom[50];    \/* for user supplied kernel *\/$/;"	m	struct:kernel_parm
+custom_kernel	kernel.h	/^double custom_kernel(KERNEL_PARM *kernel_parm, SVECTOR *a, SVECTOR *b) $/;"	f
+deactnum	svm_common.h	/^  long   deactnum;$/;"	m	struct:shrink_state
+distribute_alpha_t_greedily	svm_learn.c	/^double distribute_alpha_t_greedily(long int *sv2dnum, long int svnum, $/;"	f
+doc	svm_common.h	/^typedef struct doc {$/;"	s
+docfile	svm_classify.c	/^char docfile[200];$/;"	v
+docfile	svm_learn_main.c	/^char docfile[200];           \/* file with training examples *\/$/;"	v
+docnum	svm_common.h	/^  long    docnum;              \/* Document ID. This has to be the position of $/;"	m	struct:doc
+docs	svm_learn.h	/^  DOC **docs; $/;"	m	struct:cache_parm_s
+dual	svm_hideo.c	/^double *primal=0,*dual=0;$/;"	v
+dual	svm_loqo.c	/^double *primal=0,*dual=0;$/;"	v
+element	svm_common.h	/^  double **element;$/;"	m	struct:matrix
+elems	svm_common.h	/^  long   elems;$/;"	m	struct:kernel_cache
+eps	svm_common.h	/^  double eps;                  \/* regression epsilon (eps=1.0 for$/;"	m	struct:learn_parm
+epsilon_a	svm_common.h	/^  double epsilon_a;            \/* tolerable error on alphas at bounds *\/$/;"	m	struct:learn_parm
+epsilon_const	svm_common.h	/^  double epsilon_const;        \/* tolerable error on eq-constraint *\/$/;"	m	struct:learn_parm
+epsilon_crit	svm_common.h	/^  double epsilon_crit;         \/* tolerable error for distances used $/;"	m	struct:learn_parm
+epsilon_shrink	svm_common.h	/^  double epsilon_shrink;       \/* how much a multiplier should be above $/;"	m	struct:learn_parm
+estimate_margin_vcdim	svm_learn.c	/^double estimate_margin_vcdim(MODEL *model, double w, double R) $/;"	f
+estimate_r_delta	svm_learn.c	/^double estimate_r_delta(DOC **docs, long int totdoc, KERNEL_PARM *kernel_parm)$/;"	f
+estimate_r_delta_average	svm_learn.c	/^double estimate_r_delta_average(DOC **docs, long int totdoc, $/;"	f
+estimate_sphere	svm_learn.c	/^double estimate_sphere(MODEL *model) $/;"	f
+estimate_transduction_quality	svm_learn.c	/^void estimate_transduction_quality(MODEL *model, long int *label, $/;"	f
+factor	svm_common.h	/^  double  factor;              \/* Factor by which this feature vector$/;"	m	struct:svector
+featvec_eq	svm_common.c	/^int featvec_eq(SVECTOR *a, SVECTOR *b)$/;"	f
+find_indep_subset_of_matrix	svm_common.c	/^double *find_indep_subset_of_matrix(MATRIX *A, double epsilon)$/;"	f
+free_example	svm_common.c	/^void free_example(DOC *example, long deep)$/;"	f
+free_matrix	svm_common.c	/^void free_matrix(MATRIX *matrix) $/;"	f
+free_model	svm_common.c	/^void free_model(MODEL *model, int deep)$/;"	f
+free_nvector	svm_common.c	/^void free_nvector(double *vector) $/;"	f
+free_svector	svm_common.c	/^void free_svector(SVECTOR *vec)$/;"	f
+free_svector_shallow	svm_common.c	/^void free_svector_shallow(SVECTOR *vec)$/;"	f
+fvec	svm_common.h	/^  SVECTOR *fvec;               \/* Feature vector of the example. The$/;"	m	struct:doc
+get_kernel_row	svm_learn.c	/^void get_kernel_row(KERNEL_CACHE *kernel_cache, DOC **docs, $/;"	f
+get_runtime	svm_common.c	/^double get_runtime(void)$/;"	f
+gram_matrix	svm_common.h	/^  MATRIX  *gram_matrix;  \/* here one can directly supply the kernel$/;"	m	struct:kernel_parm
+identify_inconsistent	svm_learn.c	/^long identify_inconsistent(double *a, long int *label, $/;"	f
+identify_misclassified	svm_learn.c	/^long identify_misclassified(double *lin, long int *label, $/;"	f
+identify_one_misclassified	svm_learn.c	/^long identify_one_misclassified(double *lin, long int *label, $/;"	f
+inactive_since	svm_common.h	/^  long   *inactive_since;$/;"	m	struct:shrink_state
+incorporate_unlabeled_examples	svm_learn.c	/^long incorporate_unlabeled_examples(MODEL *model, long int *label, $/;"	f
+index	svm_common.h	/^  long    *index;       \/* index from docnum to position in model *\/$/;"	m	struct:model
+index	svm_common.h	/^  long   *index;  \/* cache some kernel evalutations *\/$/;"	m	struct:kernel_cache
+init_iter	svm_loqo.c	/^long   init_iter=500,precision_violations=0;$/;"	v
+init_margin	svm_loqo.c	/^double init_margin=0.15;$/;"	v
+init_shrink_state	svm_learn.c	/^void init_shrink_state(SHRINK_STATE *shrink_state, long int totdoc, $/;"	f
+invert_ltriangle_matrix	svm_common.c	/^MATRIX *invert_ltriangle_matrix(MATRIX *L)$/;"	f
+invindex	svm_common.h	/^  long   *invindex;$/;"	m	struct:kernel_cache
+isnan	svm_common.c	/^int isnan(double a)$/;"	f
+kernel	svm_common.c	/^double kernel(KERNEL_PARM *kernel_parm, DOC *a, DOC *b) $/;"	f
+kernel_cache	svm_common.h	/^typedef struct kernel_cache {$/;"	s
+kernel_cache	svm_learn.h	/^  KERNEL_CACHE *kernel_cache;$/;"	m	struct:cache_parm_s
+kernel_cache_check	svm_learn.c	/^long kernel_cache_check(KERNEL_CACHE *kernel_cache, long int docnum)$/;"	f
+kernel_cache_clean_and_malloc	svm_learn.c	/^CFLOAT *kernel_cache_clean_and_malloc(KERNEL_CACHE *kernel_cache, $/;"	f
+kernel_cache_cleanup	svm_learn.c	/^void kernel_cache_cleanup(KERNEL_CACHE *kernel_cache)$/;"	f
+kernel_cache_free	svm_learn.c	/^void kernel_cache_free(KERNEL_CACHE *kernel_cache, long int i)$/;"	f
+kernel_cache_free_lru	svm_learn.c	/^long kernel_cache_free_lru(KERNEL_CACHE *kernel_cache) $/;"	f
+kernel_cache_init	svm_learn.c	/^KERNEL_CACHE *kernel_cache_init(long int totdoc, long int buffsize)$/;"	f
+kernel_cache_malloc	svm_learn.c	/^long kernel_cache_malloc(KERNEL_CACHE *kernel_cache)$/;"	f
+kernel_cache_reset_lru	svm_learn.c	/^void kernel_cache_reset_lru(KERNEL_CACHE *kernel_cache)$/;"	f
+kernel_cache_shrink	svm_learn.c	/^void kernel_cache_shrink(KERNEL_CACHE *kernel_cache, long int totdoc, $/;"	f
+kernel_cache_size	svm_common.h	/^  long   kernel_cache_size;    \/* size of kernel cache in megabytes *\/$/;"	m	struct:learn_parm
+kernel_cache_space_available	svm_learn.c	/^long kernel_cache_space_available(KERNEL_CACHE *kernel_cache)$/;"	f
+kernel_cache_statistic	svm_common.c	/^long   kernel_cache_statistic;$/;"	v
+kernel_cache_touch	svm_learn.c	/^long kernel_cache_touch(KERNEL_CACHE *kernel_cache, long int docnum)$/;"	f
+kernel_id	svm_common.h	/^  long    kernel_id;           \/* Feature vectors with different$/;"	m	struct:svector
+kernel_parm	svm_common.h	/^  KERNEL_PARM kernel_parm; \/* kernel *\/$/;"	m	struct:model
+kernel_parm	svm_common.h	/^typedef struct kernel_parm {$/;"	s
+kernel_parm	svm_learn.h	/^  KERNEL_PARM *kernel_parm;$/;"	m	struct:cache_parm_s
+kernel_type	svm_common.h	/^  long    kernel_type;   \/* 0=linear, 1=poly, 2=rbf, 3=sigmoid,$/;"	m	struct:kernel_parm
+kernelid	svm_common.h	/^  long    kernelid;            \/* Position in gram matrix where kernel$/;"	m	struct:doc
+ladd_matrix	svm_hideo.c	/^void ladd_matrix(matrix,depth,scalar)$/;"	f
+last_a	svm_common.h	/^  double *last_a;      \/* for shrinking with linear kernel *\/$/;"	m	struct:shrink_state
+last_lin	svm_common.h	/^  double *last_lin;    \/* for shrinking with linear kernel *\/$/;"	m	struct:shrink_state
+lcopy_matrix	svm_hideo.c	/^void lcopy_matrix(matrix,depth,matrix2) $/;"	f
+learn_parm	svm_common.h	/^typedef struct learn_parm {$/;"	s
+length_of_longest_document_vector	svm_learn.c	/^double length_of_longest_document_vector(DOC **docs, long int totdoc, $/;"	f
+lin_weights	svm_common.h	/^  double  *lin_weights;                       \/* weights for linear case using$/;"	m	struct:model
+lindep_sensitivity	svm_hideo.c	/^double lindep_sensitivity=DEF_LINDEP_SENSITIVITY;$/;"	v
+linvert_matrix	svm_hideo.c	/^void linvert_matrix(matrix,depth,inverse,lindep_sensitivity,lin_dependent)$/;"	f
+loo_error	svm_common.h	/^  double  loo_error,loo_recall,loo_precision; \/* leave-one-out estimates *\/$/;"	m	struct:model
+loo_precision	svm_common.h	/^  double  loo_error,loo_recall,loo_precision; \/* leave-one-out estimates *\/$/;"	m	struct:model
+loo_recall	svm_common.h	/^  double  loo_error,loo_recall,loo_precision; \/* leave-one-out estimates *\/$/;"	m	struct:model
+lprint_matrix	svm_hideo.c	/^void lprint_matrix(matrix,depth)$/;"	f
+lru	svm_common.h	/^  long   *lru;$/;"	m	struct:kernel_cache
+lswitch_rows_matrix	svm_hideo.c	/^void lswitch_rows_matrix(matrix,depth,r1,r2) $/;"	f
+lswitchrk_matrix	svm_hideo.c	/^void lswitchrk_matrix(matrix,depth,rk1,rk2) $/;"	f
+m	svm_common.h	/^  int m; \/* number of colums *\/$/;"	m	struct:matrix
+m	svm_learn.h	/^  long m;$/;"	m	struct:cache_parm_s
+main	svm_classify.c	/^int main (int argc, char* argv[])$/;"	f
+main	svm_learn_main.c	/^int main (int argc, char* argv[])$/;"	f
+matrix	svm_common.h	/^typedef struct matrix {$/;"	s
+max_elems	svm_common.h	/^  long   max_elems;$/;"	m	struct:kernel_cache
+maxdiff	svm_common.h	/^  double  maxdiff;                            \/* precision, up to which this $/;"	m	struct:model
+maxhistory	svm_common.h	/^  long   maxhistory;$/;"	m	struct:shrink_state
+maxiter	svm_common.h	/^  long   maxiter;              \/* number of iterations after which the$/;"	m	struct:learn_parm
+maxiter	svm_hideo.c	/^long   maxiter=DEF_MAX_ITERATIONS;$/;"	v
+maxl	svm_common.c	/^long maxl(long int a, long int b)$/;"	f
+minl	svm_common.c	/^long minl(long int a, long int b)$/;"	f
+model	svm_common.h	/^typedef struct model {$/;"	s
+model_b	svm_loqo.c	/^double model_b;$/;"	v
+model_length_n	svm_common.c	/^double model_length_n(MODEL *model) $/;"	f
+model_length_s	svm_common.c	/^double model_length_s(MODEL *model) $/;"	f
+modelfile	svm_classify.c	/^char modelfile[200];$/;"	v
+modelfile	svm_learn_main.c	/^char modelfile[200];         \/* file for resulting classifier *\/$/;"	v
+mult_svector_list	svm_common.c	/^void mult_svector_list(SVECTOR *a, double factor) $/;"	f
+mult_vector_ns	svm_common.c	/^void mult_vector_ns(double *vec_n, SVECTOR *vec_s, double faktor)$/;"	f
+multadd_ss	svm_common.c	/^SVECTOR* multadd_ss(SVECTOR *a, SVECTOR *b, double fa, double fb)$/;"	f
+multadd_ss_r	svm_common.c	/^SVECTOR* multadd_ss_r(SVECTOR *a,SVECTOR *b,double fa, double fb,$/;"	f
+my_malloc	svm_common.c	/^void *my_malloc(size_t size)$/;"	f
+n	svm_common.h	/^  int n; \/* number of rows *\/$/;"	m	struct:matrix
+next	svm_common.h	/^  struct svector *next;        \/* Let's you set up a list of SVECTOR's$/;"	m	struct:svector	typeref:struct:svector::svector
+nol_ll	svm_common.c	/^void nol_ll(char *file, long int *nol, long int *wol, long int *ll) $/;"	f
+nonoptimal	svm_hideo.c	/^long   *nonoptimal;$/;"	v
+occu	svm_common.h	/^  long   *occu;$/;"	m	struct:kernel_cache
+offset	svm_learn.h	/^  long offset,stepsize;$/;"	m	struct:cache_parm_s
+opt_ce	svm_common.h	/^  double *opt_ce,*opt_ce0; \/* linear equality constraints $/;"	m	struct:quadratic_program
+opt_ce0	svm_common.h	/^  double *opt_ce,*opt_ce0; \/* linear equality constraints $/;"	m	struct:quadratic_program
+opt_g	svm_common.h	/^  double *opt_g;           \/* hessian of objective *\/$/;"	m	struct:quadratic_program
+opt_g0	svm_common.h	/^  double *opt_g0;          \/* linear part of objective *\/$/;"	m	struct:quadratic_program
+opt_low	svm_common.h	/^  double *opt_low,*opt_up; \/* box constraints *\/$/;"	m	struct:quadratic_program
+opt_m	svm_common.h	/^  long   opt_m;            \/* number of linear equality constraints *\/$/;"	m	struct:quadratic_program
+opt_n	svm_common.h	/^  long   opt_n;            \/* number of variables *\/$/;"	m	struct:quadratic_program
+opt_precision	svm_common.h	/^  double opt_precision;        \/* precision of solver, set to e.g. 1e-21 $/;"	m	struct:learn_parm
+opt_precision	svm_hideo.c	/^double opt_precision=DEF_PRECISION;$/;"	v
+opt_precision	svm_loqo.c	/^double opt_precision=DEF_PRECISION_LINEAR;$/;"	v
+opt_up	svm_common.h	/^  double *opt_low,*opt_up; \/* box constraints *\/$/;"	m	struct:quadratic_program
+opt_xinit	svm_common.h	/^  double *opt_xinit;       \/* initial value for variables *\/$/;"	m	struct:quadratic_program
+optimize_hildreth_despo	svm_hideo.c	/^int optimize_hildreth_despo(n,m,precision,epsilon_crit,epsilon_a,maxiter,goal,$/;"	f
+optimize_qp	svm_hideo.c	/^double *optimize_qp(qp,epsilon_crit,nx,threshold,learn_parm)$/;"	f
+optimize_qp	svm_loqo.c	/^double *optimize_qp(qp,epsilon_crit,nx,threshold,learn_parm)$/;"	f
+optimize_svm	svm_learn.c	/^void optimize_svm(DOC **docs, long int *label, long int *unlabeled, $/;"	f
+optimize_to_convergence	svm_learn.c	/^long optimize_to_convergence(DOC **docs, long int *label, long int totdoc, $/;"	f
+optimize_to_convergence_sharedslack	svm_learn.c	/^long optimize_to_convergence_sharedslack(DOC **docs, long int *label, $/;"	f
+parse_document	svm_common.c	/^int parse_document(char *line, WORD *words, double *label,$/;"	f
+poly_degree	svm_common.h	/^  long    poly_degree;$/;"	m	struct:kernel_parm
+precision_violations	svm_hideo.c	/^long   precision_violations=0;$/;"	v
+precision_violations	svm_loqo.c	/^long   init_iter=500,precision_violations=0;$/;"	v
+predfile	svm_common.h	/^  char predfile[200];          \/* file for predicitions on unlabeled examples$/;"	m	struct:learn_parm
+predictionsfile	svm_classify.c	/^char predictionsfile[200];$/;"	v
+primal	svm_hideo.c	/^double *primal=0,*dual=0;$/;"	v
+primal	svm_loqo.c	/^double *primal=0,*dual=0;$/;"	v
+print_help	svm_classify.c	/^void print_help(void)$/;"	f
+print_help	svm_learn_main.c	/^void print_help()$/;"	f
+print_matrix	svm_common.c	/^void print_matrix(MATRIX *matrix)$/;"	f
+print_percent_progress	svm_common.c	/^void print_percent_progress(long *progress, long maximum, $/;"	f
+prod_ltmatrix_nvector	svm_common.c	/^double *prod_ltmatrix_nvector(MATRIX *A, double *v)$/;"	f
+prod_matrix_matrix	svm_common.c	/^MATRIX *prod_matrix_matrix(MATRIX *A, MATRIX *B)$/;"	f
+prod_matrix_nvector	svm_common.c	/^double *prod_matrix_nvector(MATRIX *A, double *v)$/;"	f
+prod_nvector_ltmatrix	svm_common.c	/^double *prod_nvector_ltmatrix(double *v, MATRIX *A)$/;"	f
+prod_nvector_matrix	svm_common.c	/^double *prod_nvector_matrix(double *v, MATRIX *A)$/;"	f
+quadratic_program	svm_common.h	/^typedef struct quadratic_program {$/;"	s
+queryid	svm_common.h	/^  long    queryid;             \/* for learning rankings, constraints are $/;"	m	struct:doc
+random_order	svm_common.c	/^long *random_order(long n)$/;"	f
+randpair	svm_common.h	/^typedef struct randpair {$/;"	s
+rbf_gamma	svm_common.h	/^  double  rbf_gamma;$/;"	m	struct:kernel_parm
+reactivate_inactive_examples	svm_learn.c	/^void reactivate_inactive_examples(long int *label, $/;"	f
+read_alphas	svm_common.c	/^double *read_alphas(char *alphafile,long totdoc)$/;"	f
+read_documents	svm_common.c	/^void read_documents(char *docfile, DOC ***docs, double **label, $/;"	f
+read_input_parameters	svm_classify.c	/^void read_input_parameters(int argc, char **argv, char *docfile, $/;"	f
+read_input_parameters	svm_learn_main.c	/^void read_input_parameters(int argc,char *argv[],char *docfile,char *modelfile,$/;"	f
+read_model	svm_common.c	/^MODEL *read_model(char *modelfile)$/;"	f
+read_word	svm_common.c	/^int read_word(char *in, char *out) {$/;"	f
+realloc_matrix	svm_common.c	/^MATRIX *realloc_matrix(MATRIX *matrix, int n, int m)$/;"	f
+remove_inconsistent	svm_common.h	/^  long   remove_inconsistent;  \/* exclude examples with alpha at C and $/;"	m	struct:learn_parm
+restartfile	svm_learn_main.c	/^char restartfile[200];       \/* file with initial alphas *\/$/;"	v
+rho	svm_common.h	/^  double rho;                  \/* parameter in xi\/alpha-estimates and for$/;"	m	struct:learn_parm
+roundnumber	svm_hideo.c	/^long  roundnumber=0;$/;"	v
+select_next_qp_slackset	svm_learn.c	/^long select_next_qp_slackset(DOC **docs, long int *label, $/;"	f
+select_next_qp_subproblem_grad	svm_learn.c	/^long select_next_qp_subproblem_grad(long int *label, $/;"	f
+select_next_qp_subproblem_rand	svm_learn.c	/^long select_next_qp_subproblem_rand(long int *label, $/;"	f
+select_top_n	svm_learn.c	/^void select_top_n(double *selcrit, long int range, long int *select, $/;"	f
+set_learning_defaults	svm_common.c	/^void set_learning_defaults(LEARN_PARM *learn_parm, KERNEL_PARM *kernel_parm)$/;"	f
+setfactor_svector_list	svm_common.c	/^void setfactor_svector_list(SVECTOR *a, double factor) $/;"	f
+sharedslack	svm_common.h	/^  long   sharedslack;          \/* if nonzero, it will use the shared$/;"	m	struct:learn_parm
+shift_s	svm_common.c	/^SVECTOR* shift_s(SVECTOR *a, long shift) $/;"	f
+shrink_problem	svm_learn.c	/^long shrink_problem(DOC **docs,$/;"	f
+shrink_state	svm_common.h	/^typedef struct shrink_state {$/;"	s
+shrink_state_cleanup	svm_learn.c	/^void shrink_state_cleanup(SHRINK_STATE *shrink_state)$/;"	f
+single_kernel	svm_common.c	/^double single_kernel(KERNEL_PARM *kernel_parm, SVECTOR *a, SVECTOR *b) $/;"	f
+skip_final_opt_check	svm_common.h	/^  long   skip_final_opt_check; \/* do not check KT-Conditions at the end of$/;"	m	struct:learn_parm
+slackid	svm_common.h	/^  long    slackid;             \/* Index of the slack variable$/;"	m	struct:doc
+smallroundcount	svm_hideo.c	/^long  smallroundcount=0;$/;"	v
+smult_s	svm_common.c	/^SVECTOR* smult_s(SVECTOR *a, double factor) $/;"	f
+solve_dual	svm_hideo.c	/^int solve_dual(n,m,precision,epsilon_crit,maxiter,g,g0,ce,ce0,low,up,primal,$/;"	f
+sort	svm_common.h	/^  long   val,sort;$/;"	m	struct:randpair
+space_or_null	svm_common.c	/^int space_or_null(int c) {$/;"	f
+sprod_ns	svm_common.c	/^double sprod_ns(double *vec_n, SVECTOR *vec_s)$/;"	f
+sprod_ss	svm_common.c	/^double sprod_ss(SVECTOR *a, SVECTOR *b) $/;"	f
+stepsize	svm_learn.h	/^  long offset,stepsize;$/;"	m	struct:cache_parm_s
+sub_ss	svm_common.c	/^SVECTOR* sub_ss(SVECTOR *a, SVECTOR *b) $/;"	f
+sub_ss_r	svm_common.c	/^SVECTOR* sub_ss_r(SVECTOR *a, SVECTOR *b, double min_non_zero) $/;"	f
+supvec	svm_common.h	/^  DOC     **supvec;$/;"	m	struct:model
+sv_num	svm_common.h	/^  long    sv_num;	$/;"	m	struct:model
+svector	svm_common.h	/^typedef struct svector {$/;"	s
+svm_c	svm_common.h	/^  double svm_c;                \/* upper bound C on alphas *\/$/;"	m	struct:learn_parm
+svm_c_factor	svm_common.h	/^  double svm_c_factor;         \/* increase C by this factor every step *\/$/;"	m	struct:learn_parm
+svm_c_steps	svm_common.h	/^  long   svm_c_steps;          \/* do so many steps for finding optimal C *\/$/;"	m	struct:learn_parm
+svm_cost	svm_common.h	/^  double *svm_cost;            \/* individual upper bounds for each var *\/$/;"	m	struct:learn_parm
+svm_costratio	svm_common.h	/^  double svm_costratio;        \/* factor to multiply C for positive examples *\/$/;"	m	struct:learn_parm
+svm_costratio_unlab	svm_common.h	/^  double svm_costratio_unlab;$/;"	m	struct:learn_parm
+svm_iter_to_shrink	svm_common.h	/^  long   svm_iter_to_shrink;   \/* iterations h after which an example can$/;"	m	struct:learn_parm
+svm_learn_classification	svm_learn.c	/^void svm_learn_classification(DOC **docs, double *class, long int$/;"	f
+svm_learn_optimization	svm_learn.c	/^void svm_learn_optimization(DOC **docs, double *rhs, long int$/;"	f
+svm_learn_ranking	svm_learn.c	/^void svm_learn_ranking(DOC **docs, double *rankvalue, long int totdoc, $/;"	f
+svm_learn_regression	svm_learn.c	/^void svm_learn_regression(DOC **docs, double *value, long int totdoc, $/;"	f
+svm_maxqpsize	svm_common.h	/^  long   svm_maxqpsize;        \/* size q of working set *\/$/;"	m	struct:learn_parm
+svm_newvarsinqp	svm_common.h	/^  long   svm_newvarsinqp;      \/* new variables to enter the working set $/;"	m	struct:learn_parm
+svm_unlabbound	svm_common.h	/^  double svm_unlabbound;$/;"	m	struct:learn_parm
+time	svm_common.h	/^  long   time;$/;"	m	struct:kernel_cache
+time_check	svm_common.h	/^  double   time_check;$/;"	m	struct:timing_profile
+time_kernel	svm_common.h	/^  double   time_kernel;$/;"	m	struct:timing_profile
+time_model	svm_common.h	/^  double   time_model;$/;"	m	struct:timing_profile
+time_opti	svm_common.h	/^  double   time_opti;$/;"	m	struct:timing_profile
+time_select	svm_common.h	/^  double   time_select;$/;"	m	struct:timing_profile
+time_shrink	svm_common.h	/^  double   time_shrink;$/;"	m	struct:timing_profile
+time_update	svm_common.h	/^  double   time_update;$/;"	m	struct:timing_profile
+timing_profile	svm_common.h	/^typedef struct timing_profile {$/;"	s
+totdoc	svm_common.h	/^  long    totdoc;       \/* number of training documents *\/$/;"	m	struct:model
+totdoc2active	svm_common.h	/^  long   *totdoc2active;$/;"	m	struct:kernel_cache
+totwords	svm_common.h	/^  long    totwords;     \/* number of features *\/$/;"	m	struct:model
+totwords	svm_common.h	/^  long   totwords;             \/* number of features *\/$/;"	m	struct:learn_parm
+transduction_posratio	svm_common.h	/^  double transduction_posratio;\/* fraction of unlabeled examples to be *\/$/;"	m	struct:learn_parm
+transpose_matrix	svm_common.c	/^MATRIX *transpose_matrix(MATRIX *matrix)$/;"	f
+twonorm_sq	svm_common.h	/^  double  twonorm_sq;          \/* The squared euclidian length of the$/;"	m	struct:svector
+type	svm_common.h	/^  long   type;                 \/* selects between regression and$/;"	m	struct:learn_parm
+update_linear_component	svm_learn.c	/^void update_linear_component(DOC **docs, long int *label, $/;"	f
+userdefined	svm_common.h	/^  char    *userdefined;        \/* You can put additional information$/;"	m	struct:svector
+val	svm_common.h	/^  long   val,sort;$/;"	m	struct:randpair
+verbosity	svm_common.c	/^long   verbosity;              \/* verbosity level (0-4) *\/$/;"	v
+verbosity	svm_hideo.c	/^long verbosity;$/;"	v
+verbosity	svm_loqo.c	/^long verbosity;$/;"	v
+wait_any_key	svm_learn_main.c	/^void wait_any_key()$/;"	f
+weight	svm_common.h	/^  FVAL    weight;              \/* word weight *\/$/;"	m	struct:word
+wnum	svm_common.h	/^  FNUM    wnum;	               \/* word number *\/$/;"	m	struct:word
+word	svm_common.h	/^typedef struct word {$/;"	s
+words	svm_common.h	/^  WORD    *words;              \/* The features\/values in the vector by$/;"	m	struct:svector
+write_alphas	svm_learn.c	/^void write_alphas(char *alphafile, double *a, $/;"	f
+write_model	svm_common.c	/^void write_model(char *modelfile, MODEL *model)$/;"	f
+write_prediction	svm_learn.c	/^void write_prediction(char *predfile, MODEL *model, double *lin, $/;"	f
+xa_depth	svm_common.h	/^  long   xa_depth;             \/* parameter in xi\/alpha-estimates upper$/;"	m	struct:learn_parm
+xa_error	svm_common.h	/^  double  xa_error,xa_recall,xa_precision;    \/* xi\/alpha estimates *\/$/;"	m	struct:model
+xa_precision	svm_common.h	/^  double  xa_error,xa_recall,xa_precision;    \/* xi\/alpha estimates *\/$/;"	m	struct:model
+xa_recall	svm_common.h	/^  double  xa_error,xa_recall,xa_precision;    \/* xi\/alpha estimates *\/$/;"	m	struct:model

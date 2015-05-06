@@ -1,12 +1,12 @@
 \documentclass[10pt,a4paper]{article}
-\author{hui}
+\author{Huang Teng-Hui}
 \title{Documentation}
 \begin{document}
 \section{Environment}
 We recommend Linux platform to run this program, source file are written in C,however C++ compiler is also needed to run other programs.
 \section{Makefile}
 For simplicity, type "make" at main directory, then enter "sh train.sh" to run structured SVM.
-Detailed makefile command are listed as follows:
+Detailed makefile command are listed as follows, you can also check Makefile yourself!:
 \subsubsection*{all:}
  compile structured SVM programs and some useful programs preparing SVM features.
 \subsubsection*{structSvm:}
@@ -22,27 +22,31 @@ Detailed makefile command are listed as follows:
 \subsubsection*{clean:}
  remove objects and executables
 \section{Files \& Directories}
-This is a modification from a package source, so we only list the files which are the core of this program.  
+This is a modified version from a package source, so we only list the files which are the essence for this program.  
 \subsection{Directories}
 \subsubsection*{svm\_ struct:}
-contains structured SVM api source files.
+Contains structured SVM api source files.
 \subsubsection*{example:}
-all source files related to features are in this directory.
+All source files related to features are in this directory.
 \subsubsection*{bin:}
-compiled executables are in this directory.
+Compiled executables are in this directory.
 \subsubsection*{model:}
-structured SVM model directory, weight sequence of psi dimensions, build automatically while compiling this program
+Structured SVM model directory, weight sequence of psi dimensions, build automatically while compiling this program
 
 \subsection{Source files}
 \subsubsection*{svm\_struct/src/svm\_struct\_api.c:}
-the api interface, this is the main work for HW2, for example, find\_most\_violated\_constraint, psi function, etc.
+The api interface, this is the main work for HW2, for example, find\_most\_violated\_constraint, psi function, etc.
 \subsubsection*{svm\_struct/include/svm\_struct\_api\_type.h:}
-most struct definition are written in this file.
+Most struct definition are written in this file.
 \subsection{Script files}
 We prepared some shell scripts for you to run this program easily, you can modify parameters in these scripts to do any experiment you want.
 \subsubsection*{train.sh:}
-type "sh train.sh" then it will begin to train structured SVM model, if features path are given correctly.
+Type "sh train.sh" then it will begin to train structured SVM model, if features path are given correctly.
 \subsubsection*{test.sh:}
-type "sh test.sh" to classify testing feature, then the result of this will be trimmed.
+Type "sh test.sh" to classify testing feature, then the result of this will be trimmed.
+\subsubsection*{svmValGen.sh:}
+This script will segment you training faeture file into training set and validating set.
+\subsubsection*{makeFrame.sh:}
+Splice originial feature, takes previous and later frames into account.
 
 \end{document}
