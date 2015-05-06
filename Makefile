@@ -17,7 +17,7 @@ EXECUTABLES=svmGen featNorm svmTrim
 # +==============================+
 
 .PHONY: debug all clean 
-all:$(EXECUTABLES)
+all:dir $(EXECUTABLES)
 	cd svm_struct; make
 
 LIBS=$(LIBCUMATDIR)lib/libcumatrix.a
