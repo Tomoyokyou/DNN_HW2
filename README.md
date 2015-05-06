@@ -115,7 +115,7 @@ Scripts:
 
 	3. [line 3] TESTFILE=${TESTDIR}[ add your testing file name ]
 
-	5. [line 5] MODEL=[ put your structured SVM model file name ]
+	4. [line 5] MODEL=[ put your structured SVM model file name ]
 
 ------------------------------------------------------------------------------------------------------
 
