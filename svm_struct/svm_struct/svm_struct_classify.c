@@ -27,9 +27,9 @@ extern "C" {
 #include "svm_struct_api.h"
 #include "svm_struct_common.h"
 
-char testfile[200];
-char modelfile[200];
-char predictionsfile[200];
+char testfile[300];
+char modelfile[300];
+char predictionsfile[300];
 
 void read_input_parameters(int, char **, char *, char *, char *, 
 			   STRUCT_LEARN_PARM *, long*, long *);
@@ -75,7 +75,6 @@ int main (int argc, char* argv[])
   if(struct_verbosity>=1) {
     printf("done.\n"); fflush(stdout);
   }
-
   if(struct_verbosity>=1) {
     printf("Classifying test examples..."); fflush(stdout);
   }

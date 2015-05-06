@@ -634,7 +634,8 @@ void        write_struct_model(char *file, STRUCTMODEL *sm,
 	fprintf(fp, "loss_type: %d\n", sparm->loss_type);
 	fprintf(fp, "loss_function: %d\n", sparm->loss_function);
 	// write custom arguments
-
+	fprintf(fp, "feat_dim: %d\n", sparm->feat_dim);
+	fprintf(fp, "feat_type: %d\n", sparm->feat_type);
 	fprintf(fp, "custom_argc: %d\n", sparm->custom_argc);
 	fprintf(fp, "custom_argv: \n");
 	int j = 0;
@@ -683,6 +684,8 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	check=fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
 	check=fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
 	// write custom arguments
+	check=fscanf(fp, "feat_dim: %d\n", &(sparm->feat_dim));
+	check=fscanf(fp, "feat_type: %d\n", &(sparm->feat_type));
 	check=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
 	check=fscanf(fp, "custom_argv: \n");
 	}
