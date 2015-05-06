@@ -43,7 +43,7 @@ tags
 model/
 
 # train.sh
-train.sh
+#train.sh
 
 # backup .orig file
 ./**/*.orig

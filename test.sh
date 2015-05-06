@@ -4,8 +4,7 @@ MODELDIR=./model
 TESTFILE=${TESTDIR}test_norm.svm
 TEST=/home/jason/MachineLearningDNNCourse/model/testFtre_orig_256_acc55.txt
 RESULT=./result/
-#MODEL=./model/hidden_orig_${C}_${epsilon}_acc55.mdl
-MODEL=./model/temp.mdl
+MODEL=./model/out.mdl
 OUTFILE=${RESULT}testResult.seq
 
 mkdir -p ${RESULT}
