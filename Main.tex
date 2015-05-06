@@ -1,160 +1,73 @@
-% Template for ICIP-2013 paper; to be used with:
-%          spconf.sty  - ICASSP/ICIP LaTeX style file, and
-%          IEEEbib.bst - IEEE bibliography style file.
-% --------------------------------------------------------------------------
-\documentclass{article}
-%\usepackage{spconf,amsmath,graphicx,hyperref,ulem}
-%\usepackage{spconf,amsmath,graphicx,hyperref}
-\usepackage{spconf,amsmath,graphicx,color,amsfonts,algorithm,algpseudocode,epsfig,subfigure}
+\documentclass[12pt]{article}%
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage{comment}
+\usepackage[a4paper, top=2cm, bottom=2cm, left=2.2cm, right=2.2cm]%
+{geometry}
+\usepackage{times}
+\usepackage{amsmath}
+\usepackage{changepage}
+\usepackage{amssymb}
+\usepackage{graphicx}%
+\setcounter{MaxMatrixCols}{30}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
 
-% Example definitions.
-% --------------------
-\def\x{{\mathbf x}}
-\def\L{{\cal L}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
 
-% Title.
-% ------
-\title{Occlusion Invariant Face Hallucination}
-%
-% Single address.
-% ---------------
-\name{Shun-Jen Lee$^{1,2}$, Meng-Huan Wu$^{1,2}$, Chia-Po Wei$^2$, Yu-Chiang Frank Wang$^2$}
-\address{$^1$Department of Electrical Engineering, National Taiwan University, Taipei, Taiwan\\
-$^2$Research Center for IT Innovation, Academia Sinica, Taipei, Taiwan}
-%
-% For example:
-% ------------
-%\address{School\\
-%	Department\\
-%	Address}
-%
-% Two addresses (uncomment and modify for two-address case).
-% ----------------------------------------------------------
-%\twoauthors
-%  {A. Author-one, B. Author-two\sthanks{Thanks to XYZ agency for funding.}}
-%	{School A-B\\
-%	Department A-B\\
-%	Address A-B}
-%  {C. Author-three, D. Author-four\sthanks{The fourth author performed the work
-%	while at ...}}
-%	{School C-D\\
-%	Department C-D\\
-%	Address C-D}
-%
-
-\newcommand{\ub}{\mathbf{u}}
-\newcommand{\xb}{\mathbf{x}}
-\newcommand{\Ib}{\mathbf{I}}
-
-\newcommand{\topcaption}{%
-  \setlength{\abovecaptionskip}{-20pt}%
-  \setlength{\belowcaptionskip}{0pt}%
-  \caption}
 \begin{document}
-%\ninept
-%
+
+\title{Machine Learning and Having it Deep and Structured, Homework 2 Report}
+\author{Yu-Lun Tsai, Meng-Huan Wu}
+\date{\today}
 \maketitle
-%
-\begin{abstract}
-Face images captured by surveillance cameras are generally noisy and with low resolution (LR). In addition, such images might be corrupted due to occlusion or disguise, which would make the recovery of their high resolution (HR) versions very challenging. In this paper, we propose a face hallucination method which is robust to occlusion or undesirable artifacts. Based on sparse representation, our method is able to identify the corrupted image pixels without any prior knowledge on the type of occlusion for the LR inputs, while the pixels of interest for the HR outputs will be synthesized by solving sparse coding tasks. Experimental results confirm that our approach not only results in satisfactory image quality for the recovered HR outputs, improved recognition performance will also be achieved for LR-to-HR recognition tasks.
+\section{Algorithms}
 
-%Matching individuals across non-overlapping camera views is known as the problem of person re-identification. In addition to significant visual appearance variations due to lighting, view angle, etc. changes, one might encounter corrupted data due to background clutter and occlusion, or even missing data at some camera views in practical scenarios. To address the above challenges, we present a novel approach to robust person re-identification, particularly aiming at handling missing and corrupted image data across camera views. Based on the technique of low-rank matrix decomposition, our proposed algorithm observes the low-rank structure of cross-view data, which is able to disregard extreme/sparse errors while the missing instances can be recovered automatically. Our experiments will confirm the effectiveness and robustness of our method, which is shown to outperform several baseline and state-of-the-art person re-identification approaches.
+\section{Experiment Results}
 
-
-%Instead of relying on prevailing linearization, coarse-to-fine warping, and descriptor-based matching techniques to estimate large motion on two consecutive frames,  we use gradient descend to jointly minimize both data term and smoothness term in the proposed energy function at superpixel-level. We found that optimizing data term could be treated as doing the mean-shift tracking on all superpixels simultaneously. Moreover, by using anisotropic nonlocal smoothness term which passes matching information within the same object, we greatly alleviates local minimum problem which troubles many other optical flow algorithms. Finally, an promising experiment results demonstrate our method as an effective new type of way to solve large displacement optical flow problem.
-\end{abstract}
-%
-\begin{keywords}
-Face Hallucination, Face Recognition, Sparse Representation
-\end{keywords}
-%
-
-\section{Introduction}
-\input{introduction.tex}
-
-\section{Our Proposed Method}
-%\subsection{Robust Sparse Coding}
-%\label{subsec:RSC}
-%\input{rsc.tex}
-
-\subsection{Occlusion Invariant Sparse Coding}
-\label{subsec:aRSC}
-\input{aRSC.tex}
-
-\subsection{Occlusion Invariant Sparse Representation for Face Hallucination}
-\label{subsec:hallucination}
-\input{LR.tex}
+The following experiments are conducted, and the performance of different combination of factors is discussed below.
+\subsection{Feature Selection}
+\subsubsection{Raw Fbank Feature}
+\subsubsection{DNN Hidden Layer Output Feature}
+\subsubsection{Fbank + DNN}
+\subsubsection{Fbank + dummy state}
+\subsection{Parameter Tuning}
+\subsubsection{C: tradeoff between training error and margin}
+\subsection{Loss Functions}
+\subsubsection{0/1 loss}
+\subsubsection{number of difference label in an utterance}
+\subsubsection{larry function?}
+\subsection{Inference Methods}
 
 
-\section{Experiments}
-\label{sec:exp}
-\input{experiment.tex}
+\section{Improvement from Homework 1}
 
-\section{Conclusion}
-\label{sec:conclusion}
-\input{conclusion.tex}
+\section{Team Contribution}
+Meng-Huan Wu : read/write model, integrate DNN features into structured SVM, report formatting
 
 
-%\section{ILLUSTRATIONS, GRAPHS, AND PHOTOGRAPHS}
-%\label{sec:illust}
-
-%Illustrations must appear within the designated margins.  They may span the two columns.  If possible, \textbf{position illustrations at the top of columns}, rather than in the middle or at the bottom.  Caption and number every illustration. All halftone illustrations must be clear black and white prints.  Colors may be used, but they should be selected so as to be \textbf{readable when printed on a black-only printer}. Since there are many ways, often incompatible, of including images (e.g., with experimental results) in a LaTeX document, below is an example of how to do this
-% Below is an example of how to insert images. Delete the ``\vspace'' line,
-% uncomment the preceding line ``\centerline...'' and replace ``imageX.ps''
-% with a suitable PostScript file name.
-% -------------------------------------------------------------------------
-%\begin{figure}[htb]
-%
-%\begin{minipage}[b]{1.0\linewidth}
-%  \centering
-%  \centerline{\includegraphics[width=8.5cm]{image1}}
-%%  \vspace{2.0cm}
-%  \centerline{(a) Result 1}\medskip
-%\end{minipage}
-%%
-%\begin{minipage}[b]{.48\linewidth}
-%  \centering
-%  \centerline{\includegraphics[width=4.0cm]{image3}}
-%%  \vspace{1.5cm}
-%  \centerline{(b) Results 3}\medskip
-%\end{minipage}
-%\hfill
-%\begin{minipage}[b]{0.48\linewidth}
-%  \centering
-%  \centerline{\includegraphics[width=4.0cm]{image4}}
-%%  \vspace{1.5cm}
-%  \centerline{(c) Result 4}\medskip
-%\end{minipage}
-%%
-%\caption{Example of placing a figure with experimental results.}
-%\label{fig:res}
-%%
-%\end{figure}
-
-
-%\section{PRINTING YOUR PAPER}
-%\label{sec:print}
-
-%In LaTeX, to start a new column (but not a new page) and help balance the
-%last-page column lengths, you can use the command ``$\backslash$pagebreak'' as
-%demonstrated on this page (see the LaTeX source below).
-
-% To start a new column (but not a new page) and help balance the last-page
-% column length use \vfill\pagebreak.
-% -------------------------------------------------------------------------
-%\vfill
-%\pagebreak
-
-
-% References should be produced using the bibtex program from suitable
-% BiBTeX files (here: strings, refs, manuals). The IEEEbib.bst bibliography
-% style file from IEEE produces unsorted bibliography list.
-% -------------------------------------------------------------------------
-
-%\bibliographystyle{IEEEbib}
-\bibliographystyle{myIEEEbib}
-%\bibliographystyle{abbrv}
-%
-\bibliography{face}
 
 \end{document}
