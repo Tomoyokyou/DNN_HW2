@@ -1,0 +1,17 @@
+./log
+./log/*
+
+./bin
+./bin/*
+./obj
+./obj/*
+*.obj
+*.app
+*.log
+*.svm
+./model
+./model/*
+*.mdl
+
+./svm_struct
+./svm_struct/*
