@@ -5,7 +5,7 @@
 ./bin/*
 ./obj
 ./obj/*
-*.obj
+*.o
 *.app
 *.log
 *.svm
