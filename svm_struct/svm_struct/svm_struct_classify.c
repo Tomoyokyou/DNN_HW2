@@ -139,6 +139,9 @@ void read_input_parameters(int argc,char *argv[],char *testfile,
   (*verbosity)=0;/*verbosity for svm_light*/
   (*struct_verbosity)=1; /*verbosity for struct learning portion*/
   struct_parm->custom_argc=0;
+  /* user defined*/
+  struct_parm->feat_dim=69;
+  struct_parm->feat_type=0;
 
   for(i=1;(i<argc) && ((argv[i])[0] == '-');i++) {
     switch ((argv[i])[1]) 
@@ -148,6 +151,9 @@ void read_input_parameters(int argc,char *argv[],char *testfile,
       case '-': strcpy(struct_parm->custom_argv[struct_parm->custom_argc++],argv[i]);i++; strcpy(struct_parm->custom_argv[struct_parm->custom_argc++],argv[i]);break; 
       case 'v': i++; (*struct_verbosity)=atol(argv[i]); break;
       case 'y': i++; (*verbosity)=atol(argv[i]); break;
+      /* user defined*/
+      case 'x': i++; struct_parm->feat_dim=atoi(argv[i]); break;
+      case 'z': i++; struct_parm->feat_type=atoi(argv[i]); break;
       default: printf("\nUnrecognized option %s!\n\n",argv[i]);
 	       print_help();
 	       exit(0);
