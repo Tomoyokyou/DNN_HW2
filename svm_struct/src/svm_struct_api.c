@@ -518,7 +518,7 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm){
 		      err ++;
 		  }
       }
-	  return err;
+	  return err/2;
   }
   else{
   	  int i = 0, err = 0;
@@ -540,7 +540,7 @@ double      loss_viterbi(LABEL y, int state, STRUCT_LEARN_PARM *sparm, int index
   //printf("bla : %d\n", sizeof(y._label));
 	if(sparm->loss_function == 0 || sparm->loss_function == 1) {
 		if (state == y._label[index]){ return 0; }
-		else { return 1; } // all match
+		else { return 0.5; } // all match
 	}
 	else{
 		if (state == y._label[index]){ return 0; }
