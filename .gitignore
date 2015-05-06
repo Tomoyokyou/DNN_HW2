@@ -48,3 +48,7 @@ train.sh
 # backup .orig file
 ./**/*.orig
 *.orig
+# result file
+./result/
+*.kaggle
+*.seq

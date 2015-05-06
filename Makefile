@@ -1,12 +1,8 @@
 CC=gcc
 CXX=g++
-NVCC=nvcc -arch=sm_21 -w
 CPPFLAGS=-std=c++11 -O2
 NVCFLAGS=-Xcompiler -fPIC -std=c++11
-CUDADIR=/usr/local/cuda/
-LIBCUMATDIR=tool/libcumatrix/
 SVMDIR=tool/svm_struct/
-OBJ=obj/svmset.o
 # ================================
 # = 		ADD EXE HERE         =
 # ================================
@@ -19,27 +15,15 @@ EXECUTABLES=svmGen featNorm svmTrim
 .PHONY: debug all clean 
 all:dir $(EXECUTABLES)
 	cd svm_struct; make
-
-LIBS=$(LIBCUMATDIR)lib/libcumatrix.a
-
-$(LIBCUMATDIR)lib/libcumatrix.a:
-	@echo "Missing library file, trying to fix it in tool/libcumatrix"
-	@cd tool/libcumatrix/ ; make ; cd ../..
+run:train.sh test.sh
+	sh train.sh
+	sh test.sh
 
 debug:CPPFLAGS+=-g
 
-vpath %.h include/
-vpath %.cpp src/
-vpath %.cu src/
+vpath %.cpp example/
 
-INCLUDE= -I include/\
-	 -I $(LIBCUMATDIR)include/\
-	 -I $(CUDADIR)include/\
-	 -I $(CUDADIR)samples/common/inc/\
 	 
-LD_LIBRARY=-L$(CUDADIR)lib64 -L$(LIBCUMATDIR)lib
-LIBRARY=-lcuda -lcublas -lcudart
-
 #=============APP================================
 svmGen: example/svmFeatureGen.cpp
 	$(CXX) $(CPPFLAGS) -o bin/svmFeatureGen.app $^
@@ -79,12 +63,4 @@ clean:
 obj/%.o: src/%.cpp include/%.h
 	@echo "compiling OBJ: $@ " 
 	@$(CXX) $(CPPFLAGS) $(INCLUDE) -o $@ -c $<
-
-obj/datasetJason.o: src/datasetJason.cpp include/dataset.h 
-	@echo "compiling OBJ: $@ "
-	@$(CXX) $(CPPFLAGS) $(INCLUDE) -o $@ -c $<
-
-obj/%.o: %.cu
-	@echo "compiling OBJ: $@ "
-	@$(NVCC) $(NVCCFLAGS) $(INCLUDE) -o $@ -c $<
 

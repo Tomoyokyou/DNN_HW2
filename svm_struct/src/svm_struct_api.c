@@ -657,13 +657,13 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	STRUCTMODEL mdl;
 	FILE* fp;
 	int i;
-	int check=1;	
+	int check=0;	
 	fp = fopen(file, "r");
 	if (fp != NULL){
 	// read struct model
 	mdl.svm_model = NULL;
 	check=fscanf(fp, "size of w: %ld\n", &mdl.sizePsi);
-	printf("sizePsi is :%ld\n", mdl.sizePsi);
+	printf("sizePsi is :%ld ", mdl.sizePsi);
     // malloc w	
     mdl.w=(double *)my_malloc(sizeof(double)*(mdl.sizePsi + 1));
 	check=fscanf(fp, "w: ");
@@ -672,26 +672,26 @@ STRUCTMODEL read_struct_model(char *file, STRUCT_LEARN_PARM *sparm)
 	check=fscanf(fp, "%lf ", &mdl.w[i]);
 	}
 	//mdl.sizePsi ++;
-	check=fscanf(fp, "walpha: %lf\n", &mdl.walpha);
+	check+=fscanf(fp, "walpha: %lf\n", &mdl.walpha);
 	// structure model unknown
 	// write struct_model_parameter
-	check=fscanf(fp, "epsilon: %lf\n", &(sparm->epsilon));	
-	check=fscanf(fp, "newconstretrain: %lf\n", &(sparm->newconstretrain));
-	check=fscanf(fp, "ccache_size: %d\n", &(sparm->ccache_size));
-	check=fscanf(fp, "batch_size: %lf\n", &(sparm->batch_size));
-	check=fscanf(fp, "C: %lf\n", &(sparm->C));
-	check=fscanf(fp, "slack_norm: %d\n", &(sparm->slack_norm));
-	check=fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
-	check=fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
+	check+=fscanf(fp, "epsilon: %lf\n", &(sparm->epsilon));	
+	check+=fscanf(fp, "newconstretrain: %lf\n", &(sparm->newconstretrain));
+	check+=fscanf(fp, "ccache_size: %d\n", &(sparm->ccache_size));
+	check+=fscanf(fp, "batch_size: %lf\n", &(sparm->batch_size));
+	check+=fscanf(fp, "C: %lf\n", &(sparm->C));
+	check+=fscanf(fp, "slack_norm: %d\n", &(sparm->slack_norm));
+	check+=fscanf(fp, "loss_type: %d\n", &(sparm->loss_type));
+	check+=fscanf(fp, "loss_function: %d\n", &(sparm->loss_function));
 	// write custom arguments
-	check=fscanf(fp, "feat_dim: %d\n", &(sparm->feat_dim));
-	check=fscanf(fp, "feat_type: %d\n", &(sparm->feat_type));
-	check=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
-	check=fscanf(fp, "custom_argv: \n");
+	check+=fscanf(fp, "feat_dim: %d\n", &(sparm->feat_dim));
+	check+=fscanf(fp, "feat_type: %d\n", &(sparm->feat_type));
+	check+=fscanf(fp, "custom_argc: %d\n", &(sparm->custom_argc));
+	check+=fscanf(fp, "custom_argv: \n");
 	}
 	else printf("can't read in model file!\n");
 	fclose(fp);
-	if(check==0){printf("\n unknown format in read_struct_model\n");}
+	if(check<13){printf("\n unknown format in read_struct_model\n");}
 	//if(i) {printf("read_struct_model done!\n");}
 	return mdl;
 }
