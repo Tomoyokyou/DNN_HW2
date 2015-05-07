@@ -15,7 +15,7 @@ EXECUTABLES=svmGen featNorm svmTrim
 .PHONY: debug all clean 
 all:dir $(EXECUTABLES)
 	cd svm_struct; make
-run:train.sh test.sh
+run:train.sh test.sh getFeat.sh
 	@sh getFeat.sh
 	@make
 	@echo "Training structured SVM model..."
