@@ -16,8 +16,10 @@ EXECUTABLES=svmGen featNorm svmTrim
 all:dir $(EXECUTABLES)
 	cd svm_struct; make
 run:train.sh test.sh
-	sh train.sh
-	sh test.sh
+	@echo "Training structured SVM model..."
+	@sh train.sh
+	@echo "Tesing and generate Kaggle upload file..."
+	@sh test.sh
 
 debug:CPPFLAGS+=-g
 

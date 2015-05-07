@@ -18,13 +18,13 @@ Authors:
 
 Quick start:
 
-	  Once all requirements are met, type "make" at main directory will compile all executables.
+	  Once all requirements are met, type "make" at main directory to start compilation for all
+	
+	executables. Shell scripts are also provided, you may need to change some paths in it.
 
-	Shell scripts are provided also, you may need to change some paths in it.
+	With sample data included, type "make run" after "make", it shall start the whole process of
 
-	Sample data are included, type "make run" after "make", it shall start the whole process of
-
-	structured SVM, the result named "output.kaggle" will be at the directory /result.
+	structured SVM program, the result named "output.kaggle" will be at the directory /result.
 
 ---------------------------------------------------------------------------------------------------	
 
@@ -34,7 +34,7 @@ Makefile:
 		after all executables are compiled, run scripts and generate structured SVM result.	
 
 	-all:
-		compile all object and executables.
+		compile all objects and executables.
 
 	-structSvm:
 		compile struct_svm/struct_light api packages.
@@ -57,25 +57,26 @@ Makefile:
 		compile "bin/makeFrameData.app" splice features to take frames before and after
 
 		into account.
+
 ----------------------------------------------------------------------------------------------------
 
 Notes:
 
-1.Some directories must be built up before compiling, such as: obj/ bin/ or you can simply enter:  
+1.Some directories must be built up before compilation, such as: obj/ bin/ or you can simply enter:  
 
 					make dir  
 
-2.Before "make run" please make sure feature are included in train.sh/test.sh
+2.Before "make run", please make sure features path are correct in train.sh/test.sh
 
 	Feature format for this program:
 		
 			speakerId_utterencename_frameid feat1 feat2 ........  
 	
-	For detail, you can run this program with no arguments, it will show its usage.  
+	To see usage, you can run executables with no arguments, it will show you how to run it properly.  
 
-3.Some example files could help you to run this program. Check them out in ./example/  
+3.Some example files could help you run this program. Check them out in ./example/  
 
-4.the core of this program combined two api, svm_struct and svm_light, you can see README in
+4.The core of this program combined two api packages, svm_struct and svm_light, you can see README in
 
   svm_struct/ for copyright issues.  
  
@@ -91,23 +92,23 @@ Scripts:
 
 	1. [line 6] TRAIN=[ your training features path ]
 
-	2. other variables are:
+	other variables are:
 	
-	3. [line 1] C=1 : scaling margin
+	2. [line 1] C=1 : scaling margin
 	
-	4. [line 4] epsilon=1 : error tolerance
+	3. [line 4] epsilon=1 : error tolerance
 	
-	5. [line 5] loss_type: 0>   1>   2>
+	4. [line 5] loss_type: 0>   1>   2>
 
-	6. [line 8] DIM: feature dimension    
+	5. [line 8] DIM: feature dimension    
 
-	7. [line 9] FEATTYPE: 0> normal patterns 1> dummy 1 add at the end of pattern
+	6. [line 9] FEATTYPE: 0> normal patterns 1> dummy 1 add at the end of pattern
 	
 	-test.sh:
 	  
-	  Run svm_struct_empty_classify.app and generate kaggle upload format result
+	  Run svm_struct_empty_classify.app and generate kaggle upload format result if
 	
-	features file path and feature name raw archieve need configuration.
+	features file paths configured properly.
 
 	1. [line 1] DATADIR=[ your feature directory ]
 
@@ -121,17 +122,21 @@ Scripts:
 
 Other programs:
 
-	  After compilation, programs will be in directory "bin/", you can run these programs
+	  After compilation, executables will be in directory "bin/", you can run these programs
 
 	without argument, they will show usages to you.
 
 	-svmFeatureGen.app:
 		
 		merge label and features together to generate required format for structured SVM.
-	
-	since testing features has no label, option --train/--test must be given. Provided 
 
-	training set, label archieve and label map must be given.
+	For training features:
+	
+	command ./svmFeatureGen.app <featureFile> --train <labelFile> <labelMap> <outputFile>
+	
+	Since testing features have no label, only feature file is needed:
+	
+	command: ./svmFeatureGen.app <featureFile> --test <outputFile>
 	
 	-featNorm.app:
 
@@ -141,6 +146,6 @@ Other programs:
 
 		Trim infered sequences of structured SVM model and generate Kaggle upload format result,
 
-	original test.ark needed, this program is included in test.sh, you can also see it in test.sh
-	
-	to know the usage of this program.
+	original test.ark is needed, this program is also included in test.sh. See it then you'll know 
+
+	how to run svmTrim.app!
