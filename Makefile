@@ -16,6 +16,8 @@ EXECUTABLES=svmGen featNorm svmTrim
 all:dir $(EXECUTABLES)
 	cd svm_struct; make
 run:train.sh test.sh
+	@sh getFeat.sh
+	@make
 	@echo "Training structured SVM model..."
 	@sh train.sh
 	@echo "Tesing and generate Kaggle upload file..."

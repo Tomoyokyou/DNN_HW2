@@ -41,9 +41,8 @@ tags
 
 # model file
 model/
-
-# train.sh
-#train.sh
+*.gz
+deeplearningHW2_data/
 
 # backup .orig file
 ./**/*.orig

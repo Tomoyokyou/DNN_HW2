@@ -1,11 +1,11 @@
-C=1
+C=10
 kernel_type=0
 order=1
 epsilon=1
 loss_type=2
-TRAIN=/home/hui/model/train/train_norm.svm
+TRAIN=./deeplearningHW2_data/trainFtre_orig_256_acc60.txt
 
-DIM=69
+DIM=325
 FEATTYPE=0
 MODEL=./model/out.mdl
 
